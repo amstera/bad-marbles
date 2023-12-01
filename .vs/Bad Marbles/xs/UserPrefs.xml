@@ -1,0 +1,38 @@
+﻿<Properties StartupConfiguration="{8F439EDE-0FF4-4DF5-4476-4DB488A4FE40}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/ScoreText.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Objects/Ramp.cs" Line="16" Column="14" />
+      <File FileName="Assets/Scripts/UI/ScoreText.cs" Line="24" Column="41" />
+      <File FileName="Assets/Scripts/Controllers/MarbleSpawner.cs" />
+      <File FileName="Assets/Scripts/Marble/Marble.cs" />
+      <File FileName="Assets/Scripts/Objects/TrackBarrier.cs" Line="34" Column="50" />
+      <File FileName="Assets/Scripts/Objects/PointsText.cs" />
+      <File FileName="Assets/Scripts/Controllers/GameManager.cs" />
+      <File FileName="Assets/Scripts/UI/LivesUI.cs" />
+      <File FileName="Assets/Scripts/UI/StreakText.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Bad Marbles" expanded="True">
+            <Node name="Assets" expanded="True" selected="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="Controllers" expanded="True" />
+                <Node name="Marble" expanded="True" />
+                <Node name="Objects" expanded="True" />
+                <Node name="UI" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="95f5bbfa-08ef-41c8-a354-9d8434213f01" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
