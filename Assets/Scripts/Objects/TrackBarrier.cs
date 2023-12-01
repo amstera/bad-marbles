@@ -1,0 +1,37 @@
+using UnityEngine;
+
+public class EndOfTrackBarrier : MonoBehaviour
+{
+    public PointsText pointsTextPrefab;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Marble marble = collision.gameObject.GetComponent<Marble>();
+        if (marble != null)
+        {
+            if (GameManager.Instance.Lives > 0)
+            {
+                if (marble.color == MarbleColor.Green)
+                {
+                    GameManager.Instance.AddScore(marble.points);
+                    ShowPoints(marble.points, collision.contacts[0].point);
+                }
+                else
+                {
+                    GameManager.Instance.LoseLives(marble.livesLost);
+                }
+            }
+            Destroy(collision.gameObject);
+        }
+    }
+
+    private void ShowPoints(int points, Vector3 position)
+    {
+        if (points > 0)
+        {
+            points *= GameManager.Instance.CalculateMultiplier();
+            PointsText pointsTextInstance = Instantiate(pointsTextPrefab, position, Quaternion.identity);
+            pointsTextInstance.SetPoints(points);
+        }
+    }
+}
