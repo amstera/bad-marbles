@@ -5,6 +5,9 @@ using System.Collections;
 public class StreakText : MonoBehaviour
 {
     public TextMeshProUGUI streakText;
+
+    public AudioSource streakSound;
+
     private int currentMultiplier = 1;
 
     private void Awake()
@@ -23,6 +26,8 @@ public class StreakText : MonoBehaviour
                 streakText.text = $"{currentMultiplier}X STREAK";
                 streakText.gameObject.SetActive(true);
                 StartCoroutine(PopAnimation());
+
+                streakSound?.Play();
             }
         }
         else

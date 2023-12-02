@@ -4,11 +4,11 @@ public class MarbleSpawner : MonoBehaviour
 {
     public Marble GreenMarble;
     public Marble RedMarble;
-    public float spawnInterval = 0.75f;
+    public float spawnInterval = 0.7f;
     private float timer = 0;
-    private float speed = 1f;
-    private float maxSpeed = 25f;
-    private float acceleration = 0.35f;
+    private float speed = 5f;
+    private float maxSpeed = 30f;
+    private float acceleration = 0.38f;
 
     void Update()
     {
@@ -19,12 +19,10 @@ public class MarbleSpawner : MonoBehaviour
 
         timer -= Time.deltaTime;
 
-        // Exponential growth for speed, with a slower increase as it approaches maxSpeed
         if (speed < maxSpeed)
         {
             // Calculate the rate of growth, which decreases as speed approaches maxSpeed
             float growthRate = (maxSpeed - speed) / maxSpeed;
-            // Update speed, ensuring it does not exceed maxSpeed
             speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
         }
 

@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     public StreakText streakText;
     public StressReceiver stressReceiver;
 
+    public AudioSource pointGainedSound;
+    public AudioSource lifeLossSound;
+
     private int score;
     public int Score
     {
@@ -66,6 +69,12 @@ public class GameManager : MonoBehaviour
         points *= CalculateMultiplier();
         Score += points;
         Streak++;
+
+        if (pointGainedSound != null)
+        {
+            pointGainedSound.pitch = Mathf.Clamp(Streak / 200f + 1, 1, 2);
+            pointGainedSound.Play();
+        }
     }
 
     public void LoseLives(int livesLost)
@@ -73,6 +82,8 @@ public class GameManager : MonoBehaviour
         Lives -= livesLost;
         stressReceiver?.InduceStress(0.45f);
         ResetStreak();
+
+        lifeLossSound?.Play();
     }
 
     public int CalculateMultiplier()

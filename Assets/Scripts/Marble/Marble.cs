@@ -11,6 +11,9 @@ public class Marble : MonoBehaviour
     public int livesLost;
     public float fadeInDuration = 0.5f;
 
+    // Sound variables
+    public AudioSource rollingSound;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();

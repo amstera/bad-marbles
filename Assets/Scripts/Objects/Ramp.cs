@@ -4,9 +4,15 @@ public class Ramp : MonoBehaviour
 {
     public GameObject hitPrefab;
 
+    public AudioClip boardHitSound;
+
     void Update()
     {
-        // Check for mouse click or touch input
+        if (GameManager.Instance.Lives <= 0)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -14,8 +20,9 @@ public class Ramp : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
             {
-                // Use hit.point to instantiate the prefab at the clicked location
                 Destroy(Instantiate(hitPrefab, hit.point, Quaternion.identity), 1);
+
+                AudioSource.PlayClipAtPoint(boardHitSound, hit.point);
             }
         }
     }
