@@ -9,6 +9,11 @@ public class EndOfTrackBarrier : MonoBehaviour
         Marble marble = collision.gameObject.GetComponent<Marble>();
         if (marble != null)
         {
+            if (marble.color == MarbleColor.Tier)
+            {
+                return;
+            }
+
             if (GameManager.Instance.Lives > 0)
             {
                 if (marble.color == MarbleColor.Green)
@@ -16,11 +21,12 @@ public class EndOfTrackBarrier : MonoBehaviour
                     GameManager.Instance.AddScore(marble.points);
                     ShowPoints(marble.points, collision.contacts[0].point);
                 }
-                else
+                else if (marble.color == MarbleColor.Red)
                 {
                     GameManager.Instance.LoseLives(marble.livesLost);
                 }
             }
+
             Destroy(collision.gameObject);
         }
     }

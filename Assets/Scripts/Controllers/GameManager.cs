@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     public LivesUI livesUI;
     public StreakText streakText;
     public StressReceiver stressReceiver;
+    public MarbleSpawner marbleSpawner;
 
     public AudioSource pointGainedSound;
     public AudioSource lifeLossSound;
@@ -46,9 +48,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private int tier;
+    public int Tier
+    {
+        get => tier;
+        private set
+        {
+            tier = value;
+            marbleSpawner?.UpdateTier(tier);
+        }
+    }
+
     private void Awake()
     {
         InitializeSingleton();
+        StartCoroutine(UpdateTierRoutine());
     }
 
     private void InitializeSingleton()
@@ -64,17 +78,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator UpdateTierRoutine()
+    {
+        while (Lives > 0)
+        {
+            Tier++;
+            yield return new WaitForSeconds(15);
+        }
+    }
+
     public void AddScore(int points)
     {
         points *= CalculateMultiplier();
         Score += points;
         Streak++;
 
-        if (pointGainedSound != null)
-        {
-            pointGainedSound.pitch = Mathf.Clamp(Streak / 200f + 1, 1, 2);
-            pointGainedSound.Play();
-        }
+        pointGainedSound?.Play();
     }
 
     public void LoseLives(int livesLost)
@@ -100,6 +119,7 @@ public class GameManager : MonoBehaviour
     {
         if (Lives <= 0)
         {
+            marbleSpawner.DestroyAll();
             // TODO: Handle Game Over Logic
         }
     }

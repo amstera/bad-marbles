@@ -11,9 +11,6 @@ public class Marble : MonoBehaviour
     public int livesLost;
     public float fadeInDuration = 0.5f;
 
-    // Sound variables
-    public AudioSource rollingSound;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -48,7 +45,7 @@ public class Marble : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.Lives <= 0)
+        if (GameManager.Instance.Lives <= 0 || color == MarbleColor.Tier)
         {
             return;
         }
@@ -61,12 +58,12 @@ public class Marble : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
             {
-                DestroyMarble();
+                Destroy();
             }
         }
     }
 
-    void DestroyMarble()
+    public void Destroy()
     {
         if (shatteredMarblePrefab != null)
         {
@@ -80,6 +77,7 @@ public class Marble : MonoBehaviour
 
 public enum MarbleColor
 {
+    Tier = -1,
     Unknown = 0,
     Green = 1,
     Red = 2
