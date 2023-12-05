@@ -11,8 +11,8 @@ public class MarbleSpawner : MonoBehaviour
     public float spawnInterval = 0.6f;
     private float timer = 0;
     private float speed = 8f;
-    private float maxSpeed = 30f;
-    private float acceleration = 0.42f;
+    private float maxSpeed = 40f;
+    private float acceleration = 0.55f;
     private bool isSpawningPaused = true;
     private List<Marble> allMarbles = new List<Marble>();
 
@@ -61,7 +61,7 @@ public class MarbleSpawner : MonoBehaviour
         if (tier >= 5)
         {
             if (randomValue < 25) marbleToSpawn = FireMarble;
-            else if (randomValue < 50) marbleToSpawn = RedMarble;
+            else if (randomValue < 55) marbleToSpawn = RedMarble;
             else marbleToSpawn = GreenMarble;
         }
         else if (tier >= 3)
@@ -72,7 +72,7 @@ public class MarbleSpawner : MonoBehaviour
         }
         else
         {
-            marbleToSpawn = randomValue < 55 ? RedMarble : GreenMarble;
+            marbleToSpawn = randomValue < 50 ? RedMarble : GreenMarble;
         }
 
         Marble spawnedMarble = Instantiate(marbleToSpawn, GetSpawnPosition(), marbleToSpawn.transform.rotation);
@@ -116,7 +116,7 @@ public class MarbleSpawner : MonoBehaviour
         isSpawningPaused = true;
         float pauseDuration = -0.1f * speed + 3f;
 
-        pauseDuration = Mathf.Clamp(pauseDuration, 0.5f, 2.0f);
+        pauseDuration = Mathf.Clamp(pauseDuration, 0.75f, 2.0f);
 
         yield return new WaitForSeconds(pauseDuration);
         isSpawningPaused = false;
