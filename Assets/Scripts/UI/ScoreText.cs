@@ -7,13 +7,15 @@ public class ScoreText : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     private int currentDisplayedScore = 0;
-    private Queue<int> scoreUpdates = new Queue<int>();
+    private List<int> scoreUpdates = new List<int>();
     private Coroutine updateRoutine;
     private bool isPopping = false;
 
     public void UpdateScore(int newScore)
     {
-        scoreUpdates.Enqueue(newScore);
+        int index = scoreUpdates.BinarySearch(newScore);
+        if (index < 0) index = ~index;
+        scoreUpdates.Insert(index, newScore);
 
         if (updateRoutine == null)
         {
@@ -25,23 +27,10 @@ public class ScoreText : MonoBehaviour
     {
         while (scoreUpdates.Count > 0)
         {
-            int newScore;
-            float maxDuration = 0.35f;
+            int newScore = scoreUpdates[0];
+            scoreUpdates.RemoveAt(0);
 
-            if (scoreUpdates.Count <= 2) // Small queue size
-            {
-                yield return new WaitForSeconds(maxDuration);
-                newScore = scoreUpdates.Dequeue();
-            }
-            else // Large queue size
-            {
-                // Sum up the scores for batch processing
-                newScore = currentDisplayedScore;
-                while (scoreUpdates.Count > 0)
-                {
-                    newScore += scoreUpdates.Dequeue() - currentDisplayedScore;
-                }
-            }
+            float maxDuration = 0.35f;
 
             // Calculate the duration for the score update animation
             int scoreDifference = Mathf.Abs(newScore - currentDisplayedScore);
@@ -61,7 +50,6 @@ public class ScoreText : MonoBehaviour
                 yield return null;
             }
 
-            // Set the final score
             currentDisplayedScore = newScore;
             scoreText.text = newScore.ToString();
         }

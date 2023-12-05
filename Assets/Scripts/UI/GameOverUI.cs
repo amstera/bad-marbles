@@ -2,12 +2,16 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameOverUI : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
+    public Image newIcon;
     public CanvasGroup canvasGroup;
+
+    public AudioSource highScoreSound;
 
     private void Awake()
     {
@@ -32,7 +36,7 @@ public class GameOverUI : MonoBehaviour
     {
         while (canvasGroup.alpha < 1)
         {
-            canvasGroup.alpha += Time.deltaTime / 0.5f;
+            canvasGroup.alpha += Time.deltaTime / 0.35f;
             yield return null;
         }
         canvasGroup.interactable = true;
@@ -49,9 +53,15 @@ public class GameOverUI : MonoBehaviour
         SaveObject savedData = SaveManager.Load();
         if (score > savedData.HighScore)
         {
+            newIcon.enabled = true;
             savedData.HighScore = score;
-            SaveManager.Save(savedData);
+
+            highScoreSound?.Play();
         }
+
+        savedData.Points += score;
+        SaveManager.Save(savedData);
+
         highScoreText.text = $"{savedData.HighScore}";
     }
 }

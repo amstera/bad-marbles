@@ -28,4 +28,5 @@ public class SaveManager : MonoBehaviour
 public class SaveObject
 {
     public int HighScore;
+    public int Points;
 }
