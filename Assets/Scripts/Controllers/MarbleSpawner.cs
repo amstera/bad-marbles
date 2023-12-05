@@ -88,18 +88,14 @@ public class MarbleSpawner : MonoBehaviour
 
     public void UpdateTier(int tier)
     {
-        Tier newTier = Instantiate(TierPrefab, GetSpawnPosition(true), Quaternion.identity);
-        if (tier == 1)
+        if (tier > 1)
         {
-            newTier.text.text = "START!";
-        }
-        else
-        {
+            Tier newTier = Instantiate(TierPrefab, GetSpawnPosition(true), Quaternion.identity);
             newTier.text.text = $"Tier {tier}";
-        }
-        newTier.marble.speed = speed;
+            newTier.marble.speed = speed;
 
-        Destroy(newTier.gameObject, 10);
+            Destroy(newTier.gameObject, 10);
+        }
 
         StartCoroutine(PauseSpawning());
     }

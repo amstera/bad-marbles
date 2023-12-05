@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public float marbleHitRadius = 1.5f;
+    public float marbleHitRadius = 1.75f;
 
     private void Awake()
     {
