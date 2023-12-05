@@ -1,5 +1,4 @@
 using UnityEngine;
-using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,6 +6,7 @@ public class MarbleSpawner : MonoBehaviour
 {
     public Marble GreenMarble;
     public Marble RedMarble;
+    public Marble FireMarble;
     public Tier TierPrefab;
     public float spawnInterval = 0.65f;
     private float timer = 0;
@@ -54,8 +54,28 @@ public class MarbleSpawner : MonoBehaviour
 
     void SpawnMarble()
     {
-        Marble marbleToSpawn = Random.Range(0, 100) < 45 ? GreenMarble : RedMarble;
-        Marble spawnedMarble = Instantiate(marbleToSpawn, GetSpawnPosition(), Quaternion.identity);
+        int tier = GameManager.Instance.Tier;
+        int randomValue = Random.Range(0, 100);
+        Marble marbleToSpawn;
+
+        if (tier >= 5)
+        {
+            if (randomValue < 25) marbleToSpawn = FireMarble;
+            else if (randomValue < 55) marbleToSpawn = RedMarble;
+            else marbleToSpawn = GreenMarble;
+        }
+        else if (tier >= 3)
+        {
+            if (randomValue < 10) marbleToSpawn = FireMarble;
+            else if (randomValue < 55) marbleToSpawn = RedMarble;
+            else marbleToSpawn = GreenMarble;
+        }
+        else
+        {
+            marbleToSpawn = randomValue < 55 ? RedMarble : GreenMarble;
+        }
+
+        Marble spawnedMarble = Instantiate(marbleToSpawn, GetSpawnPosition(), marbleToSpawn.transform.rotation);
         spawnedMarble.speed = speed;
         allMarbles.Add(spawnedMarble);
     }
@@ -69,7 +89,14 @@ public class MarbleSpawner : MonoBehaviour
     public void UpdateTier(int tier)
     {
         Tier newTier = Instantiate(TierPrefab, GetSpawnPosition(true), Quaternion.identity);
-        newTier.text.text = $"Tier {tier}";
+        if (tier == 1)
+        {
+            newTier.text.text = "START!";
+        }
+        else
+        {
+            newTier.text.text = $"Tier {tier}";
+        }
         newTier.marble.speed = speed;
 
         Destroy(newTier.gameObject, 10);

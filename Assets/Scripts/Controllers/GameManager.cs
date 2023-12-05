@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 
     public ScoreText scoreText;
     public LivesUI livesUI;
+    public GameOverUI gameOverUI;
     public StreakText streakText;
     public StressReceiver stressReceiver;
     public MarbleSpawner marbleSpawner;
@@ -70,7 +71,6 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -99,10 +99,11 @@ public class GameManager : MonoBehaviour
     public void LoseLives(int livesLost)
     {
         Lives -= livesLost;
-        stressReceiver?.InduceStress(0.45f);
+        stressReceiver?.InduceStress(0.8f);
         ResetStreak();
 
         lifeLossSound?.Play();
+        Handheld.Vibrate();
     }
 
     public int CalculateMultiplier()
@@ -120,7 +121,9 @@ public class GameManager : MonoBehaviour
         if (Lives <= 0)
         {
             marbleSpawner.DestroyAll();
-            // TODO: Handle Game Over Logic
+            Destroy(FindAnyObjectByType<Tier>()?.gameObject);
+
+            gameOverUI.ShowGameOver(score);
         }
     }
 }

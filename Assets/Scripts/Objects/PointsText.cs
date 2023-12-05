@@ -21,8 +21,6 @@ public class PointsText : MonoBehaviour
         float zDepth = 10f;
         Vector3 screenTopLeft = new Vector3(0, Screen.height, zDepth);
         targetWorldPosition = mainCamera.ScreenToWorldPoint(screenTopLeft);
-
-        Debug.Log("Target World Position: " + targetWorldPosition);
     }
 
     public void SetPoints(int points)

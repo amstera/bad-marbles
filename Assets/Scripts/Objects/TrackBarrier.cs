@@ -16,12 +16,12 @@ public class EndOfTrackBarrier : MonoBehaviour
 
             if (GameManager.Instance.Lives > 0)
             {
-                if (marble.color == MarbleColor.Green)
+                if (marble.points > 0)
                 {
                     GameManager.Instance.AddScore(marble.points);
                     ShowPoints(marble.points, collision.contacts[0].point);
                 }
-                else if (marble.color == MarbleColor.Red)
+                else if (marble.livesLost > 0)
                 {
                     GameManager.Instance.LoseLives(marble.livesLost);
                 }
