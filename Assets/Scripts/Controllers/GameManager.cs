@@ -60,10 +60,40 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public float marbleHitRadius = 1.5f;
+
     private void Awake()
     {
         InitializeSingleton();
         StartCoroutine(UpdateTierRoutine());
+    }
+
+    void Update()
+    {
+        if (Lives <= 0)
+        {
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                Collider[] hitColliders = Physics.OverlapSphere(hit.point, marbleHitRadius);
+                foreach (var hitCollider in hitColliders)
+                {
+                    Marble marble = hitCollider.GetComponent<Marble>();
+                    if (marble != null && marble.color != MarbleColor.Tier)
+                    {
+                        marble.Destroy();
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     private void InitializeSingleton()

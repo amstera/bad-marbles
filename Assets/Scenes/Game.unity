@@ -1950,6 +1950,7 @@ MonoBehaviour:
   marbleSpawner: {fileID: 1198369328}
   pointGainedSound: {fileID: 854567093}
   lifeLossSound: {fileID: 854567092}
+  marbleHitRadius: 1.5
 --- !u!82 &854567092
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2616,7 +2617,7 @@ MonoBehaviour:
     type: 3}
   TierPrefab: {fileID: 7627756417556560729, guid: 343c5979357894924b85d5cb77c45e26,
     type: 3}
-  spawnInterval: 0.65
+  spawnInterval: 0.6
 --- !u!1 &1275537688 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 590bba69b2b76495cbc374823b05f7eb,

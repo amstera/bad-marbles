@@ -32,7 +32,7 @@ public class GameOverUI : MonoBehaviour
     {
         while (canvasGroup.alpha < 1)
         {
-            canvasGroup.alpha += Time.deltaTime / 0.35f;
+            canvasGroup.alpha += Time.deltaTime / 0.5f;
             yield return null;
         }
         canvasGroup.interactable = true;

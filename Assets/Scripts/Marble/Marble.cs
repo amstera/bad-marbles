@@ -43,26 +43,6 @@ public class Marble : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (GameManager.Instance.Lives <= 0 || color == MarbleColor.Tier)
-        {
-            return;
-        }
-
-        // Check for mouse click or touch input
-        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
-            {
-                Destroy();
-            }
-        }
-    }
-
     public void Destroy()
     {
         if (shatteredMarblePrefab != null)

@@ -8,11 +8,11 @@ public class MarbleSpawner : MonoBehaviour
     public Marble RedMarble;
     public Marble FireMarble;
     public Tier TierPrefab;
-    public float spawnInterval = 0.65f;
+    public float spawnInterval = 0.6f;
     private float timer = 0;
-    private float speed = 5f;
+    private float speed = 8f;
     private float maxSpeed = 30f;
-    private float acceleration = 0.4f;
+    private float acceleration = 0.42f;
     private bool isSpawningPaused = true;
     private List<Marble> allMarbles = new List<Marble>();
 
@@ -61,13 +61,13 @@ public class MarbleSpawner : MonoBehaviour
         if (tier >= 5)
         {
             if (randomValue < 25) marbleToSpawn = FireMarble;
-            else if (randomValue < 55) marbleToSpawn = RedMarble;
+            else if (randomValue < 50) marbleToSpawn = RedMarble;
             else marbleToSpawn = GreenMarble;
         }
         else if (tier >= 3)
         {
             if (randomValue < 10) marbleToSpawn = FireMarble;
-            else if (randomValue < 55) marbleToSpawn = RedMarble;
+            else if (randomValue < 50) marbleToSpawn = RedMarble;
             else marbleToSpawn = GreenMarble;
         }
         else
