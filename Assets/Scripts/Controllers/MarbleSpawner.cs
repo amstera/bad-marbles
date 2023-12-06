@@ -12,7 +12,7 @@ public class MarbleSpawner : MonoBehaviour
     private float timer = 0;
     private float speed = 8f;
     private float maxSpeed = 40f;
-    private float acceleration = 0.55f;
+    private float acceleration = 0.6f;
     private bool isSpawningPaused = true;
     private List<Marble> allMarbles = new List<Marble>();
 

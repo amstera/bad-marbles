@@ -12,6 +12,7 @@ public class GameOverUI : MonoBehaviour
     public CanvasGroup canvasGroup;
 
     public AudioSource highScoreSound;
+    public AudioSource plopSound;
 
     private void Awake()
     {

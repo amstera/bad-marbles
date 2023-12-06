@@ -1,10 +1,13 @@
+using EasyTransition;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
     public TextMeshProUGUI highScoreText;
+    public TransitionSettings transition;
+
+    public AudioSource plopSound;
 
     void Start()
     {
@@ -13,7 +16,9 @@ public class MenuManager : MonoBehaviour
 
     public void LoadGame()
     {
-        SceneManager.LoadScene("Game");
+        TransitionManager.Instance().Transition("Game", transition, 0);
+
+        plopSound?.Play();
     }
 
     private void UpdateHighScoreText()
