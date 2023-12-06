@@ -3081,6 +3081,8 @@ MonoBehaviour:
     type: 3}
   FireMarble: {fileID: 4634631138362618351, guid: ca326c9f9ab2a48cb932568b65714008,
     type: 3}
+  TopRedMarble: {fileID: 3200087346768525174, guid: affab770dcce24b4faf23ba0bd479c0f,
+    type: 3}
   TierPrefab: {fileID: 7627756417556560729, guid: 343c5979357894924b85d5cb77c45e26,
     type: 3}
   spawnInterval: 0.6

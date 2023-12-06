@@ -7,12 +7,13 @@ public class MarbleSpawner : MonoBehaviour
     public Marble GreenMarble;
     public Marble RedMarble;
     public Marble FireMarble;
+    public TopMarble TopRedMarble;
     public Tier TierPrefab;
     public float spawnInterval = 0.6f;
     private float timer = 0;
     private float speed = 8f;
     private float maxSpeed = 40f;
-    private float acceleration = 0.6f;
+    private float acceleration = 0.58f;
     private bool isSpawningPaused = true;
     private List<Marble> allMarbles = new List<Marble>();
 
@@ -60,7 +61,12 @@ public class MarbleSpawner : MonoBehaviour
 
         if (tier >= 5)
         {
-            if (randomValue < 25) marbleToSpawn = FireMarble;
+            if (randomValue < 20) marbleToSpawn = FireMarble;
+            else if (randomValue < 25)
+            {
+                SpawnPairedMarble(RedMarble, TopRedMarble);
+                return;
+            }
             else if (randomValue < 55) marbleToSpawn = RedMarble;
             else marbleToSpawn = GreenMarble;
         }
@@ -116,9 +122,23 @@ public class MarbleSpawner : MonoBehaviour
         isSpawningPaused = true;
         float pauseDuration = -0.1f * speed + 3f;
 
-        pauseDuration = Mathf.Clamp(pauseDuration, 0.75f, 2.0f);
+        pauseDuration = Mathf.Clamp(pauseDuration, 0.75f, 2f);
 
         yield return new WaitForSeconds(pauseDuration);
         isSpawningPaused = false;
+    }
+
+    void SpawnPairedMarble(Marble bottomMarblePrefab, TopMarble topMarblePrefab)
+    {
+        Vector3 spawnPosition = GetSpawnPosition();
+        Marble bottomMarble = Instantiate(bottomMarblePrefab, spawnPosition, bottomMarblePrefab.transform.rotation);
+        TopMarble topMarble = Instantiate(topMarblePrefab, new Vector3(spawnPosition.x, spawnPosition.y + 1.5f, spawnPosition.z), topMarblePrefab.transform.rotation);
+
+        topMarble.bottomMarble = bottomMarble;
+        bottomMarble.speed = speed;
+        topMarble.speed = speed;
+
+        allMarbles.Add(bottomMarble);
+        allMarbles.Add(topMarble);
     }
 }

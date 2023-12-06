@@ -1,17 +1,20 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class Marble : MonoBehaviour
 {
     public float speed = 10f;
-    private Rigidbody rb;
+    protected Rigidbody rb;
     public ShatteredMarble shatteredMarblePrefab;
     public MarbleColor color;
     public int points;
     public int livesLost;
     public float fadeInDuration = 0.5f;
 
-    void Start()
+    public event Action OnDestroyed;
+
+    protected void Start()
     {
         rb = GetComponent<Rigidbody>();
         StartCoroutine(FadeIn());
@@ -51,6 +54,7 @@ public class Marble : MonoBehaviour
             shatteredMarble.SetMaterial(GetComponent<Renderer>().material);
         }
 
+        OnDestroyed?.Invoke();
         Destroy(gameObject);
     }
 }

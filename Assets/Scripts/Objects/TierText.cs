@@ -9,7 +9,7 @@ public class TierText : MonoBehaviour
     private float originalHeightDiff;
     private TextMeshPro textMesh;
     private float fadeDuration = 1f;
-    private float waitTime = 2.5f;
+    private float waitTime = 2f;
 
     void Start()
     {
