@@ -6,6 +6,13 @@ public class Ramp : MonoBehaviour
 
     public AudioClip boardHitSound;
 
+    private SaveObject savedData;
+
+    private void Start()
+    {
+        savedData = SaveManager.Load();
+    }
+
     void Update()
     {
         if (GameManager.Instance.Lives <= 0)
@@ -22,7 +29,10 @@ public class Ramp : MonoBehaviour
             {
                 Destroy(Instantiate(hitPrefab, hit.point, Quaternion.identity), 1);
 
-                AudioSource.PlayClipAtPoint(boardHitSound, hit.point);
+                if (savedData.Settings.SFXEnabled)
+                {
+                    AudioSource.PlayClipAtPoint(boardHitSound, hit.point);
+                }
             }
         }
     }

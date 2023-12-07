@@ -1,47 +1,67 @@
-using UnityEngine;
-using TMPro;
 using System.Collections;
+using TMPro;
+using UnityEngine;
 
 public class StartText : MonoBehaviour
 {
     public TextMeshProUGUI countdownText;
-    public float fadeDuration = 0.25f;
-    public float displayDuration = 0.5f;
-    private string[] countdownSequence = new string[] { "3", "2", "1", "START" };
+    private float animationDuration = 0.25f;
 
     void Start()
     {
-        StartCoroutine(CountdownSequence());
+        StartCoroutine(CountdownCoroutine());
     }
 
-    IEnumerator CountdownSequence()
+    IEnumerator CountdownCoroutine()
     {
-        foreach (var item in countdownSequence)
+        yield return StartCoroutine(ShowNumber("3"));
+        yield return StartCoroutine(ShowNumber("2"));
+        yield return StartCoroutine(ShowNumber("1"));
+        yield return StartCoroutine(ShowNumber("START"));
+
+        Destroy(gameObject);
+    }
+
+    IEnumerator ShowNumber(string number)
+    {
+        countdownText.text = number;
+        float time = 0;
+
+        // Custom scale up effect
+        while (time < animationDuration)
         {
-            countdownText.text = item;
-            yield return StartCoroutine(FadeTextToFullAlpha());
-            yield return new WaitForSeconds(displayDuration);
-            yield return StartCoroutine(FadeTextToZeroAlpha());
+            float scale = EaseOutBack(time / animationDuration);
+            countdownText.transform.localScale = new Vector3(scale, scale, scale);
+            time += Time.deltaTime;
+            yield return null;
         }
-    }
 
-    IEnumerator FadeTextToFullAlpha()
-    {
-        countdownText.color = new Color(countdownText.color.r, countdownText.color.g, countdownText.color.b, 0);
-        while (countdownText.color.a < 1.0f)
+        yield return new WaitForSeconds(0.5f); // Pause at full scale
+
+        // Custom scale down effect
+        time = 0;
+        while (time < animationDuration)
         {
-            countdownText.color = new Color(countdownText.color.r, countdownText.color.g, countdownText.color.b, countdownText.color.a + (Time.deltaTime / fadeDuration));
+            float scale = EaseInBack(time / animationDuration);
+            countdownText.transform.localScale = new Vector3(1 - scale, 1 - scale, 1 - scale);
+            time += Time.deltaTime;
             yield return null;
         }
     }
 
-    IEnumerator FadeTextToZeroAlpha()
+    float EaseOutBack(float x)
     {
-        countdownText.color = new Color(countdownText.color.r, countdownText.color.g, countdownText.color.b, 1);
-        while (countdownText.color.a > 0.0f)
-        {
-            countdownText.color = new Color(countdownText.color.r, countdownText.color.g, countdownText.color.b, countdownText.color.a - (Time.deltaTime / fadeDuration));
-            yield return null;
-        }
+        const float c1 = 1.70158f;
+        const float c3 = c1 + 1;
+
+        return 1 + c3 * Mathf.Pow(x - 1, 3) + c1 * Mathf.Pow(x - 1, 2);
+    }
+
+    float EaseInBack(float x)
+    {
+        const float c1 = 1.70158f;
+        const float c3 = c1 + 1;
+
+        return c3 * x * x * x - c1 * x * x;
     }
 }

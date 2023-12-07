@@ -29,4 +29,16 @@ public class SaveObject
 {
     public int HighScore;
     public int Points;
+    public int HighTier = 1;
+    public int GamesPlayed;
+    public int HighStreak = 1;
+
+    public Settings Settings;
+}
+
+[System.Serializable]
+public class Settings
+{
+    public float Volume = 1;
+    public bool SFXEnabled = true;
 }

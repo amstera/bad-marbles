@@ -13,7 +13,7 @@ public class MarbleSpawner : MonoBehaviour
     private float timer = 0;
     private float speed = 8f;
     private float maxSpeed = 40f;
-    private float acceleration = 0.58f;
+    private float acceleration = 0.55f;
     private bool isSpawningPaused = true;
     private List<Marble> allMarbles = new List<Marble>();
 
@@ -57,33 +57,60 @@ public class MarbleSpawner : MonoBehaviour
     {
         int tier = GameManager.Instance.Tier;
         int randomValue = Random.Range(0, 100);
-        Marble marbleToSpawn;
+        Marble marbleToSpawn = DetermineMarbleToSpawn(tier, randomValue);
 
-        if (tier >= 5)
+        if (marbleToSpawn != null)
         {
-            if (randomValue < 20) marbleToSpawn = FireMarble;
-            else if (randomValue < 25)
+            Marble spawnedMarble = Instantiate(marbleToSpawn, GetSpawnPosition(), marbleToSpawn.transform.rotation);
+            spawnedMarble.speed = speed;
+            allMarbles.Add(spawnedMarble);
+        }
+    }
+
+    Marble DetermineMarbleToSpawn(int tier, int randomValue)
+    {
+        if (tier >= 10)
+        {
+            if (randomValue < 5)
             {
                 SpawnPairedMarble(RedMarble, TopRedMarble);
-                return;
+                return null;
             }
-            else if (randomValue < 55) marbleToSpawn = RedMarble;
-            else marbleToSpawn = GreenMarble;
+            else if (randomValue < 25) return FireMarble;
+            else if (randomValue < 55) return RedMarble;
+        }
+        else if (tier >= 8)
+        {
+            if (randomValue < 3)
+            {
+                SpawnPairedMarble(RedMarble, TopRedMarble);
+                return null;
+            }
+            else if (randomValue < 20) return FireMarble;
+            else if (randomValue < 55) return RedMarble;
+        }
+        else if (tier >= 5)
+        {
+            if (randomValue < 2)
+            {
+                SpawnPairedMarble(RedMarble, TopRedMarble);
+                return null;
+            }
+            else if (randomValue < 15) return FireMarble;
+            else if (randomValue < 50) return RedMarble;
         }
         else if (tier >= 3)
         {
-            if (randomValue < 10) marbleToSpawn = FireMarble;
-            else if (randomValue < 50) marbleToSpawn = RedMarble;
-            else marbleToSpawn = GreenMarble;
+            if (randomValue < 10) return FireMarble;
+            else if (randomValue < 50) return RedMarble;
         }
         else
         {
-            marbleToSpawn = randomValue < 50 ? RedMarble : GreenMarble;
+            if (randomValue < 45) return RedMarble;
         }
 
-        Marble spawnedMarble = Instantiate(marbleToSpawn, GetSpawnPosition(), marbleToSpawn.transform.rotation);
-        spawnedMarble.speed = speed;
-        allMarbles.Add(spawnedMarble);
+        // Default return if no other conditions are met
+        return GreenMarble;
     }
 
     void UpdateTimer()

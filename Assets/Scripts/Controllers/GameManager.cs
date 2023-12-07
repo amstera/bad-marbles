@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public StressReceiver stressReceiver;
     public MarbleSpawner marbleSpawner;
 
+    public AudioSource backgroundMusic;
     public AudioSource pointGainedSound;
     public AudioSource lifeLossSound;
 
@@ -60,12 +61,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public float marbleHitRadius = 1.75f;
+    private float marbleHitRadius = 1.85f;
+    private SaveObject savedData;
 
     private void Awake()
     {
+        savedData = SaveManager.Load();
         InitializeSingleton();
         StartCoroutine(UpdateTierRoutine());
+
+        backgroundMusic.volume *= savedData.Settings.Volume;
     }
 
     void Update()
@@ -113,6 +118,12 @@ public class GameManager : MonoBehaviour
         while (Lives > 0)
         {
             Tier++;
+            if (Tier > savedData.HighTier)
+            {
+                savedData.HighTier = Tier;
+                SaveManager.Save(savedData);
+            }
+
             yield return new WaitForSeconds(15);
         }
     }
@@ -128,9 +139,9 @@ public class GameManager : MonoBehaviour
 
     public void LoseLives(int livesLost)
     {
+        ResetStreak();
         Lives -= livesLost;
         stressReceiver?.InduceStress(0.8f);
-        ResetStreak();
 
         lifeLossSound?.Play();
         Handheld.Vibrate();
@@ -143,6 +154,12 @@ public class GameManager : MonoBehaviour
 
     private void ResetStreak()
     {
+        if (Streak > savedData.HighStreak)
+        {
+            savedData.HighStreak = Streak;
+            SaveManager.Save(savedData);
+        }
+
         Streak = 0;
     }
 
@@ -153,7 +170,7 @@ public class GameManager : MonoBehaviour
             marbleSpawner.DestroyAll();
             Destroy(FindAnyObjectByType<Tier>()?.gameObject);
 
-            gameOverUI.ShowGameOver(score);
+            gameOverUI.ShowGameOver(score, savedData);
         }
     }
 }
