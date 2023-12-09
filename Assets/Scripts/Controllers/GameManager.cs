@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
     {
         ResetStreak();
         Lives -= livesLost;
-        stressReceiver?.InduceStress(0.8f);
+        stressReceiver?.InduceStress(0.5f);
 
         lifeLossSound?.Play();
         Handheld.Vibrate();

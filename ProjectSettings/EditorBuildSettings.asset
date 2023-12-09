@@ -15,5 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Perks.unity
     guid: 877334af5df854e7081856e61cd6723f
   m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 51d0695e7ff49418d9b192f06df309aa,
+      type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
       guid: 38a546fb9468742169db94d8aa4a45b8, type: 2}

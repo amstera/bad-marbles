@@ -19,6 +19,14 @@ public class MenuManager : MonoBehaviour
         TransitionManager.Instance().Transition("Game", transition, 0);
 
         plopSound?.Play();
+        MenuMusicPlayer.Instance.Destroy();
+    }
+
+    public void LoadPerks()
+    {
+        TransitionManager.Instance().Transition("Perks", transition, 0);
+
+        plopSound?.Play();
     }
 
     private void UpdateHighScoreText()

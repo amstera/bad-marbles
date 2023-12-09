@@ -833,7 +833,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 220934190}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1901604598}
+        m_TargetAssemblyTypeName: GameOverUI, Assembly-CSharp
+        m_MethodName: LoadPerks
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &220934190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4305,6 +4317,7 @@ MonoBehaviour:
   highScoreText: {fileID: 1551953816}
   newIcon: {fileID: 2039487734}
   canvasGroup: {fileID: 1901604597}
+  transition: {fileID: 11400000, guid: 9710edcf009d00943af961dd2a7ca7d3, type: 2}
   highScoreSound: {fileID: 1901604599}
   plopSound: {fileID: 1901604600}
 --- !u!82 &1901604599

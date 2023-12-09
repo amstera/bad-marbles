@@ -3,6 +3,7 @@ using TMPro;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using EasyTransition;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameOverUI : MonoBehaviour
     public TextMeshProUGUI highScoreText;
     public Image newIcon;
     public CanvasGroup canvasGroup;
+    public TransitionSettings transition;
 
     public AudioSource highScoreSound;
     public AudioSource plopSound;
@@ -31,6 +33,13 @@ public class GameOverUI : MonoBehaviour
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadPerks()
+    {
+        TransitionManager.Instance().Transition("Perks", transition, 0);
+
+        plopSound?.Play();
     }
 
     private IEnumerator FadeInCanvasGroup()
