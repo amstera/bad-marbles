@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.IO;
+using System.Collections.Generic;
 
 public class SaveManager : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class SaveObject
     public int HighStreak = 1;
 
     public Settings Settings;
+    public SelectedPerks SelectedPerks;
 }
 
 [System.Serializable]
@@ -41,4 +43,13 @@ public class Settings
 {
     public float Volume = 1;
     public bool SFXEnabled = true;
+}
+
+[System.Serializable]
+public class SelectedPerks
+{
+    public List<PerkEnum> SelectedSpecial = new List<PerkEnum>();
+    public PerkEnum SelectedMusic = PerkEnum.DefaultMusic;
+    public PerkEnum SelectedBackground = PerkEnum.DefaultBackground;
+    public PerkEnum SelectedRamp = PerkEnum.DefaultRamp;
 }

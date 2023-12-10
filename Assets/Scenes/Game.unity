@@ -287,7 +287,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PERKS SHOP
+  m_text: PERKS VAULT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61f6d7ff6ce5c4ebd88de88efa4cdff5, type: 2}
   m_sharedMaterial: {fileID: 1768230906505952818, guid: 61f6d7ff6ce5c4ebd88de88efa4cdff5,
@@ -697,7 +697,7 @@ GameObject:
   - component: {fileID: 220934188}
   - component: {fileID: 220934187}
   m_Layer: 5
-  m_Name: Shop Button
+  m_Name: Perks Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -753,8 +753,8 @@ MonoBehaviour:
   blendMode: 0
   intensity: 1
   gradientType: 0
-  linearColor1: {r: 0.22895159, g: 0.4938609, b: 0.990566, a: 1}
-  linearColor2: {r: 0.0744927, g: 0.24127468, b: 0.509434, a: 1}
+  linearColor1: {r: 0.77637374, g: 0.22745097, b: 0.99215686, a: 1}
+  linearColor2: {r: 0.17661978, g: 0.38136277, b: 0.5943396, a: 1}
   cornerColorUpperLeft: {r: 1, g: 0, b: 0, a: 1}
   cornerColorUpperRight: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   cornerColorLowerRight: {r: 0, g: 1, b: 0, a: 1}
