@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.UI.ProceduralImage;
 using UnityEngine.EventSystems;
 using System;
+using JoshH.UI;
 
 public class PerkUI : MonoBehaviour, IPointerClickHandler
 {
@@ -16,10 +17,12 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     public PerkCategory category;
 
     public TextMeshProUGUI nameText;
-    public Image perkImage;
+    public ProceduralImage perkImage;
     public Image pillCapsuleImage;
     public TextMeshProUGUI pillText;
     public ProceduralImage perkOutline;
+    public ProceduralImage ForegroundImage;
+    public UIGradient ForegroundGradient;
 
     public event Action<PerkUI> OnPerkClicked;
 
@@ -30,6 +33,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     private Color selectedBorderColor = new Color32(249, 255, 0, 255); // Yellow
     private Color defaultBorderColor = Color.gray;
     private Color unlockedColor = new Color32(73, 190, 71, 255); // Custom green
+    public Color inactiveGray = new Color32(176, 176, 176, 255); // Inactive gray
 
     void Start()
     {
@@ -64,17 +68,21 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
             pillCapsuleImage.color = Color.gray;
             pillText.text = $"{pointsRequired} PTS";
             SetAlpha(lockedAlpha);
+            ForegroundGradient.enabled = false;
+            ForegroundImage.color = inactiveGray;
         }
 
         if (isSelected)
         {
             perkOutline.BorderWidth = selectedBorderWidth;
             perkOutline.color = selectedBorderColor;
+            ForegroundGradient.enabled = false;
         }
         else
         {
             perkOutline.BorderWidth = defaultBorderWidth;
             perkOutline.color = defaultBorderColor;
+            ForegroundGradient.enabled = isUnlocked;
         }
     }
 

@@ -11,7 +11,9 @@ public enum PerkEnum
     DefaultMusic = 1,
     DefaultBackground = 2,
     DefaultRamp = 3,
-    ExtraLife1 = 4
+    ExtraLife1 = 4,
+    RockinMarbles = 5,
+    MarblesAnthem = 6
 }
 
 [System.Serializable]

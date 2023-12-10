@@ -19,15 +19,13 @@ public class PerksManager : MonoBehaviour
     public PerkUI perkPrefab;
     public Transform scrollViewContent;
 
-    private RectTransform contentRectTransform;
-
     private float indicatorMoveSpeed = 0.15f;
     private SaveObject savedData;
     private Button lastPressedButton;
     private List<PerkUI> currentPerks = new List<PerkUI>();
 
     // Grid layout settings
-    private Vector2 initialPosition = new Vector2(-107, -162);
+    private Vector2 initialPosition = new Vector2(-105, -155);
     private float xOffset = 209;
     private float yOffset = -244;
     private int itemsPerRow = 2;
@@ -43,7 +41,6 @@ public class PerksManager : MonoBehaviour
         backgroundButton.onClick.AddListener(() => OnButtonClicked(backgroundButton));
         rampButton.onClick.AddListener(() => OnButtonClicked(rampButton));
 
-        contentRectTransform = scrollViewContent.GetComponent<RectTransform>();
         lastPressedButton = perksButton;
 
         PopulateScrollViewContent(PerkCategory.Special);
@@ -56,20 +53,6 @@ public class PerksManager : MonoBehaviour
         var perks = PerkService.Instance.GetPerksByCategory(category);
         Vector2 currentPosition = initialPosition;
         int counter = 0;
-
-        // Calculate the height of a single perk prefab
-        float singlePerkHeight = perkPrefab.GetComponent<RectTransform>().sizeDelta.y;
-
-        /*
-        // Calculate the required height
-        int rows = Mathf.CeilToInt((float)perks.Count / itemsPerRow);
-        float totalHeight = singlePerkHeight * rows + (Mathf.Abs(yOffset) * (rows - 1));
-
-        // Adjust the bottom anchor based on the total height
-        Vector2 anchorMin = contentRectTransform.anchorMin;
-        anchorMin.y = totalHeight / contentRectTransform.rect.height;
-        contentRectTransform.anchorMin = anchorMin;
-        */
 
         foreach (Perk perk in perks)
         {
@@ -87,7 +70,7 @@ public class PerksManager : MonoBehaviour
             if (++counter % itemsPerRow == 0)
             {
                 currentPosition.x = initialPosition.x;
-                currentPosition.y -= yOffset + singlePerkHeight;
+                currentPosition.y += yOffset;
             }
             else
             {

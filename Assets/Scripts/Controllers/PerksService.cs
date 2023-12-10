@@ -40,7 +40,7 @@ public class PerkService
         {
             Id = PerkEnum.DefaultBackground,
             Name = "Main BG",
-            Sprite = null,
+            Sprite = Resources.Load<Sprite>("Images/Backgrounds/Sunset"),
             Points = 0,
             Category = PerkCategory.Background
         });
@@ -59,6 +59,22 @@ public class PerkService
             Sprite = Resources.Load<Sprite>("Images/UI/Heart"),
             Points = 5000,
             Category = PerkCategory.Special
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.RockinMarbles,
+            Name = "Rockin' Marbles",
+            Sprite = null,
+            Points = 2500,
+            Category = PerkCategory.Music
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.MarblesAnthem,
+            Name = "Marbles Anthem",
+            Sprite = null,
+            Points = 10000,
+            Category = PerkCategory.Music
         });
     }
 
