@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PerkService
@@ -28,30 +29,7 @@ public class PerkService
 
     private void InitializePerks()
     {
-        perks.Add(new Perk
-        {
-            Id = PerkEnum.DefaultMusic,
-            Name = "Main Theme",
-            Sprite = null,
-            Points = 0,
-            Category = PerkCategory.Music
-        });
-        perks.Add(new Perk
-        {
-            Id = PerkEnum.DefaultBackground,
-            Name = "Main BG",
-            Sprite = Resources.Load<Sprite>("Images/Backgrounds/Sunset"),
-            Points = 0,
-            Category = PerkCategory.Background
-        });
-        perks.Add(new Perk
-        {
-            Id = PerkEnum.DefaultRamp,
-            Name = "Main Ramp",
-            Sprite = null,
-            Points = 0,
-            Category = PerkCategory.Ramp
-        });
+        // Special
         perks.Add(new Perk
         {
             Id = PerkEnum.ExtraLife1,
@@ -60,21 +38,51 @@ public class PerkService
             Points = 5000,
             Category = PerkCategory.Special
         });
+
+        // Music
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.DefaultMusic,
+            Name = "Main Theme",
+            Sprite = Resources.Load<Sprite>("Images/UI/Music/MainTheme"),
+            Points = 0,
+            Category = PerkCategory.Music
+        });
         perks.Add(new Perk
         {
             Id = PerkEnum.RockinMarbles,
             Name = "Rockin' Marbles",
-            Sprite = null,
-            Points = 2500,
+            Sprite = Resources.Load<Sprite>("Images/UI/Music/RockinMarbles"),
+            Points = 1000,
             Category = PerkCategory.Music
         });
         perks.Add(new Perk
         {
             Id = PerkEnum.MarblesAnthem,
             Name = "Marbles Anthem",
-            Sprite = null,
+            Sprite = Resources.Load<Sprite>("Images/UI/Music/MarblesAnthem"),
             Points = 10000,
             Category = PerkCategory.Music
+        });
+
+        // Background
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.DefaultBackground,
+            Name = "Main BG",
+            Sprite = Resources.Load<Sprite>("Images/Backgrounds/Sunset"),
+            Points = 0,
+            Category = PerkCategory.Background
+        });
+
+        // Ramp
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.DefaultRamp,
+            Name = "Main Ramp",
+            Sprite = null,
+            Points = 0,
+            Category = PerkCategory.Ramp
         });
     }
 
@@ -90,7 +98,7 @@ public class PerkService
                 filteredPerks.Add(perk);
             }
         }
-        return filteredPerks;
+        return filteredPerks.OrderBy(f => f.Points).ToList();
     }
 
     private bool DetermineIfPerkIsSelected(Perk perk)

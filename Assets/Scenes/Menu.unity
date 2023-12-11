@@ -6387,7 +6387,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f6d61015d2ce14650bf72ecc93de6ba1, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.35
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -6484,6 +6484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundMusic: {fileID: 512721535}
+  backgroundMusicClip: {fileID: 8300000, guid: f6d61015d2ce14650bf72ecc93de6ba1, type: 3}
 --- !u!4 &512721537
 Transform:
   m_ObjectHideFlags: 0

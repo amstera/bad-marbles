@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68356c3764ad390429ddad9e48ce8c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: {x: 40, y: 40, z: 40, w: 40}
+  radius: {x: 20, y: 20, z: 20, w: 20}
 --- !u!114 &8327079376171551229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,7 +675,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68356c3764ad390429ddad9e48ce8c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: {x: 40, y: 40, z: 40, w: 40}
+  radius: {x: 20, y: 20, z: 20, w: 20}
 --- !u!114 &8244118661093265484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,6 +769,7 @@ MonoBehaviour:
   perkOutline: {fileID: 2352118393970134873}
   ForegroundImage: {fileID: 6000953388750342863}
   ForegroundGradient: {fileID: 1571212572049750198}
+  inactiveGray: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 1}
 --- !u!225 &2841688893443616067
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -842,7 +843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.83137256, g: 0.84313726, b: 0.078431375, a: 1}
+  m_Color: {r: 0.88235295, g: 0.90588236, b: 0.15686275, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -873,7 +874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68356c3764ad390429ddad9e48ce8c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: {x: 40, y: 40, z: 0, w: 0}
+  radius: {x: 20, y: 20, z: 0, w: 0}
 --- !u!114 &9096564120993756069
 MonoBehaviour:
   m_ObjectHideFlags: 0

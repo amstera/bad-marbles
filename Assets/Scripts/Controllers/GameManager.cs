@@ -69,8 +69,7 @@ public class GameManager : MonoBehaviour
         savedData = SaveManager.Load();
         InitializeSingleton();
         StartCoroutine(UpdateTierRoutine());
-
-        backgroundMusic.volume *= savedData.Settings.Volume;
+        SetMusic();
     }
 
     void Update()
@@ -111,6 +110,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void SetMusic()
+    {
+        var bgMusicData = MusicService.GetTrack(savedData);
+        backgroundMusic.clip = bgMusicData.clip;
+        backgroundMusic.volume = bgMusicData.volume;
+        backgroundMusic.Play();
     }
 
     private IEnumerator UpdateTierRoutine()

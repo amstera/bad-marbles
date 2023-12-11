@@ -754,7 +754,7 @@ MonoBehaviour:
   intensity: 1
   gradientType: 0
   linearColor1: {r: 0.77637374, g: 0.22745097, b: 0.99215686, a: 1}
-  linearColor2: {r: 0.17661978, g: 0.38136277, b: 0.5943396, a: 1}
+  linearColor2: {r: 0.23809443, g: 0.17647056, b: 0.59607846, a: 1}
   cornerColorUpperLeft: {r: 1, g: 0, b: 0, a: 1}
   cornerColorUpperRight: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   cornerColorLowerRight: {r: 0, g: 1, b: 0, a: 1}
@@ -2573,7 +2573,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: cb25bafee3a7546a5bc68328c6bb9f43, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.4
   m_Pitch: 1

@@ -185,6 +185,8 @@ public class PerksManager : MonoBehaviour
             if (clickedPerk.category == PerkCategory.Music)
             {
                 savedData.SelectedPerks.SelectedMusic = clickedPerk.id;
+
+                PlayTrack();
             }
             else if (clickedPerk.category == PerkCategory.Background)
             {
@@ -221,5 +223,13 @@ public class PerksManager : MonoBehaviour
             return PerkCategory.Ramp;
 
         return PerkCategory.Special;
+    }
+
+    private void PlayTrack()
+    {
+        var bgMusicInfo = MusicService.GetTrack(savedData);
+        MenuMusicPlayer.Instance.backgroundMusic.clip = bgMusicInfo.clip;
+        MenuMusicPlayer.Instance.backgroundMusic.volume = bgMusicInfo.volume;
+        MenuMusicPlayer.Instance.backgroundMusic.Play();
     }
 }

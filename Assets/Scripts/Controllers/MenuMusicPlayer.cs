@@ -1,31 +1,41 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuMusicPlayer : MonoBehaviour
 {
     public static MenuMusicPlayer Instance = null;
 
     public AudioSource backgroundMusic;
+    public AudioClip backgroundMusicClip;
 
     private SaveObject savedData;
-    private float defaultBackgroundMusicVolume;
+    private float defaultBackgroundMusicVolume = 0.4f;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            savedData = SaveManager.Load();
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else if (Instance != this)
         {
             Destroy(gameObject);
             return;
         }
+    }
 
-        defaultBackgroundMusicVolume = backgroundMusic.volume;
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        savedData = SaveManager.Load();
+
         UpdateVolume(savedData.Settings.Volume);
 
+        if (backgroundMusic.clip != backgroundMusicClip)
+        {
+            backgroundMusic.clip = backgroundMusicClip;
+        }
         if (!backgroundMusic.isPlaying)
         {
             backgroundMusic.Play();
@@ -37,9 +47,16 @@ public class MenuMusicPlayer : MonoBehaviour
         backgroundMusic.volume = volume * defaultBackgroundMusicVolume;
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+    }
+
     public void Destroy()
     {
         Destroy(gameObject, 1);
     }
 }
-
