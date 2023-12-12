@@ -9169,6 +9169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4febe933541e34cc198845248dea409c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gearButton: {fileID: 709537973}
   canvasGroup: {fileID: 1923677081}
   musicVolumeSlider: {fileID: 1572032161}
   sfxToggle: {fileID: 639438260}

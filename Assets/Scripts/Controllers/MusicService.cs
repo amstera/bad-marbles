@@ -10,7 +10,8 @@ public static class MusicService
         _musicTracks = new Dictionary<PerkEnum, (AudioClip, float)>
         {
             { PerkEnum.DefaultMusic, (Resources.Load<AudioClip>("Sounds/Music/MainTheme"), 0.4f) },
-            { PerkEnum.RockinMarbles, (Resources.Load<AudioClip>("Sounds/Music/RockinMarbles"), 0.25f) }
+            { PerkEnum.RockinMarbles, (Resources.Load<AudioClip>("Sounds/Music/RockinMarbles"), 0.25f) },
+            { PerkEnum.MarblesAnthem, (Resources.Load<AudioClip>("Sounds/Music/MarblesAnthem"), 0.25f) }
         };
     }
 

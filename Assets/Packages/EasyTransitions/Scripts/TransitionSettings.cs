@@ -16,7 +16,7 @@ namespace EasyTransition
         public Vector2 refrenceResolution = new Vector2(1920, 1080);
 
         [Tooltip("If set to true you can't interact with any UI until the transition is over.")]
-        public bool blockRaycasts = true;
+        public bool blockRaycasts = false;
 
         [Space(10)]
         [Tooltip("Changes the color tint mode. Multiply just tints the color and Add adds the color to the transition.")]

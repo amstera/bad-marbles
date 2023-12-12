@@ -67,7 +67,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
         else
         {
             pillCapsuleImage.color = lockedGray;
-            pillText.text = $"{pointsRequired} PTS";
+            pillText.text = FormatPoints(pointsRequired);
             SetAlpha(lockedAlpha);
             ForegroundGradient.enabled = false;
             ForegroundImage.color = inactiveGray;
@@ -84,6 +84,19 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
             perkOutline.BorderWidth = defaultBorderWidth;
             perkOutline.color = defaultBorderColor;
             ForegroundGradient.enabled = isUnlocked;
+        }
+    }
+
+    private string FormatPoints(int points)
+    {
+        if (points < 100000)
+        {
+            return $"{points} PTS";
+        }
+        else
+        {
+            int roundedPoints = (int)Math.Round(points / 1000.0) * 1000;
+            return $"{roundedPoints / 1000}K PTS";
         }
     }
 

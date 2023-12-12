@@ -51,7 +51,7 @@ public class PerkService
             Id = PerkEnum.AngelMarble,
             Name = "2X Marble",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/AngelMarble"),
-            Points = 7500,
+            Points = 5000,
             Category = PerkCategory.Special
         });
 
@@ -69,7 +69,7 @@ public class PerkService
             Id = PerkEnum.RockinMarbles,
             Name = "Rockin' Marbles",
             Sprite = Resources.Load<Sprite>("Images/UI/Music/RockinMarbles"),
-            Points = 1000,
+            Points = 1500,
             Category = PerkCategory.Music
         });
         perks.Add(new Perk
@@ -88,6 +88,22 @@ public class PerkService
             Name = "Main BG",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Sunset"),
             Points = 0,
+            Category = PerkCategory.Background
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.StreamBackground,
+            Name = "Mystic Stream",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Stream"),
+            Points = 500,
+            Category = PerkCategory.Background
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.ForestBackground,
+            Name = "Magic Forest",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Forest"),
+            Points = 3000,
             Category = PerkCategory.Background
         });
 

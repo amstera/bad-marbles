@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public StressReceiver stressReceiver;
     public MarbleSpawner marbleSpawner;
 
-    public AudioSource backgroundMusic;
     public AudioSource pointGainedSound;
     public AudioSource lifeLossSound;
 
@@ -69,7 +68,6 @@ public class GameManager : MonoBehaviour
         savedData = SaveManager.Load();
         InitializeSingleton();
         StartCoroutine(UpdateTierRoutine());
-        SetMusic();
         SetLives();
     }
 
@@ -111,14 +109,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void SetMusic()
-    {
-        var bgMusicData = MusicService.GetTrack(savedData);
-        backgroundMusic.clip = bgMusicData.clip;
-        backgroundMusic.volume = bgMusicData.volume;
-        backgroundMusic.Play();
     }
 
     private void SetLives()
