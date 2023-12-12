@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private float marbleHitRadius = 1.85f;
+    private float marbleHitRadius = 1.9f;
     private SaveObject savedData;
 
     private void Awake()
@@ -82,10 +82,11 @@ public class GameManager : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+            int layerMask = 1 << 3; // Layer 3
 
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-                Collider[] hitColliders = Physics.OverlapSphere(hit.point, marbleHitRadius);
+                Collider[] hitColliders = Physics.OverlapSphere(hit.point, marbleHitRadius, layerMask);
                 foreach (var hitCollider in hitColliders)
                 {
                     Marble marble = hitCollider.GetComponent<Marble>();

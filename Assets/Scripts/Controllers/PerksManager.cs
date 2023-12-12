@@ -17,7 +17,8 @@ public class PerksManager : MonoBehaviour
     public CanvasGroup scrollViewCanvasGroup;
 
     public PerkUI perkPrefab;
-    public Transform scrollViewContent;
+    public RectTransform scrollView;
+    public RectTransform scrollViewContent;
 
     private float indicatorMoveSpeed = 0.15f;
     private SaveObject savedData;
@@ -80,7 +81,26 @@ public class PerksManager : MonoBehaviour
                 currentPosition.x += xOffset;
             }
         }
+
+        AdjustScrollViewHeight(counter);
     }
+
+    private void AdjustScrollViewHeight(int itemCount)
+    {
+        int rows = Mathf.CeilToInt((float)itemCount / itemsPerRow);
+
+        float topPadding = 50;
+
+        // Calculated height = height of all items + spacing between them + top padding
+        float calculatedHeight = (rows * -yOffset) + (rows - 1) + topPadding;
+
+        float scrollViewHeight = scrollView.rect.height;
+
+        float additionalHeight = calculatedHeight > scrollViewHeight ? calculatedHeight - scrollViewHeight : 0;
+        scrollViewContent.sizeDelta = new Vector2(scrollViewContent.sizeDelta.x, additionalHeight);
+    }
+
+
 
     private void ClearScrollViewContent()
     {
