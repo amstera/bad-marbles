@@ -121,7 +121,7 @@ public class MarbleSpawner : MonoBehaviour
 
         if (hasAngelMarble)
         {
-            if (randomValue < 60)
+            if (randomValue < (tier < 8 ? 55: 60))
             {
                 return AngelMarble;
             }

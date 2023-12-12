@@ -133,6 +133,30 @@ public class PerkService
         return filteredPerks.OrderBy(f => f.Points).ToList();
     }
 
+    public List<PerkCategory> GetUnlockedPerkCategories()
+    {
+        var lastPointsByCategory = new Dictionary<PerkCategory, int>
+        {
+            { PerkCategory.Special, savedData.SelectedPerks.LastSpecialPoints },
+            { PerkCategory.Music, savedData.SelectedPerks.LastMusicPoints },
+            { PerkCategory.Background, savedData.SelectedPerks.LastBackgroundPoints },
+            { PerkCategory.Ramp, savedData.SelectedPerks.LastRampPoints }
+        };
+
+        var unlockedCategories = new HashSet<PerkCategory>();
+
+        foreach (var perk in perks)
+        {
+            // If the perk's points are within the new range, add its category
+            if (perk.Points > 0 && perk.Points > lastPointsByCategory[perk.Category] && perk.Points <= savedData.Points)
+            {
+                unlockedCategories.Add(perk.Category);
+            }
+        }
+
+        return unlockedCategories.ToList();
+    }
+
     private bool DetermineIfPerkIsSelected(Perk perk)
     {
         if (perk.Category == PerkCategory.Special)

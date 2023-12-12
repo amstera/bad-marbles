@@ -13,6 +13,7 @@ public class PerksManager : MonoBehaviour
     public AudioSource plopSound;
 
     public Button perksButton, musicButton, backgroundButton, rampButton;
+    public GameObject musicViewedIndicator, backgroundViewedIndicator, rampViewedIndicator;
     public RectTransform selectedIndicator;
     public CanvasGroup scrollViewCanvasGroup;
 
@@ -39,15 +40,26 @@ public class PerksManager : MonoBehaviour
         savedData = SaveManager.Load();
         totalPointsText.text = savedData.Points == 1 ? "1 POINT" : $"{savedData.Points} POINTS";
 
-        // Add button click listeners
-        perksButton.onClick.AddListener(() => OnButtonClicked(perksButton));
-        musicButton.onClick.AddListener(() => OnButtonClicked(musicButton));
-        backgroundButton.onClick.AddListener(() => OnButtonClicked(backgroundButton));
-        rampButton.onClick.AddListener(() => OnButtonClicked(rampButton));
+        List<PerkCategory> unlockedCategories = PerkService.Instance.GetUnlockedPerkCategories();
+
+        SetUpButton(perksButton, PerkCategory.Special, null, unlockedCategories);
+        SetUpButton(musicButton, PerkCategory.Music, musicViewedIndicator, unlockedCategories);
+        SetUpButton(backgroundButton, PerkCategory.Background, backgroundViewedIndicator, unlockedCategories);
+        SetUpButton(rampButton, PerkCategory.Ramp, rampViewedIndicator, unlockedCategories);
 
         lastPressedButton = perksButton;
 
         PopulateScrollViewContent(PerkCategory.Special);
+    }
+
+    private void SetUpButton(Button button, PerkCategory category, GameObject indicator, List<PerkCategory> unlockedCategories)
+    {
+        button.onClick.AddListener(() => OnButtonClicked(button, indicator));
+
+        if (indicator != null)
+        {
+            indicator.SetActive(unlockedCategories.Contains(category));
+        }
     }
 
     private void PopulateScrollViewContent(PerkCategory category)
@@ -100,8 +112,6 @@ public class PerksManager : MonoBehaviour
         scrollViewContent.sizeDelta = new Vector2(scrollViewContent.sizeDelta.x, additionalHeight);
     }
 
-
-
     private void ClearScrollViewContent()
     {
         foreach (var perk in currentPerks)
@@ -115,7 +125,7 @@ public class PerksManager : MonoBehaviour
         currentPerks.Clear();
     }
 
-    private void OnButtonClicked(Button clickedButton)
+    private void OnButtonClicked(Button clickedButton, GameObject indicator)
     {
         if (lastPressedButton == clickedButton)
         {
@@ -127,7 +137,9 @@ public class PerksManager : MonoBehaviour
         lastPressedButton.interactable = false;
 
         MoveIndicatorToButton(clickedButton);
+
         PerkCategory category = DetermineCategoryFromButton(clickedButton);
+        UpdateLastViewedIndicator(DetermineCategoryFromButton(clickedButton), indicator);
 
         if (updateScrollViewCoroutine != null)
         {
@@ -143,6 +155,47 @@ public class PerksManager : MonoBehaviour
         Vector2 buttonPosition = button.GetComponent<RectTransform>().anchoredPosition;
         Vector2 newPosition = new Vector2(buttonPosition.x, selectedIndicator.anchoredPosition.y);
         StartCoroutine(SmoothMove(selectedIndicator, newPosition, indicatorMoveSpeed));
+    }
+
+    private void UpdateLastViewedIndicator(PerkCategory category, GameObject indicator)
+    {
+        if (indicator != null)
+        {
+            indicator.SetActive(false);
+        }
+
+        bool shouldSave = false;
+
+        switch (category)
+        {
+            case PerkCategory.Special:
+                shouldSave = UpdateCategoryPoints(ref savedData.SelectedPerks.LastSpecialPoints, savedData.Points);
+                break;
+            case PerkCategory.Background:
+                shouldSave = UpdateCategoryPoints(ref savedData.SelectedPerks.LastBackgroundPoints, savedData.Points);
+                break;
+            case PerkCategory.Music:
+                shouldSave = UpdateCategoryPoints(ref savedData.SelectedPerks.LastMusicPoints, savedData.Points);
+                break;
+            case PerkCategory.Ramp:
+                shouldSave = UpdateCategoryPoints(ref savedData.SelectedPerks.LastRampPoints, savedData.Points);
+                break;
+        }
+
+        if (shouldSave)
+        {
+            SaveManager.Save(savedData);
+        }
+    }
+
+    private bool UpdateCategoryPoints(ref int lastPoints, int currentPoints)
+    {
+        if (lastPoints != currentPoints)
+        {
+            lastPoints = currentPoints;
+            return true;
+        }
+        return false;
     }
 
     private IEnumerator SmoothMove(RectTransform rectTransform, Vector2 targetPosition, float speed)

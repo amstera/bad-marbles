@@ -7,11 +7,14 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI highScoreText;
     public TransitionSettings transition;
 
+    public GameObject newIndicator;
+
     public AudioSource plopSound;
 
     void Start()
     {
         UpdateHighScoreText();
+        ShowNewIndicator();
     }
 
     public void LoadGame()
@@ -33,5 +36,14 @@ public class MenuManager : MonoBehaviour
     {
         SaveObject savedData = SaveManager.Load();
         highScoreText.text = $"{savedData.HighScore}";
+    }
+
+    private void ShowNewIndicator()
+    {
+        var categories = PerkService.Instance.GetUnlockedPerkCategories();
+        if (categories.Count > 0)
+        {
+            newIndicator.SetActive(true);
+        }
     }
 }

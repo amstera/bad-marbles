@@ -10,6 +10,7 @@ public class GameOverUI : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
     public Image newIcon;
+    public GameObject newIndicator;
     public CanvasGroup canvasGroup;
     public TransitionSettings transition;
 
@@ -28,6 +29,7 @@ public class GameOverUI : MonoBehaviour
         StartCoroutine(FadeInCanvasGroup());
         UpdateScoreText(score);
         UpdateHighScoreText(score, savedData);
+        ShowNewIndicator();
     }
 
     public void RestartScene()
@@ -74,5 +76,14 @@ public class GameOverUI : MonoBehaviour
         SaveManager.Save(savedData);
 
         highScoreText.text = $"{savedData.HighScore}";
+    }
+
+    private void ShowNewIndicator()
+    {
+        var categories = PerkService.Instance.GetUnlockedPerkCategories();
+        if (categories.Count > 0)
+        {
+            newIndicator.SetActive(true);
+        }
     }
 }

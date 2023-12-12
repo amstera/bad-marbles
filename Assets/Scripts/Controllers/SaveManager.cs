@@ -71,7 +71,11 @@ public class Settings
 public class SelectedPerks
 {
     public List<PerkEnum> SelectedSpecial = new List<PerkEnum>();
+    public int LastSpecialPoints = 0;
     public PerkEnum SelectedMusic = PerkEnum.DefaultMusic;
+    public int LastMusicPoints = 0;
     public PerkEnum SelectedBackground = PerkEnum.DefaultBackground;
+    public int LastBackgroundPoints = 0;
     public PerkEnum SelectedRamp = PerkEnum.DefaultRamp;
+    public int LastRampPoints = 0;
 }
