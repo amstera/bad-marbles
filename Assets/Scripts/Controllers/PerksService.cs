@@ -34,7 +34,7 @@ public class PerkService
         {
             Id = PerkEnum.ExtraLife1,
             Name = "Extra Life #1",
-            Sprite = Resources.Load<Sprite>("Images/UI/Heart"),
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
             Points = 5000,
             Category = PerkCategory.Special
         });
@@ -70,7 +70,7 @@ public class PerkService
         {
             Id = PerkEnum.DefaultBackground,
             Name = "Main BG",
-            Sprite = Resources.Load<Sprite>("Images/Backgrounds/Sunset"),
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Sunset"),
             Points = 0,
             Category = PerkCategory.Background
         });

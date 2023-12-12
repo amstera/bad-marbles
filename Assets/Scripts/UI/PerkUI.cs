@@ -27,12 +27,13 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     public event Action<PerkUI> OnPerkClicked;
 
     private const float unlockedAlpha = 1.0f;
-    private const float lockedAlpha = 0.5f;
+    private const float lockedAlpha = 0.4f;
     private const int selectedBorderWidth = 6;
     private const int defaultBorderWidth = 3;
     private Color selectedBorderColor = new Color32(249, 255, 0, 255); // Yellow
     private Color defaultBorderColor = Color.gray;
     private Color unlockedColor = new Color32(73, 190, 71, 255); // Custom green
+    public Color lockedGray = new Color32(140, 140, 140, 255); // Inactive gray
     public Color inactiveGray = new Color32(176, 176, 176, 255); // Inactive gray
 
     void Start()
@@ -65,7 +66,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            pillCapsuleImage.color = Color.gray;
+            pillCapsuleImage.color = lockedGray;
             pillText.text = $"{pointsRequired} PTS";
             SetAlpha(lockedAlpha);
             ForegroundGradient.enabled = false;

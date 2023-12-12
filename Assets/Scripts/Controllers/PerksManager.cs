@@ -24,6 +24,9 @@ public class PerksManager : MonoBehaviour
     private Button lastPressedButton;
     private List<PerkUI> currentPerks = new List<PerkUI>();
 
+    private Coroutine updateScrollViewCoroutine;
+    private float fadeDuration = 0.1f;
+
     // Grid layout settings
     private Vector2 initialPosition = new Vector2(-105, -155);
     private float xOffset = 209;
@@ -105,7 +108,12 @@ public class PerksManager : MonoBehaviour
 
         MoveIndicatorToButton(clickedButton);
         PerkCategory category = DetermineCategoryFromButton(clickedButton);
-        StartCoroutine(UpdateScrollViewContent(category));
+
+        if (updateScrollViewCoroutine != null)
+        {
+            StopCoroutine(updateScrollViewCoroutine);
+        }
+        updateScrollViewCoroutine = StartCoroutine(UpdateScrollViewContent(category));
     }
 
 
@@ -133,7 +141,7 @@ public class PerksManager : MonoBehaviour
     private IEnumerator UpdateScrollViewContent(PerkCategory category)
     {
         // Fade out
-        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / 0.1f)
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / fadeDuration)
         {
             scrollViewCanvasGroup.alpha = 1.0f - t;
             yield return null;
@@ -142,11 +150,12 @@ public class PerksManager : MonoBehaviour
         PopulateScrollViewContent(category);
 
         // Fade in
-        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / 0.1f)
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / fadeDuration)
         {
             scrollViewCanvasGroup.alpha = t;
             yield return null;
         }
+        scrollViewCanvasGroup.alpha = 1.0f;
     }
 
     private void HandlePerkClick(PerkUI clickedPerk)
