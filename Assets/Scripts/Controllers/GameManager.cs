@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
         InitializeSingleton();
         StartCoroutine(UpdateTierRoutine());
         SetMusic();
+        SetLives();
     }
 
     void Update()
@@ -118,6 +119,18 @@ public class GameManager : MonoBehaviour
         backgroundMusic.clip = bgMusicData.clip;
         backgroundMusic.volume = bgMusicData.volume;
         backgroundMusic.Play();
+    }
+
+    private void SetLives()
+    {
+        if (savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.ExtraLife1))
+        {
+            lives++;
+        }
+        if (savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.ExtraLife2))
+        {
+            lives++;
+        }
     }
 
     private IEnumerator UpdateTierRoutine()

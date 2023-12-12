@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class MarbleSpawner : MonoBehaviour
 {
     public Marble GreenMarble;
+    public Marble AngelMarble;
     public Marble RedMarble;
     public Marble FireMarble;
     public TopMarble TopRedMarble;
@@ -16,6 +17,15 @@ public class MarbleSpawner : MonoBehaviour
     private float acceleration = 0.55f;
     private bool isSpawningPaused = true;
     private List<Marble> allMarbles = new List<Marble>();
+
+    private SaveObject savedData;
+    private bool hasAngelMarble;
+
+    void Start()
+    {
+        savedData = SaveManager.Load();
+        hasAngelMarble = savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.AngelMarble);
+    }
 
     void Update()
     {
@@ -109,7 +119,14 @@ public class MarbleSpawner : MonoBehaviour
             if (randomValue < 45) return RedMarble;
         }
 
-        // Default return if no other conditions are met
+        if (hasAngelMarble)
+        {
+            if (randomValue < 60)
+            {
+                return AngelMarble;
+            }
+        }
+
         return GreenMarble;
     }
 

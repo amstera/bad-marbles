@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EndOfTrackBarrier : MonoBehaviour
+public class TrackBarrier : MonoBehaviour
 {
     public PointsText pointsTextPrefab;
 

@@ -13,7 +13,9 @@ public enum PerkEnum
     DefaultRamp = 3,
     ExtraLife1 = 4,
     RockinMarbles = 5,
-    MarblesAnthem = 6
+    MarblesAnthem = 6,
+    AngelMarble = 7,
+    ExtraLife2 = 8
 }
 
 [System.Serializable]

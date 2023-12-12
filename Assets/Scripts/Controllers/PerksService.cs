@@ -35,7 +35,23 @@ public class PerkService
             Id = PerkEnum.ExtraLife1,
             Name = "Extra Life #1",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
-            Points = 5000,
+            Points = 2500,
+            Category = PerkCategory.Special
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.ExtraLife2,
+            Name = "Extra Life #2",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
+            Points = 25000,
+            Category = PerkCategory.Special
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.AngelMarble,
+            Name = "2X Marble",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/AngelMarble"),
+            Points = 7500,
             Category = PerkCategory.Special
         });
 
@@ -80,7 +96,7 @@ public class PerkService
         {
             Id = PerkEnum.DefaultRamp,
             Name = "Main Ramp",
-            Sprite = null,
+            Sprite = Resources.Load<Sprite>("Images/UI/Ramps/MainRamp"),
             Points = 0,
             Category = PerkCategory.Ramp
         });
