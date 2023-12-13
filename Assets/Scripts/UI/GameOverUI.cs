@@ -80,7 +80,7 @@ public class GameOverUI : MonoBehaviour
 
     private void ShowNewIndicator()
     {
-        var categories = PerkService.Instance.GetUnlockedPerkCategories();
+        var categories = PerkService.Instance.GetUnlockedPerks().categories;
         if (categories.Count > 0)
         {
             newIndicator.SetActive(true);

@@ -25,6 +25,7 @@ public class PerksManager : MonoBehaviour
     private SaveObject savedData;
     private Button lastPressedButton;
     private List<PerkUI> currentPerks = new List<PerkUI>();
+    private List<Perk> unlockedPerks;
 
     private Coroutine updateScrollViewCoroutine;
     private float fadeDuration = 0.1f;
@@ -40,7 +41,9 @@ public class PerksManager : MonoBehaviour
         savedData = SaveManager.Load();
         totalPointsText.text = savedData.Points == 1 ? "1 POINT" : $"{savedData.Points} POINTS";
 
-        List<PerkCategory> unlockedCategories = PerkService.Instance.GetUnlockedPerkCategories();
+        var unlockedData = PerkService.Instance.GetUnlockedPerks();
+        var unlockedCategories = unlockedData.categories;
+        unlockedPerks = unlockedData.perks;
 
         SetUpButton(perksButton, PerkCategory.Special, null, unlockedCategories);
         SetUpButton(musicButton, PerkCategory.Music, musicViewedIndicator, unlockedCategories);
@@ -76,8 +79,10 @@ public class PerksManager : MonoBehaviour
             RectTransform perkRectTransform = perkObject.GetComponent<RectTransform>();
             perkRectTransform.anchoredPosition = currentPosition;
 
+            perkObject.transform.SetSiblingIndex(0);
+
             // Initialize perk data
-            perkObject.InitializePerk(perk.Id, perk.Name, perk.Sprite, perk.Points, perk.Category, perk.IsSelected, perk.IsUnlocked);
+            perkObject.InitializePerk(perk.Id, perk.Name, perk.Sprite, perk.Points, perk.Category, perk.IsSelected, perk.IsUnlocked, unlockedPerks.Contains(perk));
 
             perkObject.OnPerkClicked += HandlePerkClick;
             currentPerks.Add(perkObject);

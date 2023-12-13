@@ -56,8 +56,8 @@ public class SaveObject
     public int GamesPlayed;
     public int HighStreak = 1;
 
-    public Settings Settings;
-    public SelectedPerks SelectedPerks;
+    public Settings Settings = new Settings();
+    public SelectedPerks SelectedPerks = new SelectedPerks();
 }
 
 [System.Serializable]

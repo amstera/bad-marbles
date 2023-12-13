@@ -14,6 +14,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     public int pointsRequired;
     public bool isSelected;
     public bool isUnlocked;
+    public bool isNewIndicatorEnabled;
     public PerkCategory category;
 
     public TextMeshProUGUI nameText;
@@ -23,6 +24,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     public ProceduralImage perkOutline;
     public ProceduralImage ForegroundImage;
     public UIGradient ForegroundGradient;
+    public GameObject newIndicator;
 
     public event Action<PerkUI> OnPerkClicked;
 
@@ -33,15 +35,15 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     private Color selectedBorderColor = new Color32(249, 255, 0, 255); // Yellow
     private Color defaultBorderColor = Color.gray;
     private Color unlockedColor = new Color32(73, 190, 71, 255); // Custom green
-    public Color lockedGray = new Color32(140, 140, 140, 255); // Inactive gray
-    public Color inactiveGray = new Color32(176, 176, 176, 255); // Inactive gray
+    private Color lockedGray = new Color32(140, 140, 140, 255); // Inactive gray
+    private Color inactiveGray = new Color32(176, 176, 176, 255); // Inactive gray
 
     void Start()
     {
         UpdatePerkDisplay();
     }
 
-    public void InitializePerk(PerkEnum id, string name, Sprite sprite, int points, PerkCategory category, bool isSelected, bool isUnlocked)
+    public void InitializePerk(PerkEnum id, string name, Sprite sprite, int points, PerkCategory category, bool isSelected, bool isUnlocked, bool isNewIndicatorEnabled)
     {
         this.id = id;
         perkName = name;
@@ -50,6 +52,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
         this.category = category;
         this.isSelected = isSelected;
         this.isUnlocked = isUnlocked;
+        this.isNewIndicatorEnabled = isNewIndicatorEnabled;
         UpdatePerkDisplay();
     }
 
@@ -63,6 +66,8 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
             pillCapsuleImage.color = unlockedColor;
             pillText.text = "UNLOCKED";
             SetAlpha(unlockedAlpha);
+
+            newIndicator.SetActive(isNewIndicatorEnabled);
         }
         else
         {

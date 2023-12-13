@@ -116,6 +116,14 @@ public class PerkService
             Points = 0,
             Category = PerkCategory.Ramp
         });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.GoldRamp,
+            Name = "Gold Ramp",
+            Sprite = Resources.Load<Sprite>("Images/UI/Ramps/GoldRamp"),
+            Points = 1250,
+            Category = PerkCategory.Ramp
+        });
     }
 
     public List<Perk> GetPerksByCategory(PerkCategory category)
@@ -133,7 +141,7 @@ public class PerkService
         return filteredPerks.OrderBy(f => f.Points).ToList();
     }
 
-    public List<PerkCategory> GetUnlockedPerkCategories()
+    public (List<PerkCategory> categories, List<Perk> perks) GetUnlockedPerks()
     {
         var lastPointsByCategory = new Dictionary<PerkCategory, int>
         {
@@ -144,17 +152,19 @@ public class PerkService
         };
 
         var unlockedCategories = new HashSet<PerkCategory>();
+        var unlockedPerks = new List<Perk>();
 
         foreach (var perk in perks)
         {
-            // If the perk's points are within the new range, add its category
+            // If the perk's points are within the new range, add its category and the perk itself
             if (perk.Points > 0 && perk.Points > lastPointsByCategory[perk.Category] && perk.Points <= savedData.Points)
             {
                 unlockedCategories.Add(perk.Category);
+                unlockedPerks.Add(perk);
             }
         }
 
-        return unlockedCategories.ToList();
+        return (categories: unlockedCategories.ToList(), perks: unlockedPerks);
     }
 
     private bool DetermineIfPerkIsSelected(Perk perk)
