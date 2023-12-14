@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackgroundManager : MonoBehaviour
+public class Background : MonoBehaviour
 {
     private Dictionary<PerkEnum, (string path, Vector3 position)> backgrounds;
 

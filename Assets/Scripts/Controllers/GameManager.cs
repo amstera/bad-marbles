@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private float marbleHitRadius = 1.9f;
+    private float marbleHitRadius = 2f;
     private SaveObject savedData;
 
     private void Awake()
@@ -80,24 +80,59 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            int layerMask = 1 << 3; // Layer 3
+            ProcessMarbleHit();
+        }
+    }
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+    void ProcessMarbleHit()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            bool marbleDestroyed = TryDestroyMarble(hit.collider);
+            if (!marbleDestroyed)
             {
-                Collider[] hitColliders = Physics.OverlapSphere(hit.point, marbleHitRadius, layerMask);
-                foreach (var hitCollider in hitColliders)
+                // If no marble was directly hit, check for nearby marbles
+                marbleDestroyed = CheckAndDestroyNearbyMarble(hit.point);
+                if (!marbleDestroyed)
                 {
-                    Marble marble = hitCollider.GetComponent<Marble>();
-                    if (marble != null && marble.color != MarbleColor.Tier)
+                    Ramp ramp = hit.collider.GetComponent<Ramp>();
+                    if (ramp != null)
                     {
-                        marble.Destroy();
-                        break;
+                        ramp.Hit(hit.point);
                     }
                 }
             }
         }
+    }
+
+    bool TryDestroyMarble(Collider collider)
+    {
+        Marble marble = collider.GetComponent<Marble>();
+        if (marble != null && marble.color != MarbleColor.Tier)
+        {
+            marble.Destroy();
+            return true;
+        }
+
+        return false;
+    }
+
+    bool CheckAndDestroyNearbyMarble(Vector3 point)
+    {
+        int layerMask = 1 << 3; // Layer mask for marbles
+        Collider[] hitColliders = Physics.OverlapSphere(point, marbleHitRadius, layerMask);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (TryDestroyMarble(hitCollider))
+            {
+                return true; // Marble found and destroyed
+            }
+        }
+
+        return false; // No marble found
     }
 
     private void InitializeSingleton()

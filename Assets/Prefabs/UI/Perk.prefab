@@ -1180,7 +1180,6 @@ MonoBehaviour:
   pillCapsuleImage: {fileID: 4047266000380534636}
   pillText: {fileID: 2894764065074434662}
   perkOutline: {fileID: 2352118393970134873}
-  ForegroundImage: {fileID: 6000953388750342863}
   ForegroundGradient: {fileID: 1571212572049750198}
   newIndicator: {fileID: 2218914875343304956}
 --- !u!225 &2841688893443616067
@@ -1256,7 +1255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.88235295, g: 0.90588236, b: 0.15686275, a: 0.74509805}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

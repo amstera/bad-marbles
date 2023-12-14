@@ -47,6 +47,8 @@ public class GameOverUI : MonoBehaviour
 
     private IEnumerator FadeInCanvasGroup()
     {
+        yield return new WaitForSeconds(0.1f);
+
         while (canvasGroup.alpha < 1)
         {
             canvasGroup.alpha += Time.deltaTime / 0.35f;

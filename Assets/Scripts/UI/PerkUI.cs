@@ -22,21 +22,30 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     public Image pillCapsuleImage;
     public TextMeshProUGUI pillText;
     public ProceduralImage perkOutline;
-    public ProceduralImage ForegroundImage;
     public UIGradient ForegroundGradient;
     public GameObject newIndicator;
 
     public event Action<PerkUI> OnPerkClicked;
 
-    private const float unlockedAlpha = 1.0f;
-    private const float lockedAlpha = 0.4f;
-    private const int selectedBorderWidth = 6;
-    private const int defaultBorderWidth = 3;
-    private Color selectedBorderColor = new Color32(249, 255, 0, 255); // Yellow
-    private Color defaultBorderColor = Color.gray;
-    private Color unlockedColor = new Color32(73, 190, 71, 255); // Custom green
-    private Color lockedGray = new Color32(140, 140, 140, 255); // Inactive gray
-    private Color inactiveGray = new Color32(176, 176, 176, 255); // Inactive gray
+    private float unlockedAlpha = 1.0f;
+    private float lockedAlpha = 0.4f;
+    private int selectedBorderWidth = 6;
+    private int defaultBorderWidth = 3;
+
+    private readonly Color selectedBorderColor = new Color32(249, 255, 0, 255);
+    private readonly Color defaultBorderColor = Color.gray;
+
+    private readonly Color unlockedColor = new Color32(73, 190, 71, 255);
+    private readonly Color lockedColor = new Color32(203, 152, 7, 255);
+
+    private readonly Color gradientUnlockedColor1 = new Color32(7, 235, 197, 255);
+    private readonly Color gradientUnlockedColor2 = new Color32(0, 157, 228, 255);
+
+    private readonly Color gradientLockedColor1 = new Color32(202, 202, 202, 255);
+    private readonly Color gradientLockedColor2 = new Color32(99, 99, 99, 255);
+
+    private readonly Color gradientSelectedColor1 = new Color32(225, 231, 41, 255);
+    private readonly Color gradientSelectedColor2 = new Color32(178, 139, 4, 255);
 
     void Start()
     {
@@ -60,36 +69,52 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     {
         nameText.text = perkName.ToUpper();
         perkImage.sprite = perkSprite;
+        newIndicator.SetActive(isNewIndicatorEnabled);
 
+        SetPerkState();
+        SetPerkSelected(isSelected);
+    }
+
+    private void SetPerkState()
+    {
         if (isUnlocked)
         {
             pillCapsuleImage.color = unlockedColor;
             pillText.text = "UNLOCKED";
             SetAlpha(unlockedAlpha);
-
-            newIndicator.SetActive(isNewIndicatorEnabled);
         }
         else
         {
-            pillCapsuleImage.color = lockedGray;
+            pillCapsuleImage.color = lockedColor;
             pillText.text = FormatPoints(pointsRequired);
             SetAlpha(lockedAlpha);
-            ForegroundGradient.enabled = false;
-            ForegroundImage.color = inactiveGray;
+            SetGradientColors(gradientLockedColor1, gradientLockedColor2);
         }
+    }
 
-        if (isSelected)
+    private void SetPerkSelected(bool selected)
+    {
+        if (selected)
         {
             perkOutline.BorderWidth = selectedBorderWidth;
             perkOutline.color = selectedBorderColor;
-            ForegroundGradient.enabled = false;
+            SetGradientColors(gradientSelectedColor1, gradientSelectedColor2);
         }
         else
         {
             perkOutline.BorderWidth = defaultBorderWidth;
             perkOutline.color = defaultBorderColor;
-            ForegroundGradient.enabled = isUnlocked;
+            if (isUnlocked)
+            {
+                SetGradientColors(gradientUnlockedColor1, gradientUnlockedColor2);
+            }
         }
+    }
+
+    private void SetGradientColors(Color color1, Color color2)
+    {
+        ForegroundGradient.LinearColor1 = color1;
+        ForegroundGradient.LinearColor2 = color2;
     }
 
     private string FormatPoints(int points)

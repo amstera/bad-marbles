@@ -27,6 +27,16 @@ public class Ramp : MonoBehaviour
         SetRampMaterial(savedData.SelectedPerks.SelectedRamp);
     }
 
+    public void Hit(Vector3 hitPoint)
+    {
+        Destroy(Instantiate(hitPrefab, hitPoint, Quaternion.identity), 1);
+
+        if (savedData.Settings.SFXEnabled)
+        {
+            AudioSource.PlayClipAtPoint(boardHitSound, hitPoint);
+        }
+    }
+
     private void SetRampMaterial(PerkEnum selectedRamp)
     {
         if (rampMaterials.TryGetValue(selectedRamp, out var materialPath))
@@ -44,30 +54,6 @@ public class Ramp : MonoBehaviour
         else
         {
             Debug.LogError($"No material set for ramp perk: {selectedRamp}");
-        }
-    }
-
-    void Update()
-    {
-        if (GameManager.Instance.Lives <= 0)
-        {
-            return;
-        }
-
-        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
-            {
-                Destroy(Instantiate(hitPrefab, hit.point, Quaternion.identity), 1);
-
-                if (savedData.Settings.SFXEnabled)
-                {
-                    AudioSource.PlayClipAtPoint(boardHitSound, hit.point);
-                }
-            }
         }
     }
 }
