@@ -15,7 +15,8 @@ public class Ramp : MonoBehaviour
         rampMaterials = new Dictionary<PerkEnum, string>
         {
             { PerkEnum.DefaultRamp, "Materials/Ramp/Main" },
-            { PerkEnum.GoldRamp, "Materials/Ramp/Gold" }
+            { PerkEnum.GoldRamp, "Materials/Ramp/Gold" },
+            { PerkEnum.ChocolateRamp, "Materials/Ramp/Chocolate" }
         };
 
         meshRenderer = GetComponent<MeshRenderer>();

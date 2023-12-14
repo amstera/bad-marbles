@@ -54,6 +54,15 @@ public class PerkService
             Points = 5000,
             Category = PerkCategory.Special
         });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.Bomb,
+            Name = "Bad Bomb",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/Bomb"),
+            Points = 4000,
+            Category = PerkCategory.Special
+        });
+
 
         // Music
         perks.Add(new Perk
@@ -93,17 +102,25 @@ public class PerkService
         perks.Add(new Perk
         {
             Id = PerkEnum.StreamBackground,
-            Name = "Mystic Stream",
+            Name = "Magic Stream",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Stream"),
+            Points = 1000,
+            Category = PerkCategory.Background
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.CandyBackground,
+            Name = "Candy Land",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Candy"),
             Points = 500,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk
         {
-            Id = PerkEnum.ForestBackground,
-            Name = "Magic Forest",
-            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Forest"),
-            Points = 3000,
+            Id = PerkEnum.ToysBackground,
+            Name = "Toy Room",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Toys"),
+            Points = 2000,
             Category = PerkCategory.Background
         });
 
@@ -122,6 +139,14 @@ public class PerkService
             Name = "Gold Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/GoldRamp"),
             Points = 1250,
+            Category = PerkCategory.Ramp
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.ChocolateRamp,
+            Name = "Chocolate Ramp",
+            Sprite = Resources.Load<Sprite>("Images/UI/Ramps/ChocolateRamp"),
+            Points = 3000,
             Category = PerkCategory.Ramp
         });
     }

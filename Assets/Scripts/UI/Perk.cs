@@ -17,8 +17,11 @@ public enum PerkEnum
     AngelMarble = 7,
     ExtraLife2 = 8,
     StreamBackground = 9,
-    ForestBackground = 10,
-    GoldRamp = 11
+    CandyBackground = 10,
+    GoldRamp = 11,
+    ToysBackground = 12,
+    Bomb = 13,
+    ChocolateRamp = 14
 }
 
 [System.Serializable]
