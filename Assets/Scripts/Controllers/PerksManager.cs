@@ -18,7 +18,8 @@ public class PerksManager : MonoBehaviour
     public CanvasGroup scrollViewCanvasGroup;
 
     public PerkUI perkPrefab;
-    public RectTransform scrollView;
+    public ScrollRect scrollView;
+    public RectTransform scrollViewRect;
     public RectTransform scrollViewContent;
 
     private float indicatorMoveSpeed = 0.15f;
@@ -100,6 +101,9 @@ public class PerksManager : MonoBehaviour
         }
 
         AdjustScrollViewHeight(counter);
+
+        // Scroll to the top
+        scrollView.verticalNormalizedPosition = 1;
     }
 
     private void AdjustScrollViewHeight(int itemCount)
@@ -111,7 +115,7 @@ public class PerksManager : MonoBehaviour
         // Calculated height = height of all items + spacing between them + top padding
         float calculatedHeight = (rows * -yOffset) + (rows - 1) + topPadding;
 
-        float scrollViewHeight = scrollView.rect.height;
+        float scrollViewHeight = scrollViewRect.rect.height;
 
         float additionalHeight = calculatedHeight > scrollViewHeight ? calculatedHeight - scrollViewHeight : 0;
         scrollViewContent.sizeDelta = new Vector2(scrollViewContent.sizeDelta.x, additionalHeight);

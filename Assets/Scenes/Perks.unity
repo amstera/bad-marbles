@@ -1218,7 +1218,8 @@ MonoBehaviour:
   scrollViewCanvasGroup: {fileID: 1673810651}
   perkPrefab: {fileID: 4551833534260489804, guid: 57bab84bd21f945bdb772f3ed539e162,
     type: 3}
-  scrollView: {fileID: 1673810647}
+  scrollView: {fileID: 1673810648}
+  scrollViewRect: {fileID: 1673810647}
   scrollViewContent: {fileID: 2055989534}
 --- !u!82 &807958118
 AudioSource:

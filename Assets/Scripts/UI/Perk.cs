@@ -23,7 +23,13 @@ public enum PerkEnum
     Bomb = 13,
     ChocolateRamp = 14,
     IceRamp = 15,
-    RetroBackground = 16
+    RetroBackground = 16,
+    WoodRamp = 17,
+    SnowBackground = 18,
+    MedievalBackground = 19,
+    StreakSaver = 20,
+    MarblesSong4 = 21
+
 }
 
 [System.Serializable]

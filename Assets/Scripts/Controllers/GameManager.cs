@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     }
 
     private float marbleHitRadius = 2f;
+    private int streakSavers = 0;
     private SaveObject savedData;
 
     private void Awake()
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
         savedData = SaveManager.Load();
         InitializeSingleton();
         StartCoroutine(UpdateTierRoutine());
-        SetLives();
+        SetPerks();
     }
 
     void Update()
@@ -147,15 +148,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SetLives()
+    private void SetPerks()
     {
-        if (savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.ExtraLife1))
+        foreach (var perk in savedData.SelectedPerks.SelectedSpecial)
         {
-            lives++;
-        }
-        if (savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.ExtraLife2))
-        {
-            lives++;
+            if (perk == PerkEnum.ExtraLife1 || perk == PerkEnum.ExtraLife2)
+            {
+                lives++;
+            }
+            if (perk == PerkEnum.StreakSaver)
+            {
+                streakSavers++;
+            }
         }
     }
 
@@ -179,8 +183,8 @@ public class GameManager : MonoBehaviour
 
     public void LoseLives(int livesLost)
     {
-        ResetStreak();
         Lives -= livesLost;
+        ResetStreak();
         stressReceiver?.InduceStress(0.5f);
 
         lifeLossSound?.Play();
@@ -194,6 +198,13 @@ public class GameManager : MonoBehaviour
 
     private void ResetStreak()
     {
+        if (streakSavers > 0 && lives > 0)
+        {
+            //todo: show streak was saved
+            streakSavers--;
+            return;
+        }
+
         if (Streak > savedData.HighStreak)
         {
             savedData.HighStreak = Streak;

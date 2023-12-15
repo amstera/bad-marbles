@@ -9,15 +9,17 @@ public class Ramp : MonoBehaviour
     private Dictionary<PerkEnum, string> rampMaterials;
     private SaveObject savedData;
     private MeshRenderer meshRenderer;
+    private string fileLocation = "Materials/Ramp";
 
     private void Awake()
     {
         rampMaterials = new Dictionary<PerkEnum, string>
         {
-            { PerkEnum.DefaultRamp, "Materials/Ramp/Main" },
-            { PerkEnum.GoldRamp, "Materials/Ramp/Gold" },
-            { PerkEnum.ChocolateRamp, "Materials/Ramp/Chocolate" },
-            { PerkEnum.IceRamp, "Materials/Ramp/Ice" }
+            { PerkEnum.DefaultRamp, $"{fileLocation}/Main" },
+            { PerkEnum.GoldRamp, $"{fileLocation}/Gold" },
+            { PerkEnum.ChocolateRamp, $"{fileLocation}/Chocolate" },
+            { PerkEnum.IceRamp, $"{fileLocation}/Ice" },
+            { PerkEnum.WoodRamp, $"{fileLocation}/Wood" }
         };
 
         meshRenderer = GetComponent<MeshRenderer>();
