@@ -150,11 +150,16 @@ public class MarbleSpawner : MonoBehaviour
         StartCoroutine(PauseSpawning());
     }
 
-    public void DestroyAll()
+    public void DestroyAll(bool onlyBad = false)
     {
         foreach (var marble in allMarbles)
         {
-            if (marble != null)
+            if (marble == null)
+            {
+                continue;
+            }
+
+            if (!onlyBad || marble.color == MarbleColor.Red || marble.color == MarbleColor.Fire)
             {
                 marble.Destroy();
             }

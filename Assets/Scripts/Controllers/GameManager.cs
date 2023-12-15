@@ -164,12 +164,6 @@ public class GameManager : MonoBehaviour
         while (Lives > 0)
         {
             Tier++;
-            if (Tier > savedData.HighTier)
-            {
-                savedData.HighTier = Tier;
-                SaveManager.Save(savedData);
-            }
-
             yield return new WaitForSeconds(15);
         }
     }
@@ -216,7 +210,7 @@ public class GameManager : MonoBehaviour
             marbleSpawner.DestroyAll();
             Destroy(FindAnyObjectByType<Tier>()?.gameObject);
 
-            gameOverUI.ShowGameOver(score, savedData);
+            gameOverUI.ShowGameOver(score, tier, savedData);
         }
     }
 }

@@ -16,7 +16,8 @@ public class Ramp : MonoBehaviour
         {
             { PerkEnum.DefaultRamp, "Materials/Ramp/Main" },
             { PerkEnum.GoldRamp, "Materials/Ramp/Gold" },
-            { PerkEnum.ChocolateRamp, "Materials/Ramp/Chocolate" }
+            { PerkEnum.ChocolateRamp, "Materials/Ramp/Chocolate" },
+            { PerkEnum.IceRamp, "Materials/Ramp/Ice" }
         };
 
         meshRenderer = GetComponent<MeshRenderer>();

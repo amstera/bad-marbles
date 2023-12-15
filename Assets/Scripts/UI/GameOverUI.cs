@@ -24,11 +24,11 @@ public class GameOverUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
     }
 
-    public void ShowGameOver(int score, SaveObject savedData)
+    public void ShowGameOver(int score, int tier, SaveObject savedData)
     {
         StartCoroutine(FadeInCanvasGroup());
         UpdateScoreText(score);
-        UpdateHighScoreText(score, savedData);
+        UpdateHighScoreText(score, tier, savedData);
         ShowNewIndicator();
     }
 
@@ -63,7 +63,7 @@ public class GameOverUI : MonoBehaviour
         scoreText.text = $"{score}";
     }
 
-    private void UpdateHighScoreText(int score, SaveObject savedData)
+    private void UpdateHighScoreText(int score, int tier, SaveObject savedData)
     {
         if (score > savedData.HighScore)
         {
@@ -75,6 +75,10 @@ public class GameOverUI : MonoBehaviour
 
         savedData.Points += score;
         savedData.GamesPlayed++;
+        if (tier > savedData.HighTier)
+        {
+            savedData.HighTier = tier;
+        }
         SaveManager.Save(savedData);
 
         highScoreText.text = $"{savedData.HighScore}";

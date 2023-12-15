@@ -18,6 +18,7 @@ public class Background : MonoBehaviour
             { PerkEnum.StreamBackground, ("Images/Backgrounds/Stream", new Vector3(0f, 18f, zCoord)) },
             { PerkEnum.CandyBackground, ("Images/Backgrounds/Candy", new Vector3(-0.7f, 15.2f, zCoord)) },
             { PerkEnum.ToysBackground, ("Images/Backgrounds/Toys", new Vector3(-0.6f, 19.3f, zCoord)) },
+            { PerkEnum.RetroBackground, ("Images/Backgrounds/Retro", new Vector3(-6.3f, 15.8f, zCoord)) },
         };
     }
 

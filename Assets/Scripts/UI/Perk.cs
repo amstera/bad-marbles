@@ -21,7 +21,9 @@ public enum PerkEnum
     GoldRamp = 11,
     ToysBackground = 12,
     Bomb = 13,
-    ChocolateRamp = 14
+    ChocolateRamp = 14,
+    IceRamp = 15,
+    RetroBackground = 16
 }
 
 [System.Serializable]
