@@ -1,8 +1,10 @@
 using UnityEngine;
+using System.Collections;
 
 public class BombButton : MonoBehaviour
 {
     public MarbleSpawner marbleSpawner;
+    public StressReceiver stressReceiver;
 
     private float destructionDelay = 0.1f;
     private SaveObject savedData;
@@ -25,11 +27,8 @@ public class BombButton : MonoBehaviour
         }
 
         isPressed = true;
-
-        if (marbleSpawner != null)
-        {
-            marbleSpawner.DestroyAll(onlyBad: true);
-        }
+        marbleSpawner?.DestroyAll(onlyBad: true);
+        stressReceiver?.InduceStress(0.8f);
 
         Destroy(gameObject, destructionDelay);
     }

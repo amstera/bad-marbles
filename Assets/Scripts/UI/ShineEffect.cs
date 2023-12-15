@@ -1,0 +1,32 @@
+using UnityEngine;
+using System.Collections;
+
+public class ShineEffect : MonoBehaviour
+{
+    public float startX = -55f;
+    public float endX = 55f;
+    public float moveDuration = 3f;
+
+    private void Start()
+    {
+        StartCoroutine(MoveShine());
+    }
+
+    IEnumerator MoveShine()
+    {
+        while (true)
+        {
+            float elapsedTime = 0f;
+            while (elapsedTime < moveDuration)
+            {
+                float t = elapsedTime / moveDuration;
+                float newX = Mathf.SmoothStep(startX, endX, t);
+                transform.localPosition = new Vector3(newX, transform.localPosition.y, transform.localPosition.z);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.localPosition = new Vector3(startX, transform.localPosition.y, transform.localPosition.z);
+        }
+    }
+}

@@ -51,7 +51,7 @@ public class PerkService
             Id = PerkEnum.AngelMarble,
             Name = "2X Marble",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/AngelMarble"),
-            Points = 5000,
+            Points = 4000,
             Category = PerkCategory.Special
         });
         perks.Add(new Perk
@@ -59,7 +59,7 @@ public class PerkService
             Id = PerkEnum.Bomb,
             Name = "Bad Bomb",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/Bomb"),
-            Points = 4000,
+            Points = 5000,
             Category = PerkCategory.Special
         });
 
