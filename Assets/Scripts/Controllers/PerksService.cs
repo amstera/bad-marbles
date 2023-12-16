@@ -72,18 +72,18 @@ public class PerkService
         });
         perks.Add(new Perk
         {
-            Id = PerkEnum.StreakSaver2,
-            Name = "Streak Saver #2",
-            Sprite = Resources.Load<Sprite>("Images/UI/Special/StreakSaver"),
-            Points = 50000,
-            Category = PerkCategory.Special
-        });
-        perks.Add(new Perk
-        {
             Id = PerkEnum.GoldMarble,
             Name = "5X Marble",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/GoldMarble"),
             Points = 40000,
+            Category = PerkCategory.Special
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.StreakSaver2,
+            Name = "Streak Saver #2",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/StreakSaver"),
+            Points = 50000,
             Category = PerkCategory.Special
         });
 
@@ -176,7 +176,15 @@ public class PerkService
             Id = PerkEnum.MedievalBackground,
             Name = "Medieval Town",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Medieval"),
-            Points = 30000,
+            Points = 27500,
+            Category = PerkCategory.Background
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.TechLabBackground,
+            Name = "Tech Lab",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/TechLab"),
+            Points = 35000,
             Category = PerkCategory.Background
         });
 
@@ -219,6 +227,14 @@ public class PerkService
             Name = "Chocolate Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/ChocolateRamp"),
             Points = 12500,
+            Category = PerkCategory.Ramp
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.SciFiRamp,
+            Name = "Sci-Fi Ramp",
+            Sprite = Resources.Load<Sprite>("Images/UI/Ramps/SciFiRamp"),
+            Points = 30000,
             Category = PerkCategory.Ramp
         });
     }

@@ -19,7 +19,8 @@ public class Ramp : MonoBehaviour
             { PerkEnum.GoldRamp, $"{fileLocation}/Gold" },
             { PerkEnum.ChocolateRamp, $"{fileLocation}/Chocolate" },
             { PerkEnum.IceRamp, $"{fileLocation}/Ice" },
-            { PerkEnum.WoodRamp, $"{fileLocation}/Wood" }
+            { PerkEnum.WoodRamp, $"{fileLocation}/Wood" },
+            { PerkEnum.SciFiRamp, $"{fileLocation}/SciFi" }
         };
 
         meshRenderer = GetComponent<MeshRenderer>();
