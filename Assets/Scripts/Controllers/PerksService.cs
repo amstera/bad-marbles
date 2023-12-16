@@ -49,7 +49,7 @@ public class PerkService
         perks.Add(new Perk
         {
             Id = PerkEnum.Bomb,
-            Name = "Bad Bomb",
+            Name = "Red Bomb",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/Bomb"),
             Points = 5000,
             Category = PerkCategory.Special
@@ -68,6 +68,22 @@ public class PerkService
             Name = "Extra Life #2",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
             Points = 25000,
+            Category = PerkCategory.Special
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.StreakSaver2,
+            Name = "Streak Saver #2",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/StreakSaver"),
+            Points = 50000,
+            Category = PerkCategory.Special
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.GoldMarble,
+            Name = "5X Marble",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/GoldMarble"),
+            Points = 40000,
             Category = PerkCategory.Special
         });
 
@@ -102,7 +118,7 @@ public class PerkService
             Id = PerkEnum.MarblesSong4,
             Name = "Lost Marbles",
             Sprite = Resources.Load<Sprite>("Images/UI/Music/Song4"),
-            Points = 15000,
+            Points = 20000,
             Category = PerkCategory.Music
         });
 
@@ -158,7 +174,7 @@ public class PerkService
         perks.Add(new Perk
         {
             Id = PerkEnum.MedievalBackground,
-            Name = "Medieval Village",
+            Name = "Medieval Town",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Medieval"),
             Points = 30000,
             Category = PerkCategory.Background

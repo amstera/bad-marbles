@@ -6,6 +6,7 @@ public class MarbleSpawner : MonoBehaviour
 {
     public Marble GreenMarble;
     public Marble AngelMarble;
+    public Marble GoldMarble;
     public Marble RedMarble;
     public Marble FireMarble;
     public TopMarble TopRedMarble;
@@ -20,11 +21,13 @@ public class MarbleSpawner : MonoBehaviour
 
     private SaveObject savedData;
     private bool hasAngelMarble;
+    private bool hasGoldMarble;
 
     void Start()
     {
         savedData = SaveManager.Load();
         hasAngelMarble = savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.AngelMarble);
+        hasGoldMarble = savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.GoldMarble);
     }
 
     void Update()
@@ -119,12 +122,23 @@ public class MarbleSpawner : MonoBehaviour
             if (randomValue < 45) return RedMarble;
         }
 
-        if (hasAngelMarble)
+        int totalMarbles = 100;
+        int angelMarbles = hasAngelMarble ? 10 : 0; // 10% chance for angel marbles
+        int goldMarbles = hasGoldMarble ? 3 : 0;   // 3% chance for gold marbles
+        int greenMarbles = totalMarbles - angelMarbles - goldMarbles;
+        if (greenMarbles == totalMarbles)
         {
-            if (randomValue < (tier < 8 ? 55: 60))
-            {
-                return AngelMarble;
-            }
+            return GreenMarble;
+        }
+
+        int pickedMarble = Random.Range(0, totalMarbles);
+        if (pickedMarble < angelMarbles)
+        {
+            return AngelMarble;
+        }
+        else if (pickedMarble < angelMarbles + goldMarbles)
+        {
+            return GoldMarble;
         }
 
         return GreenMarble;

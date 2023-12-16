@@ -28,7 +28,9 @@ public enum PerkEnum
     SnowBackground = 18,
     MedievalBackground = 19,
     StreakSaver = 20,
-    MarblesSong4 = 21
+    MarblesSong4 = 21,
+    StreakSaver2 = 22,
+    GoldMarble = 23
 
 }
 

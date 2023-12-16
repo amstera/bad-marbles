@@ -66,5 +66,6 @@ public enum MarbleColor
     Green = 1,
     Red = 2,
     Fire = 3,
-    Angel = 4
+    Angel = 4,
+    Gold = 5
 }

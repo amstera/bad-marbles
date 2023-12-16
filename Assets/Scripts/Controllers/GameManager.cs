@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public LivesUI livesUI;
     public GameOverUI gameOverUI;
     public StreakText streakText;
+    public StreakSaveText streakSaveText;
     public StressReceiver stressReceiver;
     public MarbleSpawner marbleSpawner;
 
@@ -156,7 +157,7 @@ public class GameManager : MonoBehaviour
             {
                 lives++;
             }
-            if (perk == PerkEnum.StreakSaver)
+            if (perk == PerkEnum.StreakSaver || perk == PerkEnum.StreakSaver2)
             {
                 streakSavers++;
             }
@@ -184,7 +185,11 @@ public class GameManager : MonoBehaviour
     public void LoseLives(int livesLost)
     {
         Lives -= livesLost;
-        ResetStreak();
+        var curStreak = CalculateMultiplier();
+        if (curStreak > 1)
+        {
+            ResetStreak();
+        }
         stressReceiver?.InduceStress(0.5f);
 
         lifeLossSound?.Play();
@@ -200,7 +205,7 @@ public class GameManager : MonoBehaviour
     {
         if (streakSavers > 0 && lives > 0)
         {
-            //todo: show streak was saved
+            streakSaveText.Show();
             streakSavers--;
             return;
         }
@@ -211,6 +216,7 @@ public class GameManager : MonoBehaviour
             SaveManager.Save(savedData);
         }
 
+        streakSaveText.QuickHide();
         Streak = 0;
     }
 
