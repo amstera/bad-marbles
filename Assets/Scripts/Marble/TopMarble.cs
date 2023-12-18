@@ -33,7 +33,14 @@ public class TopMarble : Marble
 
     void FollowBottomMarble()
     {
-        transform.position = bottomMarble.transform.position + offset;
+        if (bottomMarble == null)
+        {
+            isAttachedToBottomMarble = false;
+        }
+        else
+        {
+            transform.position = bottomMarble.transform.position + offset;
+        }
     }
 
     public void AttachToBottomMarble()
@@ -54,12 +61,8 @@ public class TopMarble : Marble
         }
     }
 
-
-    private void OnDestroy()
+    public void OnDestroy()
     {
-        if (bottomMarble != null)
-        {
-            bottomMarble.OnDestroyed -= DetachFromBottomMarble;
-        }
+        bottomMarble.OnDestroyed -= DetachFromBottomMarble;
     }
 }

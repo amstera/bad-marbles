@@ -32,7 +32,8 @@ public enum PerkEnum
     StreakSaver2 = 22,
     GoldMarble = 23,
     SciFiRamp = 24,
-    TechLabBackground = 25
+    TechLabBackground = 25,
+    SimpleTune = 26
 
 }
 

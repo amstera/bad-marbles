@@ -107,18 +107,26 @@ public class PerkService
         });
         perks.Add(new Perk
         {
-            Id = PerkEnum.MarblesAnthem,
-            Name = "Marbles Anthem",
-            Sprite = Resources.Load<Sprite>("Images/UI/Music/MarblesAnthem"),
+            Id = PerkEnum.SimpleTune,
+            Name = "Simple Tune",
+            Sprite = Resources.Load<Sprite>("Images/UI/Music/SimpleTune"),
             Points = 10000,
             Category = PerkCategory.Music
         });
         perks.Add(new Perk
         {
             Id = PerkEnum.MarblesSong4,
-            Name = "Lost Marbles",
+            Name = "Marbles Melody",
             Sprite = Resources.Load<Sprite>("Images/UI/Music/Song4"),
             Points = 20000,
+            Category = PerkCategory.Music
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.MarblesAnthem,
+            Name = "Marbles Anthem",
+            Sprite = Resources.Load<Sprite>("Images/UI/Music/MarblesAnthem"),
+            Points = 45000,
             Category = PerkCategory.Music
         });
 
