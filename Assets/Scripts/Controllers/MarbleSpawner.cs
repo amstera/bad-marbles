@@ -61,9 +61,21 @@ public class MarbleSpawner : MonoBehaviour
         }
     }
 
-    Vector3 GetSpawnPosition(bool isTier = false)
+    Vector3 GetSpawnPosition(MarbleColor type, bool isTier = false)
     {
-        float xPosition = isTier ? 0 : Random.Range(-3.9f, 3.9f);
+        float xPosition;
+        if (isTier)
+        {
+            xPosition = 0;
+        }
+        else if (type == MarbleColor.BigRed)
+        {
+            xPosition = Random.Range(-3.45f, 3.45f);
+        }
+        else
+        {
+            xPosition = Random.Range(-3.9f, 3.9f);
+        }
         return new Vector3(xPosition, 14f, 23f);
     }
 
@@ -75,7 +87,7 @@ public class MarbleSpawner : MonoBehaviour
 
         if (marbleToSpawn != null)
         {
-            Marble spawnedMarble = Instantiate(marbleToSpawn, GetSpawnPosition(), marbleToSpawn.transform.rotation);
+            Marble spawnedMarble = Instantiate(marbleToSpawn, GetSpawnPosition(marbleToSpawn.color), marbleToSpawn.transform.rotation);
             spawnedMarble.speed = speed;
             allMarbles.Add(spawnedMarble);
         }
@@ -158,11 +170,11 @@ public class MarbleSpawner : MonoBehaviour
     {
         if (tier > 1)
         {
-            Tier newTier = Instantiate(TierPrefab, GetSpawnPosition(true), Quaternion.identity);
+            Tier newTier = Instantiate(TierPrefab, GetSpawnPosition(MarbleColor.Unknown, true), Quaternion.identity);
             newTier.text.text = $"Tier {tier}";
             newTier.marble.speed = speed;
 
-            Destroy(newTier.gameObject, 10);
+            Destroy(newTier.gameObject, 5);
         }
 
         StartCoroutine(PauseSpawning());
@@ -216,7 +228,7 @@ public class MarbleSpawner : MonoBehaviour
 
     void SpawnPairedMarble(Marble bottomMarblePrefab, TopMarble topMarblePrefab)
     {
-        Vector3 spawnPosition = GetSpawnPosition();
+        Vector3 spawnPosition = GetSpawnPosition(bottomMarblePrefab.color);
         Marble bottomMarble = Instantiate(bottomMarblePrefab, spawnPosition, bottomMarblePrefab.transform.rotation);
         TopMarble topMarble = Instantiate(topMarblePrefab, new Vector3(spawnPosition.x, spawnPosition.y + 1.5f, spawnPosition.z), topMarblePrefab.transform.rotation);
 

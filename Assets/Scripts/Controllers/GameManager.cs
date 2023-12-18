@@ -153,7 +153,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var perk in savedData.SelectedPerks.SelectedSpecial)
         {
-            if (perk == PerkEnum.ExtraLife1 || perk == PerkEnum.ExtraLife2)
+            if (perk == PerkEnum.ExtraLife1 || perk == PerkEnum.ExtraLife2 || perk == PerkEnum.ExtraLife3)
             {
                 lives++;
             }

@@ -94,6 +94,22 @@ public class PerkService
             Points = 75000,
             Category = PerkCategory.Special
         });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.ExtraLife3,
+            Name = "Extra Life #3",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
+            Points = 100000,
+            Category = PerkCategory.Special
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.GoldTrophy,
+            Name = "Gold Trophy",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/GoldTrophy"),
+            Points = 200000,
+            Category = PerkCategory.Special
+        });
 
 
         // Music
@@ -115,26 +131,26 @@ public class PerkService
         });
         perks.Add(new Perk
         {
-            Id = PerkEnum.SimpleTune,
-            Name = "Simple Tune",
-            Sprite = Resources.Load<Sprite>("Images/UI/Music/SimpleTune"),
-            Points = 10000,
-            Category = PerkCategory.Music
-        });
-        perks.Add(new Perk
-        {
-            Id = PerkEnum.MarblesSong4,
-            Name = "Marbles Melody",
-            Sprite = Resources.Load<Sprite>("Images/UI/Music/Song4"),
+            Id = PerkEnum.MarblesAnthem,
+            Name = "Marbles Anthem",
+            Sprite = Resources.Load<Sprite>("Images/UI/Music/MarblesAnthem"),
             Points = 20000,
             Category = PerkCategory.Music
         });
         perks.Add(new Perk
         {
-            Id = PerkEnum.MarblesAnthem,
-            Name = "Marbles Anthem",
-            Sprite = Resources.Load<Sprite>("Images/UI/Music/MarblesAnthem"),
+            Id = PerkEnum.MarblesSong4,
+            Name = "Lost Marbles",
+            Sprite = Resources.Load<Sprite>("Images/UI/Music/LostMarbles"),
             Points = 45000,
+            Category = PerkCategory.Music
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.SimpleTune,
+            Name = "Simple Tune",
+            Sprite = Resources.Load<Sprite>("Images/UI/Music/SimpleTune"),
+            Points = 10000,
             Category = PerkCategory.Music
         });
 
@@ -251,6 +267,14 @@ public class PerkService
             Name = "Sci-Fi Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/SciFiRamp"),
             Points = 30000,
+            Category = PerkCategory.Ramp
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.RoadRamp,
+            Name = "Road Ramp",
+            Sprite = Resources.Load<Sprite>("Images/UI/Ramps/RoadRamp"),
+            Points = 42500,
             Category = PerkCategory.Ramp
         });
     }
