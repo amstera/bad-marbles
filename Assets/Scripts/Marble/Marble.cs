@@ -51,12 +51,18 @@ public class Marble : MonoBehaviour
         if (shatteredMarblePrefab != null)
         {
             ShatteredMarble shatteredMarble = Instantiate(shatteredMarblePrefab, transform.position, transform.rotation);
+            if (color == MarbleColor.BigRed)
+            {
+                shatteredMarble.transform.localScale *= 2;
+            }
+
             shatteredMarble.SetMaterial(GetComponent<Renderer>().material);
         }
 
         OnDestroyed?.Invoke();
         Destroy(gameObject);
     }
+
 }
 
 public enum MarbleColor
@@ -67,5 +73,6 @@ public enum MarbleColor
     Red = 2,
     Fire = 3,
     Angel = 4,
-    Gold = 5
+    Gold = 5,
+    BigRed = 6
 }

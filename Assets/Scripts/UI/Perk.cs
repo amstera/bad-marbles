@@ -33,7 +33,8 @@ public enum PerkEnum
     GoldMarble = 23,
     SciFiRamp = 24,
     TechLabBackground = 25,
-    SimpleTune = 26
+    SimpleTune = 26,
+    NoBigMarbles = 27
 
 }
 

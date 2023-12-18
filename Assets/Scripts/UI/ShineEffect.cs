@@ -6,6 +6,7 @@ public class ShineEffect : MonoBehaviour
     public float startX = -55f;
     public float endX = 55f;
     public float moveDuration = 3f;
+    public float waitTime = 0f;
 
     private void Start()
     {
@@ -27,6 +28,8 @@ public class ShineEffect : MonoBehaviour
             }
 
             transform.localPosition = new Vector3(startX, transform.localPosition.y, transform.localPosition.z);
+
+            yield return new WaitForSeconds(waitTime);
         }
     }
 }

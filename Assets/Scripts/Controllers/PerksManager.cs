@@ -54,6 +54,7 @@ public class PerksManager : MonoBehaviour
         lastPressedButton = perksButton;
 
         PopulateScrollViewContent(PerkCategory.Special);
+        UpdateLastViewedIndicator(PerkCategory.Special, null);
     }
 
     private void SetUpButton(Button button, PerkCategory category, GameObject indicator, List<PerkCategory> unlockedCategories)

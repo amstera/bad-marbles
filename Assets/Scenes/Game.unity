@@ -3701,6 +3701,8 @@ MonoBehaviour:
     type: 3}
   RedMarble: {fileID: 4634631138362618351, guid: c975cc4aebf724283a8bf46780960600,
     type: 3}
+  BigRedMarble: {fileID: 4634631138362618351, guid: 6b608ace9dfd04cb5879e8d3d9cee24b,
+    type: 3}
   FireMarble: {fileID: 4634631138362618351, guid: ca326c9f9ab2a48cb932568b65714008,
     type: 3}
   TopRedMarble: {fileID: 3200087346768525174, guid: affab770dcce24b4faf23ba0bd479c0f,
@@ -5921,6 +5923,7 @@ MonoBehaviour:
   startX: -55
   endX: 55
   moveDuration: 3
+  waitTime: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

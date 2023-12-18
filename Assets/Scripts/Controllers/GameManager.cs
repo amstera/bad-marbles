@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
             {
                 lives++;
             }
-            if (perk == PerkEnum.StreakSaver || perk == PerkEnum.StreakSaver2)
+            else if (perk == PerkEnum.StreakSaver || perk == PerkEnum.StreakSaver2)
             {
                 streakSavers++;
             }

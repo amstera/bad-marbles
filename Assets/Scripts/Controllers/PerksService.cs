@@ -80,10 +80,18 @@ public class PerkService
         });
         perks.Add(new Perk
         {
+            Id = PerkEnum.NoBigMarbles,
+            Name = "No Big Red",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/NoBigRed"),
+            Points = 50000,
+            Category = PerkCategory.Special
+        });
+        perks.Add(new Perk
+        {
             Id = PerkEnum.StreakSaver2,
             Name = "Streak Saver #2",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/StreakSaver"),
-            Points = 50000,
+            Points = 75000,
             Category = PerkCategory.Special
         });
 
@@ -142,9 +150,9 @@ public class PerkService
         perks.Add(new Perk
         {
             Id = PerkEnum.StreamBackground,
-            Name = "Quiet Stream",
+            Name = "Magic Realm",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Stream"),
-            Points = 1000,
+            Points = 250,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk
@@ -152,7 +160,7 @@ public class PerkService
             Id = PerkEnum.CandyBackground,
             Name = "Candy Land",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Candy"),
-            Points = 500,
+            Points = 1000,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk
@@ -210,7 +218,7 @@ public class PerkService
             Id = PerkEnum.GoldRamp,
             Name = "Gold Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/GoldRamp"),
-            Points = 1250,
+            Points = 500,
             Category = PerkCategory.Ramp
         });
         perks.Add(new Perk

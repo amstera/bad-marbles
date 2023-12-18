@@ -8,6 +8,7 @@ public class MarbleSpawner : MonoBehaviour
     public Marble AngelMarble;
     public Marble GoldMarble;
     public Marble RedMarble;
+    public Marble BigRedMarble;
     public Marble FireMarble;
     public TopMarble TopRedMarble;
     public Tier TierPrefab;
@@ -22,12 +23,12 @@ public class MarbleSpawner : MonoBehaviour
     private SaveObject savedData;
     private bool hasAngelMarble;
     private bool hasGoldMarble;
+    private bool hasNoBigRedMarble;
 
     void Start()
     {
         savedData = SaveManager.Load();
-        hasAngelMarble = savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.AngelMarble);
-        hasGoldMarble = savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.GoldMarble);
+        CheckForPerks();
     }
 
     void Update()
@@ -89,16 +90,18 @@ public class MarbleSpawner : MonoBehaviour
                 SpawnPairedMarble(RedMarble, TopRedMarble);
                 return null;
             }
+            if (randomValue < 8 && !hasNoBigRedMarble) return BigRedMarble;
             else if (randomValue < 25) return FireMarble;
             else if (randomValue < 55) return RedMarble;
         }
         else if (tier >= 8)
         {
-            if (randomValue < 3)
+            if (randomValue < 2)
             {
                 SpawnPairedMarble(RedMarble, TopRedMarble);
                 return null;
             }
+            if (randomValue < 5 && !hasNoBigRedMarble) return BigRedMarble;
             else if (randomValue < 20) return FireMarble;
             else if (randomValue < 55) return RedMarble;
         }
@@ -109,6 +112,7 @@ public class MarbleSpawner : MonoBehaviour
                 SpawnPairedMarble(RedMarble, TopRedMarble);
                 return null;
             }
+            if (randomValue < 4 && !hasNoBigRedMarble) return BigRedMarble;
             else if (randomValue < 15) return FireMarble;
             else if (randomValue < 50) return RedMarble;
         }
@@ -173,7 +177,7 @@ public class MarbleSpawner : MonoBehaviour
                 continue;
             }
 
-            if (!onlyBad || marble.color == MarbleColor.Red || marble.color == MarbleColor.Fire)
+            if (!onlyBad || marble.color == MarbleColor.Red || marble.color == MarbleColor.Fire || marble.color == MarbleColor.BigRed)
             {
                 marble.Destroy();
             }
@@ -189,6 +193,25 @@ public class MarbleSpawner : MonoBehaviour
 
         yield return new WaitForSeconds(pauseDuration);
         isSpawningPaused = false;
+    }
+
+    private void CheckForPerks()
+    {
+        foreach (var perk in savedData.SelectedPerks.SelectedSpecial)
+        {
+            if (perk == PerkEnum.AngelMarble)
+            {
+                hasAngelMarble = true;
+            }
+            else if (perk == PerkEnum.GoldMarble)
+            {
+                hasGoldMarble = true;
+            }
+            else if (perk == PerkEnum.NoBigMarbles)
+            {
+                hasNoBigRedMarble = true;
+            }
+        }
     }
 
     void SpawnPairedMarble(Marble bottomMarblePrefab, TopMarble topMarblePrefab)
