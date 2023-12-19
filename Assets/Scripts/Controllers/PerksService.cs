@@ -303,10 +303,26 @@ public class PerkService
         });
         perks.Add(new Perk
         {
+            Id = PerkEnum.GrassRamp,
+            Name = "Grass Ramp",
+            Sprite = Resources.Load<Sprite>("Images/UI/Ramps/GrassRamp"),
+            Points = 70000,
+            Category = PerkCategory.Ramp
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.DarkRamp,
+            Name = "Dark Ramp",
+            Sprite = Resources.Load<Sprite>("Images/UI/Ramps/DarkRamp"),
+            Points = 90000,
+            Category = PerkCategory.Ramp
+        });
+        perks.Add(new Perk
+        {
             Id = PerkEnum.RainbowRamp,
             Name = "Rainbow Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/RainbowRamp"),
-            Points = 70000,
+            Points = 110000,
             Category = PerkCategory.Ramp
         });
     }

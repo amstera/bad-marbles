@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
         {
             ResetStreak();
         }
-        stressReceiver?.InduceStress(0.5f);
+        stressReceiver?.InduceStress(0.4f);
 
         lifeLossSound?.Play();
         Handheld.Vibrate();

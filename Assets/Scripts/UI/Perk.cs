@@ -41,7 +41,9 @@ public enum PerkEnum
     RainbowRamp = 31,
     SpaceBackground = 32,
     CaveBackground = 33,
-    MarblesRefrain = 34
+    MarblesRefrain = 34,
+    GrassRamp = 35,
+    DarkRamp = 36
 }
 
 [System.Serializable]

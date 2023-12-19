@@ -52,8 +52,14 @@ public class StressReceiver : MonoBehaviour
     ///  Applies a stress value to the current object.
     /// </summary>
     /// <param name="Stress">[0,1] Amount of stress to apply to the object</param>
-    public void InduceStress(float Stress)
+    public void InduceStress(float stress, bool exceedMaxStress = false)
     {
-        _trauma = Mathf.Clamp01(_trauma + Stress);
+        float newStressLevel = _trauma + stress;
+        float maxStressLevel = 0.5f;
+        if (exceedMaxStress)
+        {
+            maxStressLevel = Mathf.Max(maxStressLevel, stress);
+        }
+        _trauma = Mathf.Clamp(newStressLevel, _trauma, maxStressLevel);
     }
 }

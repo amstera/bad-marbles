@@ -22,6 +22,8 @@ public class Ramp : MonoBehaviour
             { PerkEnum.WoodRamp, $"{fileLocation}/Wood" },
             { PerkEnum.SciFiRamp, $"{fileLocation}/SciFi" },
             { PerkEnum.RoadRamp, $"{fileLocation}/Road" },
+            { PerkEnum.GrassRamp, $"{fileLocation}/Grass" },
+            { PerkEnum.DarkRamp, $"{fileLocation}/Dark" },
             { PerkEnum.RainbowRamp, $"{fileLocation}/Rainbow" }
         };
 

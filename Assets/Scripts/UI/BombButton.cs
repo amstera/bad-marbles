@@ -28,7 +28,7 @@ public class BombButton : MonoBehaviour
 
         isPressed = true;
         marbleSpawner?.DestroyAll(onlyBad: true);
-        stressReceiver?.InduceStress(0.8f);
+        stressReceiver?.InduceStress(0.8f, true);
 
         Destroy(gameObject, destructionDelay);
     }
