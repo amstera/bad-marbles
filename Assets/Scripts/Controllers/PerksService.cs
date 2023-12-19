@@ -153,6 +153,14 @@ public class PerkService
             Points = 45000,
             Category = PerkCategory.Music
         });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.MarblesRefrain,
+            Name = "Marbles Refrain",
+            Sprite = Resources.Load<Sprite>("Images/UI/Music/MarblesRefrain"),
+            Points = 60000,
+            Category = PerkCategory.Music
+        });
 
         // Background
         perks.Add(new Perk
@@ -217,6 +225,22 @@ public class PerkService
             Name = "Tech Lab",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/TechLab"),
             Points = 35000,
+            Category = PerkCategory.Background
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.CaveBackground,
+            Name = "Deep Cave",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Cave"),
+            Points = 55000,
+            Category = PerkCategory.Background
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.SpaceBackground,
+            Name = "Outer Space",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Space"),
+            Points = 80000,
             Category = PerkCategory.Background
         });
 

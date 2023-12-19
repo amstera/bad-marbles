@@ -22,7 +22,9 @@ public class Background : MonoBehaviour
             { PerkEnum.RetroBackground, ($"{fileLocation}/Retro", new Vector3(0f, 30.9f, 94.6f)) },
             { PerkEnum.SnowBackground, ($"{fileLocation}/Snow", new Vector3(-35.1f, 18.1f, 87f)) },
             { PerkEnum.MedievalBackground, ($"{fileLocation}/Medieval", new Vector3(14.2f, 23f, 82f)) },
-            { PerkEnum.TechLabBackground, ($"{fileLocation}/TechLab", new Vector3(-1.5f, 24f, 92f)) },
+            { PerkEnum.TechLabBackground, ($"{fileLocation}/TechLab", new Vector3(0, 33f, 112.8f)) },
+            { PerkEnum.SpaceBackground, ($"{fileLocation}/Space", new Vector3(0f, 26f, 91f)) },
+            { PerkEnum.CaveBackground, ($"{fileLocation}/Cave", new Vector3(9f, 35f, 169f)) },
         };
     }
 
