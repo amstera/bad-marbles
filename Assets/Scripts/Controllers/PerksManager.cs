@@ -11,6 +11,7 @@ public class PerksManager : MonoBehaviour
     public TransitionSettings transition;
 
     public AudioSource plopSound;
+    public AudioSource pageFlipSound;
 
     public Button perksButton, musicButton, backgroundButton, rampButton;
     public GameObject musicViewedIndicator, backgroundViewedIndicator, rampViewedIndicator;
@@ -32,7 +33,7 @@ public class PerksManager : MonoBehaviour
     private float fadeDuration = 0.1f;
 
     // Grid layout settings
-    private Vector2 initialPosition = new Vector2(-105, -155);
+    private Vector2 initialPosition = new Vector2(-105, -130);
     private float xOffset = 209;
     private float yOffset = -244;
     private int itemsPerRow = 2;
@@ -141,6 +142,8 @@ public class PerksManager : MonoBehaviour
         {
             return;
         }
+
+        pageFlipSound?.Play();
 
         lastPressedButton.interactable = true;
         lastPressedButton = clickedButton;

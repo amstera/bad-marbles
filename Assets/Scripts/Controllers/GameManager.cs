@@ -193,7 +193,10 @@ public class GameManager : MonoBehaviour
         stressReceiver?.InduceStress(0.4f);
 
         lifeLossSound?.Play();
-        Handheld.Vibrate();
+        if (savedData.Settings.VibrationEnabled)
+        {
+            Handheld.Vibrate();
+        }
     }
 
     public int CalculateMultiplier()

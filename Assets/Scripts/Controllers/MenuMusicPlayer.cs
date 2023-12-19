@@ -28,6 +28,12 @@ public class MenuMusicPlayer : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (scene.name == "Game")
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         savedData = SaveManager.Load();
 
         UpdateVolume(savedData.Settings.Volume);
@@ -53,10 +59,5 @@ public class MenuMusicPlayer : MonoBehaviour
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
-    }
-
-    public void Destroy()
-    {
-        Destroy(gameObject, 1);
     }
 }

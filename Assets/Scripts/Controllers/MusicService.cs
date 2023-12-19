@@ -13,7 +13,7 @@ public static class MusicService
             { PerkEnum.RockinMarbles, (Resources.Load<AudioClip>("Sounds/Music/RockinMarbles"), 0.3f) },
             { PerkEnum.MarblesAnthem, (Resources.Load<AudioClip>("Sounds/Music/MarblesAnthem"), 0.15f) },
             { PerkEnum.MarblesSong4, (Resources.Load<AudioClip>("Sounds/Music/LostMarbles"), 0.3f) },
-            { PerkEnum.SimpleTune, (Resources.Load<AudioClip>("Sounds/Music/SimpleMelody"), 0.3f) }
+            { PerkEnum.SimpleTune, (Resources.Load<AudioClip>("Sounds/Music/SimpleMelody"), 0.32f) }
         };
     }
 

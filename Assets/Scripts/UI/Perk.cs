@@ -26,7 +26,7 @@ public enum PerkEnum
     RetroBackground = 16,
     WoodRamp = 17,
     SnowBackground = 18,
-    MedievalBackground = 19,
+    CloudsBackground = 19,
     StreakSaver = 20,
     MarblesSong4 = 21,
     StreakSaver2 = 22,
@@ -43,7 +43,9 @@ public enum PerkEnum
     CaveBackground = 33,
     MarblesRefrain = 34,
     GrassRamp = 35,
-    DarkRamp = 36
+    DarkRamp = 36,
+    UnderwaterBackground = 37,
+    MarbleBackground = 38
 }
 
 [System.Serializable]

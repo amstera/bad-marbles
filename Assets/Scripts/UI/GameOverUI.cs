@@ -39,7 +39,6 @@ public class GameOverUI : MonoBehaviour
 
     public void LoadPerks()
     {
-        Destroy(GameMusicPlayer.Instance.gameObject, 1);
         TransitionManager.Instance().Transition("Perks", transition, 0);
 
         plopSound?.Play();

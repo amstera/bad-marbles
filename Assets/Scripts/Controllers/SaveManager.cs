@@ -65,6 +65,7 @@ public class Settings
 {
     public float Volume = 1;
     public bool SFXEnabled = true;
+    public bool VibrationEnabled = true;
 }
 
 [System.Serializable]

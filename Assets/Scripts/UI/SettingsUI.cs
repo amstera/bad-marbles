@@ -11,7 +11,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     public Button gearButton;
     public CanvasGroup canvasGroup;
     public Slider musicVolumeSlider;
-    public Toggle sfxToggle;
+    public Toggle sfxToggle, vibrationsToggle;
     public TextMeshProUGUI gamesPlayedAmountText, highestStreakAmountText, highestTierAmountText;
     #endregion
 
@@ -40,6 +40,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
 
         musicVolumeSlider.onValueChanged.AddListener(HandleVolumeChange);
         sfxToggle.onValueChanged.AddListener(HandleSfxChange);
+        vibrationsToggle.onValueChanged.AddListener(HandleVibrationChange);
 
         UpdateStatTexts();
     }
@@ -48,6 +49,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     {
         musicVolumeSlider.value = savedData.Settings.Volume;
         sfxToggle.isOn = savedData.Settings.SFXEnabled;
+        vibrationsToggle.isOn = savedData.Settings.VibrationEnabled;
         SetSFXVolume(sfxToggle.isOn);
     }
 
@@ -107,6 +109,17 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
         if (isEnabled)
         {
             plopSound?.Play();
+        }
+    }
+
+    private void HandleVibrationChange(bool isEnabled)
+    {
+        savedData.Settings.VibrationEnabled = isEnabled;
+        SaveManager.Save(savedData);
+
+        if (isEnabled)
+        {
+            Handheld.Vibrate();
         }
     }
 

@@ -213,9 +213,9 @@ public class PerkService
         });
         perks.Add(new Perk
         {
-            Id = PerkEnum.MedievalBackground,
-            Name = "Medieval Town",
-            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Medieval"),
+            Id = PerkEnum.CloudsBackground,
+            Name = "Cloud Town",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Clouds"),
             Points = 27500,
             Category = PerkCategory.Background
         });
@@ -237,10 +237,26 @@ public class PerkService
         });
         perks.Add(new Perk
         {
+            Id = PerkEnum.UnderwaterBackground,
+            Name = "Underwater",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Underwater"),
+            Points = 80000,
+            Category = PerkCategory.Background
+        });
+        perks.Add(new Perk
+        {
             Id = PerkEnum.SpaceBackground,
             Name = "Outer Space",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Space"),
-            Points = 80000,
+            Points = 95000,
+            Category = PerkCategory.Background
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.MarbleBackground,
+            Name = "Marbleville",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Marbleville"),
+            Points = 120000,
             Category = PerkCategory.Background
         });
 

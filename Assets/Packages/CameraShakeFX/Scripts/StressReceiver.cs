@@ -55,7 +55,7 @@ public class StressReceiver : MonoBehaviour
     public void InduceStress(float stress, bool exceedMaxStress = false)
     {
         float newStressLevel = _trauma + stress;
-        float maxStressLevel = 0.5f;
+        float maxStressLevel = 0.45f;
         if (exceedMaxStress)
         {
             maxStressLevel = Mathf.Max(maxStressLevel, stress);
