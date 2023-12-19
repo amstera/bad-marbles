@@ -55,6 +55,7 @@ public class SaveObject
     public int HighTier = 1;
     public int GamesPlayed;
     public int HighStreak = 1;
+    public bool CanShowAds = true;
 
     public Settings Settings = new Settings();
     public SelectedPerks SelectedPerks = new SelectedPerks();

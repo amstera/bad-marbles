@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public StreakSaveText streakSaveText;
     public StressReceiver stressReceiver;
     public MarbleSpawner marbleSpawner;
+    public StartText startText;
 
     public AudioSource pointGainedSound;
     public AudioSource lifeLossSound;
@@ -69,8 +70,18 @@ public class GameManager : MonoBehaviour
     {
         savedData = SaveManager.Load();
         InitializeSingleton();
-        StartCoroutine(UpdateTierRoutine());
-        SetPerks();
+
+        AdsManager.Instance.OnAdClosedOrFailed += StartGame;
+
+        if (ShouldShowAd())
+        {
+            GameMusicPlayer.Instance.Pause();
+            AdsManager.Instance.ShowAd();
+        }
+        else
+        {
+            StartGame();
+        }
     }
 
     void Update()
@@ -84,6 +95,21 @@ public class GameManager : MonoBehaviour
         {
             ProcessMarbleHit();
         }
+    }
+
+    private void StartGame()
+    {
+        GameMusicPlayer.Instance.Play();
+        startText.gameObject.SetActive(true);
+        StartCoroutine(UpdateTierRoutine());
+        SetPerks();
+
+        AdsManager.Instance.OnAdClosedOrFailed -= StartGame;
+    }
+
+    private bool ShouldShowAd()
+    {
+        return savedData.CanShowAds && savedData.GamesPlayed > 0 && savedData.GamesPlayed % 3 == 0;
     }
 
     void ProcessMarbleHit()
@@ -231,6 +257,14 @@ public class GameManager : MonoBehaviour
             Destroy(FindAnyObjectByType<Tier>()?.gameObject);
 
             gameOverUI.ShowGameOver(score, tier, savedData);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (AdsManager.Instance != null)
+        {
+            AdsManager.Instance.OnAdClosedOrFailed -= StartGame;
         }
     }
 }

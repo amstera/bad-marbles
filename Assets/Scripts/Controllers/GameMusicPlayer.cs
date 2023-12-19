@@ -35,6 +35,22 @@ public class GameMusicPlayer : MonoBehaviour
         }
     }
 
+    public void Play()
+    {
+        if (!backgroundMusic.isPlaying)
+        {
+            backgroundMusic.Play();
+        }
+    }
+
+    public void Pause()
+    {
+        if (backgroundMusic.isPlaying)
+        {
+            backgroundMusic.Pause();
+        }
+    }
+
     private void SetMusic()
     {
         var bgMusicData = MusicService.GetTrack(savedData);

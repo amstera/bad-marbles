@@ -16,7 +16,7 @@ public class MarbleSpawner : MonoBehaviour
     private float timer = 0;
     private float speed = 8f;
     private float maxSpeed = 40f;
-    private float acceleration = 0.55f;
+    private float acceleration = 0.5f;
     private bool isSpawningPaused = true;
     private List<Marble> allMarbles = new List<Marble>();
 
@@ -126,6 +126,12 @@ public class MarbleSpawner : MonoBehaviour
             }
             if (randomValue < 4 && !hasNoBigRedMarble) return BigRedMarble;
             else if (randomValue < 15) return FireMarble;
+            else if (randomValue < 50) return RedMarble;
+        }
+        else if (tier >= 4)
+        {
+            if (randomValue < 2 && !hasNoBigRedMarble) return BigRedMarble;
+            else if (randomValue < 10) return FireMarble;
             else if (randomValue < 50) return RedMarble;
         }
         else if (tier >= 3)

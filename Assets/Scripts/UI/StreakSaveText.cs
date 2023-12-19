@@ -34,7 +34,7 @@ public class StreakSaveText : MonoBehaviour
     {
         yield return StartCoroutine(PopAnimation());
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(2.5f);
 
         yield return StartCoroutine(FadeOutAndDeactivate());
     }
