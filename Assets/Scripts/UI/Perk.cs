@@ -37,7 +37,8 @@ public enum PerkEnum
     NoBigMarbles = 27,
     ExtraLife3 = 28,
     RoadRamp = 29,
-    GoldTrophy = 30
+    GoldTrophy = 30,
+    RainbowRamp = 31
 }
 
 [System.Serializable]
