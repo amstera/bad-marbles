@@ -66,11 +66,15 @@ public class GameManager : MonoBehaviour
     private int streakSavers = 0;
     private SaveObject savedData;
 
-    private void Awake()
+    void Awake()
     {
         savedData = SaveManager.Load();
         InitializeSingleton();
+        SetPerks();
+    }
 
+    void Start()
+    {
         AdsManager.Instance.OnAdClosedOrFailed += StartGame;
 
         if (ShouldShowAd())
@@ -102,7 +106,6 @@ public class GameManager : MonoBehaviour
         GameMusicPlayer.Instance.Play();
         startText.gameObject.SetActive(true);
         StartCoroutine(UpdateTierRoutine());
-        SetPerks();
 
         AdsManager.Instance.OnAdClosedOrFailed -= StartGame;
     }

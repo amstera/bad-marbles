@@ -64,6 +64,7 @@ public class MarbleSpawner : MonoBehaviour
     Vector3 GetSpawnPosition(MarbleColor type, bool isTier = false)
     {
         float xPosition;
+        float yPosition = 14f;
         if (isTier)
         {
             xPosition = 0;
@@ -71,12 +72,13 @@ public class MarbleSpawner : MonoBehaviour
         else if (type == MarbleColor.BigRed)
         {
             xPosition = Random.Range(-3f, 3f);
+            yPosition = 14.5f;
         }
         else
         {
             xPosition = Random.Range(-3.9f, 3.9f);
         }
-        return new Vector3(xPosition, 14f, 23f);
+        return new Vector3(xPosition, yPosition, 23.5f);
     }
 
     void SpawnMarble()

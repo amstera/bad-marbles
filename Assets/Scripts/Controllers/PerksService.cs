@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -382,6 +383,32 @@ public class PerkService
         }
 
         return (categories: unlockedCategories.ToList(), perks: unlockedPerks);
+    }
+
+    public Dictionary<PerkCategory, Perk> GetNextPerksForAllCategories()
+    {
+        var nextPerks = new Dictionary<PerkCategory, Perk>();
+
+        foreach (var perk in perks)
+        {
+            if (perk.Points > savedData.Points)
+            {
+                if (!nextPerks.ContainsKey(perk.Category) || nextPerks[perk.Category].Points > perk.Points)
+                {
+                    nextPerks[perk.Category] = perk;
+                }
+            }
+        }
+
+        foreach (PerkCategory category in Enum.GetValues(typeof(PerkCategory)))
+        {
+            if (!nextPerks.ContainsKey(category))
+            {
+                nextPerks[category] = null;
+            }
+        }
+
+        return nextPerks;
     }
 
     private bool DetermineIfPerkIsSelected(Perk perk)

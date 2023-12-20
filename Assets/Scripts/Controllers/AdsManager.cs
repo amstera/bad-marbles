@@ -10,6 +10,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
     private string surfacingId = "Interstitial_iOS";
     private bool testMode = true;
     private bool isAdReady = false;
+    private bool showRequested = false;
 
     public static AdsManager Instance { get; private set; }
 
@@ -44,11 +45,12 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
         if (isAdReady)
         {
             Advertisement.Show(surfacingId, this);
+            showRequested = false;
         }
         else
         {
-            Debug.Log("Ad is not ready yet.");
-            LoadAd();
+            Debug.Log("Ad is not ready yet, waiting for load.");
+            showRequested = true;
         }
     }
 
@@ -56,7 +58,14 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
     {
         Debug.Log("Ad loaded and ready to show!");
         isAdReady = true;
+
+        if (showRequested)
+        {
+            Advertisement.Show(surfacingId, this);
+            showRequested = false;
+        }
     }
+
     public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
     {
         Debug.LogError($"Error loading Ad on {placementId}: {error} - {message}");

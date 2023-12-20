@@ -19,6 +19,7 @@ public class PerksManager : MonoBehaviour
     public CanvasGroup scrollViewCanvasGroup;
 
     public PerkUI perkPrefab;
+    public NextPerkUI nextPerkPrefab;
     public ScrollRect scrollView;
     public RectTransform scrollViewRect;
     public RectTransform scrollViewContent;
@@ -28,14 +29,17 @@ public class PerksManager : MonoBehaviour
     private Button lastPressedButton;
     private List<PerkUI> currentPerks = new List<PerkUI>();
     private List<Perk> unlockedPerks;
+    private Dictionary<PerkCategory, Perk> nextPerks;
+    private NextPerkUI nextPerkInstance;
 
     private Coroutine updateScrollViewCoroutine;
     private float fadeDuration = 0.1f;
 
     // Grid layout settings
     private Vector2 initialPosition = new Vector2(-105, -130);
-    private float xOffset = 209;
-    private float yOffset = -244;
+    private float xOffset = 209f;
+    private float yOffset = -244f;
+    private float nextPerkHeight = 80f;
     private int itemsPerRow = 2;
 
     void Start()
@@ -46,6 +50,7 @@ public class PerksManager : MonoBehaviour
         var unlockedData = PerkService.Instance.GetUnlockedPerks();
         var unlockedCategories = unlockedData.categories;
         unlockedPerks = unlockedData.perks;
+        nextPerks = PerkService.Instance.GetNextPerksForAllCategories();
 
         SetUpButton(perksButton, PerkCategory.Special, null, unlockedCategories);
         SetUpButton(musicButton, PerkCategory.Music, musicViewedIndicator, unlockedCategories);
@@ -74,15 +79,25 @@ public class PerksManager : MonoBehaviour
 
         var perks = PerkService.Instance.GetPerksByCategory(category);
         Vector2 currentPosition = initialPosition;
-        int counter = 0;
 
+        if (nextPerks.TryGetValue(category, out Perk nextAvailablePerk) && nextAvailablePerk != null)
+        {
+            nextPerkInstance = Instantiate(nextPerkPrefab, scrollViewContent);
+            nextPerkInstance.UpdatePerkInfo(nextAvailablePerk, savedData.Points);
+            RectTransform nextPerkRectTransform = nextPerkInstance.GetComponent<RectTransform>();
+            nextPerkRectTransform.anchoredPosition = new Vector3(0, -nextPerkHeight/2, 0);
+
+            currentPosition.y -= nextPerkHeight;
+        }
+
+        int counter = 0;
         foreach (Perk perk in perks)
         {
             PerkUI perkObject = Instantiate(perkPrefab, scrollViewContent);
             RectTransform perkRectTransform = perkObject.GetComponent<RectTransform>();
             perkRectTransform.anchoredPosition = currentPosition;
 
-            perkObject.transform.SetSiblingIndex(0);
+            perkObject.transform.SetSiblingIndex(counter + (nextPerkInstance != null ? 1 : 0)); // Position perks below the next perk
 
             // Initialize perk data
             perkObject.InitializePerk(perk.Id, perk.Name, perk.Sprite, perk.Points, perk.Category, perk.IsSelected, perk.IsUnlocked, unlockedPerks.Contains(perk));
@@ -102,9 +117,8 @@ public class PerksManager : MonoBehaviour
             }
         }
 
-        AdjustScrollViewHeight(counter);
+        AdjustScrollViewHeight(counter); // Include next perk in height calculation
 
-        // Scroll to the top
         scrollView.verticalNormalizedPosition = 1;
     }
 
@@ -113,6 +127,10 @@ public class PerksManager : MonoBehaviour
         int rows = Mathf.CeilToInt((float)itemCount / itemsPerRow);
 
         float topPadding = 50;
+        if (nextPerkInstance != null)
+        {
+            topPadding += nextPerkHeight;
+        }
 
         // Calculated height = height of all items + spacing between them + top padding
         float calculatedHeight = (rows * -yOffset) + (rows - 1) + topPadding;
@@ -125,13 +143,19 @@ public class PerksManager : MonoBehaviour
 
     private void ClearScrollViewContent()
     {
+        if (nextPerkInstance != null)
+        {
+            Destroy(nextPerkInstance.gameObject);
+            nextPerkInstance = null;
+        }
+
         foreach (var perk in currentPerks)
         {
             if (perk != null)
             {
                 perk.OnPerkClicked -= HandlePerkClick;
+                Destroy(perk.gameObject);
             }
-            Destroy(perk.gameObject);
         }
         currentPerks.Clear();
     }
