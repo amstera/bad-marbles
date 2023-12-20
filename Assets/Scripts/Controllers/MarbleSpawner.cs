@@ -70,7 +70,7 @@ public class MarbleSpawner : MonoBehaviour
         }
         else if (type == MarbleColor.BigRed)
         {
-            xPosition = Random.Range(-3.45f, 3.45f);
+            xPosition = Random.Range(-3f, 3f);
         }
         else
         {
