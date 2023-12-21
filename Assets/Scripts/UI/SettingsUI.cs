@@ -10,6 +10,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     #region UI Components
     public Button gearButton;
     public CanvasGroup canvasGroup;
+    public GameObject popUp;
     public Slider musicVolumeSlider;
     public Toggle sfxToggle, vibrationsToggle;
     public TextMeshProUGUI gamesPlayedAmountText, highestStreakAmountText, highestTierAmountText;
@@ -21,7 +22,8 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     #endregion
 
     private SaveObject savedData;
-    private float fadeDuration = 0.35f;
+    private float fadeDuration = 0.25f;
+    private float popUpDuration = 0.25f;
     private const float SFX_VOLUME_OFF = -80f;
     private const string SFX_VOLUME_PARAM = "SFXVolume";
 
@@ -35,6 +37,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     {
         canvasGroup.alpha = 0;
         canvasGroup.blocksRaycasts = false;
+        popUp.transform.localScale = Vector3.zero;
 
         UpdateAudioSettings();
 
@@ -65,6 +68,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
         if (eventData.pointerCurrentRaycast.gameObject == gameObject)
         {
             StartCoroutine(Fade(false));
+            popUp.transform.localScale = Vector3.zero;
             StartCoroutine(RotateGear(0));
         }
     }
@@ -72,6 +76,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     public void ShowPanel()
     {
         StartCoroutine(Fade(true));
+        StartCoroutine(PopIn(popUp, popUpDuration));
         StartCoroutine(RotateGear(45));
     }
 
@@ -83,14 +88,26 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     private IEnumerator Fade(bool fadeIn)
     {
         float targetAlpha = fadeIn ? 1f : 0f;
+        float startAlpha = canvasGroup.alpha;
         float startTime = Time.time;
         while (Time.time < startTime + fadeDuration)
         {
-            canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, targetAlpha, (Time.time - startTime) / fadeDuration);
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, (Time.time - startTime) / fadeDuration);
             yield return null;
         }
         canvasGroup.alpha = targetAlpha;
         canvasGroup.blocksRaycasts = fadeIn;
+    }
+
+    private IEnumerator PopIn(GameObject obj, float time)
+    {
+        Vector3 targetScale = Vector3.one;
+        for (float t = 0; t < 1; t += Time.deltaTime / time)
+        {
+            obj.transform.localScale = Vector3.Lerp(Vector3.zero, targetScale, t);
+            yield return null;
+        }
+        obj.transform.localScale = targetScale;
     }
 
     private void HandleVolumeChange(float value)

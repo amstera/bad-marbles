@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using EasyTransition;
+using UnityEngine.iOS;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameOverUI : MonoBehaviour
     public GameObject newIndicator;
     public CanvasGroup canvasGroup;
     public TransitionSettings transition;
+    public ParticleSystem confettiPS;
 
     public AudioSource highScoreSound;
     public AudioSource plopSound;
@@ -70,6 +72,12 @@ public class GameOverUI : MonoBehaviour
             savedData.HighScore = score;
 
             highScoreSound?.Play();
+            confettiPS?.Play();
+
+            if (savedData.GamesPlayed > 5 && !savedData.HasShownRateApp)
+            {
+                savedData.HasShownRateApp = Device.RequestStoreReview();
+            }
         }
 
         savedData.Points += score;

@@ -19,7 +19,7 @@ public class NextPerkUI : MonoBehaviour
         string perkText;
         if (isUnlocked)
         {
-            perkText = $"<color=yellow>Awesome!</color> You unlocked \"{perk.Name}\" perk!";
+            perkText = $"<color=yellow>Awesome!</color> You unlocked the \"{perk.Name}\" perk!";
         }
         else
         {

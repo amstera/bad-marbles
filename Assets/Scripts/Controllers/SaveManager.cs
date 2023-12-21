@@ -56,6 +56,7 @@ public class SaveObject
     public int GamesPlayed;
     public int HighStreak = 1;
     public bool CanShowAds = true;
+    public bool HasShownRateApp;
 
     public Settings Settings = new Settings();
     public SelectedPerks SelectedPerks = new SelectedPerks();
