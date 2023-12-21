@@ -80,12 +80,19 @@ public class PerksManager : MonoBehaviour
         var perks = PerkService.Instance.GetPerksByCategory(category);
         Vector2 currentPosition = initialPosition;
 
-        if (nextPerks.TryGetValue(category, out Perk nextAvailablePerk) && nextAvailablePerk != null)
+        // Find the newly unlocked perk for this category
+        Perk justUnlockedPerk = unlockedPerks.Find(u => u.Category == category);
+
+        // Determine whether to show the next perk or the unlocked perk
+        Perk perkToShow = justUnlockedPerk ?? nextPerks.GetValueOrDefault(category);
+        if (perkToShow != null)
         {
+            bool isJustUnlocked = justUnlockedPerk != null;
+
             nextPerkInstance = Instantiate(nextPerkPrefab, scrollViewContent);
-            nextPerkInstance.UpdatePerkInfo(nextAvailablePerk, savedData.Points);
+            nextPerkInstance.UpdatePerkInfo(perkToShow, savedData.Points, isJustUnlocked);
             RectTransform nextPerkRectTransform = nextPerkInstance.GetComponent<RectTransform>();
-            nextPerkRectTransform.anchoredPosition = new Vector3(0, -nextPerkHeight/2, 0);
+            nextPerkRectTransform.anchoredPosition = new Vector3(0, -nextPerkHeight / 2, 0);
 
             currentPosition.y -= nextPerkHeight;
         }
@@ -97,7 +104,7 @@ public class PerksManager : MonoBehaviour
             RectTransform perkRectTransform = perkObject.GetComponent<RectTransform>();
             perkRectTransform.anchoredPosition = currentPosition;
 
-            perkObject.transform.SetSiblingIndex(counter + (nextPerkInstance != null ? 1 : 0)); // Position perks below the next perk
+            perkObject.transform.SetSiblingIndex(0); // Position perks below the next perk
 
             // Initialize perk data
             perkObject.InitializePerk(perk.Id, perk.Name, perk.Sprite, perk.Points, perk.Category, perk.IsSelected, perk.IsUnlocked, unlockedPerks.Contains(perk));
@@ -117,7 +124,7 @@ public class PerksManager : MonoBehaviour
             }
         }
 
-        AdjustScrollViewHeight(counter); // Include next perk in height calculation
+        AdjustScrollViewHeight(counter);
 
         scrollView.verticalNormalizedPosition = 1;
     }

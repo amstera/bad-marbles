@@ -34,7 +34,7 @@ public class PerkService
         perks.Add(new Perk
         {
             Id = PerkEnum.ExtraLife1,
-            Name = "Extra Life #1",
+            Name = "Extra Life",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
             Points = 2500,
             Category = PerkCategory.Special
@@ -58,7 +58,7 @@ public class PerkService
         perks.Add(new Perk
         {
             Id = PerkEnum.StreakSaver,
-            Name = "Streak Saver #1",
+            Name = "Streak Saver",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/StreakSaver"),
             Points = 15000,
             Category = PerkCategory.Special
@@ -149,8 +149,8 @@ public class PerkService
         perks.Add(new Perk
         {
             Id = PerkEnum.MarblesSong4,
-            Name = "Lost Marbles",
-            Sprite = Resources.Load<Sprite>("Images/UI/Music/LostMarbles"),
+            Name = "Boss Beat",
+            Sprite = Resources.Load<Sprite>("Images/UI/Music/BossBeat"),
             Points = 45000,
             Category = PerkCategory.Music
         });

@@ -7,7 +7,7 @@ public class NextPerkUI : MonoBehaviour
     public TextMeshProUGUI text;
     public Image image;
 
-    public void UpdatePerkInfo(Perk perk, int currentPoints)
+    public void UpdatePerkInfo(Perk perk, int currentPoints, bool isUnlocked)
     {
         if (perk == null)
         {
@@ -16,11 +16,19 @@ public class NextPerkUI : MonoBehaviour
             return;
         }
 
-        int pointsAway = perk.Points - currentPoints;
-        string pointsText = FormatPoints(pointsAway) + (pointsAway == 1 ? " point" : " points");
-        string newPerkText = $"<color=yellow>{pointsText}</color> from \"{perk.Name}\" perk!";
+        string perkText;
+        if (isUnlocked)
+        {
+            perkText = $"<color=yellow>Awesome!</color> You unlocked \"{perk.Name}\" perk!";
+        }
+        else
+        {
+            int pointsAway = perk.Points - currentPoints;
+            string pointsText = FormatPoints(pointsAway) + (pointsAway == 1 ? " point" : " points");
+            perkText = $"<color=yellow>{pointsText}</color> until \"{perk.Name}\" perk!";
+        }
 
-        text.text = newPerkText;
+        text.text = perkText;
         image.sprite = perk.Sprite;
     }
 
