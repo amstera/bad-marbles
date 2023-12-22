@@ -6,13 +6,21 @@ public class MenuManager : MonoBehaviour
 {
     public TextMeshProUGUI highScoreText;
     public TransitionSettings transition;
-
+    public GameObject noAdsButton;
     public GameObject newIndicator;
+
+    private SaveObject savedData;
 
     public AudioSource plopSound;
 
     void Start()
     {
+        savedData = SaveManager.Load();
+        if (!savedData.CanShowAds)
+        {
+            noAdsButton.SetActive(false);
+        }
+
         UpdateHighScoreText();
         ShowNewIndicator();
     }

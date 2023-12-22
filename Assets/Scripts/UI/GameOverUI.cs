@@ -15,6 +15,7 @@ public class GameOverUI : MonoBehaviour
     public CanvasGroup canvasGroup;
     public TransitionSettings transition;
     public ParticleSystem confettiPS;
+    public GameObject noAdsButton;
 
     public AudioSource highScoreSound;
     public AudioSource plopSound;
@@ -32,6 +33,11 @@ public class GameOverUI : MonoBehaviour
         UpdateScoreText(score);
         UpdateHighScoreText(score, tier, savedData);
         ShowNewIndicator();
+
+        if (!savedData.CanShowAds)
+        {
+            noAdsButton.SetActive(false);
+        }
     }
 
     public void RestartScene()
@@ -44,6 +50,11 @@ public class GameOverUI : MonoBehaviour
         TransitionManager.Instance().Transition("Perks", transition, 0);
 
         plopSound?.Play();
+    }
+
+    public void WatchChanceAd()
+    {
+        //todo: show rewards ad
     }
 
     private IEnumerator FadeInCanvasGroup()

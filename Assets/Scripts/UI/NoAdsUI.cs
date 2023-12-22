@@ -6,11 +6,19 @@ public class NoAdsUI : MonoBehaviour, IPointerDownHandler
 {
     public CanvasGroup panelCanvasGroup;
     public GameObject popUp;
+    public GameObject noAdsButton;
+    public ParticleSystem confettiPS;
+
+    public AudioSource plopSound;
 
     void Start()
     {
         popUp.transform.localScale = Vector3.zero;
         panelCanvasGroup.blocksRaycasts = false;
+
+        // Subscribe to the purchase events
+        IAPManager.instance.OnPurchaseCompletedEvent += HandlePurchaseComplete;
+        IAPManager.instance.OnPurchaseFailedEvent += HandlePurchaseFailed;
     }
 
     public void Show()
@@ -22,11 +30,11 @@ public class NoAdsUI : MonoBehaviour, IPointerDownHandler
     private IEnumerator ShowRoutine()
     {
         // Fade in the panel
-        yield return StartCoroutine(FadeCanvasGroup(panelCanvasGroup, 0.25f, 1));
+        yield return StartCoroutine(FadeCanvasGroup(panelCanvasGroup, 0.2f, 1));
 
         // Pop-in animation for the pop-up
         popUp.transform.localScale = Vector3.zero;
-        yield return StartCoroutine(PopIn(popUp, 0.25f));
+        yield return StartCoroutine(PopIn(popUp, 0.2f));
     }
 
     public void Hide()
@@ -37,7 +45,7 @@ public class NoAdsUI : MonoBehaviour, IPointerDownHandler
     private IEnumerator HideRoutine()
     {
         // Fade out the entire panel
-        yield return StartCoroutine(FadeCanvasGroup(panelCanvasGroup, 0.25f, 0));
+        yield return StartCoroutine(FadeCanvasGroup(panelCanvasGroup, 0.2f, 0));
         popUp.transform.localScale = Vector3.zero;
         panelCanvasGroup.blocksRaycasts = false;
     }
@@ -65,11 +73,35 @@ public class NoAdsUI : MonoBehaviour, IPointerDownHandler
         obj.transform.localScale = targetScale;
     }
 
+    public void AttemptPurchaseRemoveAds()
+    {
+        plopSound?.Play();
+        IAPManager.instance.BuyProductID(Product.RemoveAds);
+    }
+
+    private void HandlePurchaseComplete(Product product)
+    {
+        confettiPS.Play();
+        noAdsButton.SetActive(false);
+        Hide();
+    }
+
+    private void HandlePurchaseFailed(Product product)
+    {
+        Debug.Log("Purchase of Remove Ads failed.");
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.pointerCurrentRaycast.gameObject == gameObject)
         {
             Hide();
         }
+    }
+
+    void OnDestroy()
+    {
+        IAPManager.instance.OnPurchaseCompletedEvent -= HandlePurchaseComplete;
+        IAPManager.instance.OnPurchaseFailedEvent -= HandlePurchaseFailed;
     }
 }
