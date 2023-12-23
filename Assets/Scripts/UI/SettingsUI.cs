@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Audio;
 using TMPro;
+using System;
 
 public class SettingsUI : MonoBehaviour, IPointerDownHandler
 {
@@ -13,7 +14,12 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     public GameObject popUp;
     public Slider musicVolumeSlider;
     public Toggle sfxToggle, vibrationsToggle;
-    public TextMeshProUGUI gamesPlayedAmountText, highestStreakAmountText, highestTierAmountText;
+    public TextMeshProUGUI gamesPlayedAmountText, highestStreakAmountText, highestTierAmountText, avgScoreAmountText, footerText;
+    #endregion
+
+    #region Page Components
+    public GameObject page1;
+    public GameObject page2;
     #endregion
 
     #region Audio Components
@@ -26,11 +32,13 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     private float popUpDuration = 0.25f;
     private const float SFX_VOLUME_OFF = -80f;
     private const string SFX_VOLUME_PARAM = "SFXVolume";
+    private float pageTransitionDuration = 0.1f;
 
     private void Start()
     {
         savedData = SaveManager.Load();
         InitializeUI();
+        InitializePages();
     }
 
     private void InitializeUI()
@@ -46,6 +54,48 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
         vibrationsToggle.onValueChanged.AddListener(HandleVibrationChange);
 
         UpdateStatTexts();
+        SetFooterText();
+    }
+
+    private void InitializePages()
+    {
+        page1.SetActive(true);
+        page2.SetActive(false);
+    }
+
+    public void ForwardButtonPressed()
+    {
+        StartCoroutine(TransitionPage(page1, page2));
+    }
+
+    public void BackwardButtonPressed()
+    {
+        StartCoroutine(TransitionPage(page2, page1));
+    }
+
+    private IEnumerator TransitionPage(GameObject fromPage, GameObject toPage)
+    {
+        CanvasGroup fromCanvas = fromPage.GetComponent<CanvasGroup>();
+        CanvasGroup toCanvas = toPage.GetComponent<CanvasGroup>();
+
+        // Start fading out the current page
+        for (float t = 0; t < pageTransitionDuration; t += Time.deltaTime)
+        {
+            if (fromCanvas != null) fromCanvas.alpha = 1 - t / pageTransitionDuration;
+            yield return null;
+        }
+
+        fromPage.SetActive(false);
+        toPage.SetActive(true);
+
+        // Start fading in the next page
+        for (float t = 0; t < pageTransitionDuration; t += Time.deltaTime)
+        {
+            if (toCanvas != null) toCanvas.alpha = t / pageTransitionDuration;
+            yield return null;
+        }
+
+        if (toCanvas != null) toCanvas.alpha = 1;
     }
 
     private void UpdateAudioSettings()
@@ -61,17 +111,28 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
         gamesPlayedAmountText.text = savedData.GamesPlayed.ToString();
         highestStreakAmountText.text = $"{savedData.HighStreak / 10 + 1}X";
         highestTierAmountText.text = savedData.HighTier.ToString();
+        avgScoreAmountText.text = savedData.GamesPlayed == 0 ? "N/A" : $"{Math.Round((double)savedData.Points / savedData.GamesPlayed)}";
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.pointerCurrentRaycast.gameObject == gameObject)
         {
-            StartCoroutine(Fade(false));
-            popUp.transform.localScale = Vector3.zero;
-            StartCoroutine(RotateGear(0));
+            Hide();
         }
     }
+
+    private void Hide()
+    {
+        StartCoroutine(Fade(false));
+        popUp.transform.localScale = Vector3.zero;
+        StartCoroutine(RotateGear(0));
+
+        page1.SetActive(true);
+        page1.GetComponent<CanvasGroup>().alpha = 1;
+        page2.SetActive(false);
+    }
+
 
     public void ShowPanel()
     {
@@ -138,6 +199,13 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
         {
             Handheld.Vibrate();
         }
+    }
+
+    private void SetFooterText()
+    {
+        int currentYear = DateTime.Now.Year;
+        string gameVersion = Application.version;
+        footerText.text = $"Bad Marbles © {currentYear} - Version {gameVersion}";
     }
 
     private IEnumerator RotateGear(float targetAngle)

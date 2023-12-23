@@ -169,8 +169,8 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
-  borderWidth: 0.2
-  falloffDistance: 1
+  borderWidth: 0.3
+  falloffDistance: 0
 --- !u!114 &1096617864827828912
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,6 +15,9 @@ public class IAPManager : MonoBehaviour, IStoreListener, IDetailedStoreListener
     private IExtensionProvider extensionProvider;
     private SaveObject savedData;
 
+    private const int MaxInitializationRetries = 3;
+    private int initializationRetryCount = 0;
+
     private static readonly Dictionary<Product, string> ProductIdMap = new Dictionary<Product, string>
     {
         {Product.RemoveAds, "com.badmarbles.removeads"},
@@ -28,12 +31,16 @@ public class IAPManager : MonoBehaviour, IStoreListener, IDetailedStoreListener
             instance = this;
             DontDestroyOnLoad(gameObject);
             savedData = SaveManager.Load();
-            InitializePurchasing();
         }
         else if (instance != this)
         {
             Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        InitializePurchasing();
     }
 
     public void BuyProductID(Product product)
@@ -42,12 +49,18 @@ public class IAPManager : MonoBehaviour, IStoreListener, IDetailedStoreListener
         bool isInitialized = IsInitialized();
         if (isInitialized && storeController.products.WithID(productId) != null)
         {
+            Debug.Log($"Product is initialized and there exists ID: {productId}");
             storeController.InitiatePurchase(productId);
         }
         else
         {
-            int productCount = storeController.products.all.Length;
-            string firstProductName = productCount > 0 ? storeController.products.all[0].definition.storeSpecificId : "None";
+            int productCount = 0;
+            string firstProductName = "";
+            if (storeController != null)
+            {
+                productCount = storeController.products.all.Length;
+                firstProductName = productCount > 0 ? storeController.products.all[0].definition.storeSpecificId : "None";
+            }
 
             Debug.Log($"BuyProductID: FAIL. Initialized: {isInitialized}. Products: Count = {productCount}, First Product = {firstProductName}");
             OnPurchaseFailedEvent?.Invoke(product);
@@ -92,6 +105,7 @@ public class IAPManager : MonoBehaviour, IStoreListener, IDetailedStoreListener
         {
             builder.AddProduct(pair.Value, ProductType.NonConsumable);
         }
+        Debug.Log("Attempting to initialize...");
         UnityPurchasing.Initialize(this, builder);
     }
 
@@ -105,13 +119,35 @@ public class IAPManager : MonoBehaviour, IStoreListener, IDetailedStoreListener
 
     public void OnInitializeFailed(InitializationFailureReason error)
     {
-        Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
+        Debug.LogError($"IAP initialization failed: {error}. Retry attempt: {initializationRetryCount}");
+
+        if (initializationRetryCount < MaxInitializationRetries)
+        {
+            initializationRetryCount++;
+            Debug.Log("Retrying initialization...");
+            InitializePurchasing();
+        }
+        else
+        {
+            Debug.LogError("Maximum retry attempts reached. Initialization failed.");
+        }
     }
 
 
     public void OnInitializeFailed(InitializationFailureReason error, string message)
     {
         Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
+
+        if (initializationRetryCount < MaxInitializationRetries)
+        {
+            initializationRetryCount++;
+            Debug.Log("Retrying initialization...");
+            InitializePurchasing();
+        }
+        else
+        {
+            Debug.LogError("Maximum retry attempts reached. Initialization failed.");
+        }
     }
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
