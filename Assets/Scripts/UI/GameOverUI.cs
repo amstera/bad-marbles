@@ -87,7 +87,7 @@ public class GameOverUI : MonoBehaviour
     {
         GameMusicPlayer.Instance.Play();
 
-        secondChanceButton.enabled = false;
+        canvasGroup.alpha = 0;
         savedData.ExtraChance.IsActive = true;
         savedData.ExtraChance.Score = score;
         savedData.ExtraChance.Tier = tier;

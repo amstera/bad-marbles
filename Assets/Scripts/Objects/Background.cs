@@ -24,7 +24,7 @@ public class Background : MonoBehaviour
             { PerkEnum.TechLabBackground, ($"{fileLocation}/TechLab", new Vector3(-0.3f, 34.3f, 111.6f)) },
             { PerkEnum.SpaceBackground, ($"{fileLocation}/Space", new Vector3(0f, 26f, 91f)) },
             { PerkEnum.CaveBackground, ($"{fileLocation}/Cave", new Vector3(9f, 35f, 169f)) },
-            { PerkEnum.UnderwaterBackground, ($"{fileLocation}/Underwater", new Vector3(2.2f, 28f, 100f)) },
+            { PerkEnum.UnderwaterBackground, ($"{fileLocation}/Underwater", new Vector3(-0.3f, 33.3f, 116.3f)) },
             { PerkEnum.MarbleBackground, ($"{fileLocation}/Marbleville", new Vector3(10.2f, 25.5f, 85f)) },
         };
     }

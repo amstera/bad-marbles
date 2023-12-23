@@ -1,5 +1,4 @@
 using EasyTransition;
-using OneManEscapePlan.ModalDialogs.Scripts;
 using TMPro;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ public class MenuManager : MonoBehaviour
     public TransitionSettings transition;
     public GameObject noAdsButton;
     public GameObject newIndicator;
+    public GameObject goldTrophy;
 
     private SaveObject savedData;
 
@@ -17,16 +17,8 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         savedData = SaveManager.Load();
-        if (!savedData.CanShowAds)
-        {
-            noAdsButton.SetActive(false);
-        }
-        if (savedData.ExtraChance.IsActive)
-        {
-            savedData.ExtraChance.IsActive = false;
-            SaveManager.Save(savedData);
-        }
 
+        ConfigureSavedData();
         UpdateHighScoreText();
         ShowNewIndicator();
     }
@@ -56,6 +48,25 @@ public class MenuManager : MonoBehaviour
         if (categories.Count > 0)
         {
             newIndicator.SetActive(true);
+        }
+    }
+
+    private void ConfigureSavedData()
+    {
+        if (!savedData.CanShowAds)
+        {
+            noAdsButton.SetActive(false);
+        }
+
+        if (savedData.ExtraChance.IsActive)
+        {
+            savedData.ExtraChance.IsActive = false;
+            SaveManager.Save(savedData);
+        }
+
+        if (savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.GoldTrophy))
+        {
+            goldTrophy.SetActive(true);
         }
     }
 }
