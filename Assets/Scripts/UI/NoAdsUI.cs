@@ -89,7 +89,7 @@ public class NoAdsUI : MonoBehaviour, IPointerDownHandler
 
     private void HandlePurchaseFailed(Product product)
     {
-        DialogManager.Instance.ShowDialog("Alert", "Failed to purchase.");
+        DialogManager.Instance.ShowDialog("Alert", "Your purchase wasn't successful!");
         Debug.Log("Purchase of Remove Ads failed.");
     }
 

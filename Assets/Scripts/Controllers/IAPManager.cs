@@ -87,11 +87,11 @@ public class IAPManager : MonoBehaviour, IStoreListener, IDetailedStoreListener
                 Debug.Log("RestorePurchases result: " + success + " Message: " + message);
                 if (success)
                 {
-                    DialogManager.Instance.ShowDialog("Alert", "Purchases were restored.");
+                    DialogManager.Instance.ShowDialog("Alert", "Purchases were restored!");
                 }
                 else
                 {
-                    DialogManager.Instance.ShowDialog("Alert", "Purchases failed to restore.");
+                    DialogManager.Instance.ShowDialog("Alert", "Couldn't restore purchases!");
                 }
             });
         }
@@ -172,14 +172,14 @@ public class IAPManager : MonoBehaviour, IStoreListener, IDetailedStoreListener
             {
                 OnPurchaseCompletedEvent?.Invoke(product);
             }
-            return PurchaseProcessingResult.Complete;
         }
         else
         {
             Debug.Log("Purchase failed or unknown product: " + args.purchasedProduct.definition.id);
             OnPurchaseFailedEvent?.Invoke(product);
-            return PurchaseProcessingResult.Complete; // Return Complete even if failed to avoid retrying the purchase
         }
+
+        return PurchaseProcessingResult.Complete;
     }
 
     public void OnPurchaseFailed(UnityEngine.Purchasing.Product product, PurchaseFailureDescription failureDescription)

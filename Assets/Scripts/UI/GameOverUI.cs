@@ -101,7 +101,7 @@ public class GameOverUI : MonoBehaviour
     {
         GameMusicPlayer.Instance.Play();
 
-        DialogManager.Instance.ShowDialog("Alert", "Failed to load rewards ad.");
+        DialogManager.Instance.ShowDialog("Alert", "Couldn't load rewards ad!");
         secondChanceButton.enabled = false;
     }
 
