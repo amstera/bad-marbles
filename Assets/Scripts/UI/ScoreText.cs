@@ -23,6 +23,13 @@ public class ScoreText : MonoBehaviour
         }
     }
 
+    public void SetScoreImmediately(int newScore)
+    {
+        currentDisplayedScore = newScore;
+        scoreText.text = newScore.ToString();
+        scoreText.color = GetColorForScore(newScore);
+    }
+
     private IEnumerator AnimatedUpdate()
     {
         while (scoreUpdates.Count > 0)
@@ -43,7 +50,7 @@ public class ScoreText : MonoBehaviour
                 elapsed += Time.deltaTime;
                 currentDisplayedScore = (int)Mathf.Lerp(currentDisplayedScore, newScore, elapsed / duration);
                 scoreText.text = currentDisplayedScore.ToString();
-                scoreText.color = Color.Lerp(Color.white, Color.green, Mathf.Clamp01((float)currentDisplayedScore / 1000f));
+                scoreText.color = GetColorForScore(currentDisplayedScore);
 
                 TriggerPopEffect();
 
@@ -55,6 +62,11 @@ public class ScoreText : MonoBehaviour
         }
 
         updateRoutine = null;
+    }
+
+    private Color GetColorForScore(int score)
+    {
+        return Color.Lerp(Color.white, Color.green, Mathf.Clamp01(score / 1000f));
     }
 
     private void TriggerPopEffect()

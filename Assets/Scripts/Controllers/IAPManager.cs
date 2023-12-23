@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using OneManEscapePlan.ModalDialogs.Scripts;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
@@ -75,13 +76,23 @@ public class IAPManager : MonoBehaviour, IStoreListener, IDetailedStoreListener
             return;
         }
 
-        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        if (Application.platform == RuntimePlatform.IPhonePlayer
+            || Application.platform == RuntimePlatform.OSXEditor
+            || Application.platform == RuntimePlatform.OSXPlayer)
         {
             Debug.Log("RestorePurchases started ...");
             var apple = extensionProvider.GetExtension<IAppleExtensions>();
             apple.RestoreTransactions((success, message) =>
             {
                 Debug.Log("RestorePurchases result: " + success + " Message: " + message);
+                if (success)
+                {
+                    DialogManager.Instance.ShowDialog("Alert", "Purchases were restored.");
+                }
+                else
+                {
+                    DialogManager.Instance.ShowDialog("Alert", "Purchases failed to restore.");
+                }
             });
         }
         else
@@ -157,8 +168,10 @@ public class IAPManager : MonoBehaviour, IStoreListener, IDetailedStoreListener
         {
             Debug.Log("Purchase successful or restored: " + args.purchasedProduct.definition.id);
 
-            UnlockProduct(product);
-            OnPurchaseCompletedEvent?.Invoke(product);
+            if (UnlockProduct(product))
+            {
+                OnPurchaseCompletedEvent?.Invoke(product);
+            }
             return PurchaseProcessingResult.Complete;
         }
         else
@@ -208,17 +221,20 @@ public class IAPManager : MonoBehaviour, IStoreListener, IDetailedStoreListener
         throw new ArgumentOutOfRangeException(nameof(product), product, "Product not found in map.");
     }
 
-    private void UnlockProduct(Product product)
+    private bool UnlockProduct(Product product)
     {
         switch (product)
         {
             case Product.RemoveAds:
+                if (!savedData.CanShowAds) return false;
                 savedData.CanShowAds = false;
                 break;
             case Product.None:
-                break;
+                return false;
         }
+
         SaveManager.Save(savedData);
+        return true;
     }
 }
 

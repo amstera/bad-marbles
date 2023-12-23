@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using EasyTransition;
 using UnityEngine.iOS;
+using OneManEscapePlan.ModalDialogs.Scripts;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -15,10 +16,15 @@ public class GameOverUI : MonoBehaviour
     public CanvasGroup canvasGroup;
     public TransitionSettings transition;
     public ParticleSystem confettiPS;
-    public GameObject noAdsButton;
+    public Button noAdsButton;
+    public Button secondChanceButton;
 
     public AudioSource highScoreSound;
     public AudioSource plopSound;
+
+    private int score, tier;
+    private float marbleSpawnSpeed;
+    private SaveObject savedData;
 
     private void Awake()
     {
@@ -27,21 +33,35 @@ public class GameOverUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
     }
 
-    public void ShowGameOver(int score, int tier, SaveObject savedData)
+    public void ShowGameOver(int score, int tier, SaveObject savedData, bool isExtraChance, float marbleSpawnSpeed)
     {
         StartCoroutine(FadeInCanvasGroup());
         UpdateScoreText(score);
         UpdateHighScoreText(score, tier, savedData);
         ShowNewIndicator();
+        InitializeAdEvents();
+
+        this.score = score;
+        this.tier = tier - 1;
+        this.marbleSpawnSpeed = marbleSpawnSpeed;
+        this.savedData = savedData;
 
         if (!savedData.CanShowAds)
         {
-            noAdsButton.SetActive(false);
+            noAdsButton.gameObject.SetActive(false);
+        }
+        if (isExtraChance)
+        {
+            secondChanceButton.gameObject.SetActive(false);
+            savedData.ExtraChance.IsActive = false;
+
+            SaveManager.Save(savedData);
         }
     }
 
-    public void RestartScene()
+    public void LoadGame()
     {
+        DeinitializeAdEvents();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -54,7 +74,52 @@ public class GameOverUI : MonoBehaviour
 
     public void WatchChanceAd()
     {
-        //todo: show rewards ad
+        GameMusicPlayer.Instance.Pause();
+        AdsManager.Instance.rewardedAd.ShowAd();
+    }
+
+    private void RewardedAdSkipped()
+    {
+        GameMusicPlayer.Instance.Play();
+    }
+
+    private void RewardedAdCompleted()
+    {
+        GameMusicPlayer.Instance.Play();
+
+        secondChanceButton.enabled = false;
+        savedData.ExtraChance.IsActive = true;
+        savedData.ExtraChance.Score = score;
+        savedData.ExtraChance.Tier = tier;
+        savedData.ExtraChance.MarbleSpawnSpeed = marbleSpawnSpeed;
+        SaveManager.Save(savedData);
+
+        LoadGame();
+    }
+
+    private void RewardedAdFailedToLoad()
+    {
+        GameMusicPlayer.Instance.Play();
+
+        DialogManager.Instance.ShowDialog("Alert", "Failed to load rewards ad.");
+        secondChanceButton.enabled = false;
+    }
+
+    private void InitializeAdEvents()
+    {
+        AdsManager.Instance.rewardedAd.OnAdCompleted += RewardedAdCompleted;
+        AdsManager.Instance.rewardedAd.OnAdSkipped += RewardedAdSkipped;
+        AdsManager.Instance.rewardedAd.OnAdFailed += RewardedAdFailedToLoad;
+    }
+
+    private void DeinitializeAdEvents()
+    {
+        if (AdsManager.Instance?.rewardedAd != null)
+        {
+            AdsManager.Instance.rewardedAd.OnAdCompleted -= RewardedAdCompleted;
+            AdsManager.Instance.rewardedAd.OnAdSkipped -= RewardedAdSkipped;
+            AdsManager.Instance.rewardedAd.OnAdFailed -= RewardedAdFailedToLoad;
+        }
     }
 
     private IEnumerator FadeInCanvasGroup()
@@ -91,8 +156,12 @@ public class GameOverUI : MonoBehaviour
             }
         }
 
-        savedData.Points += score;
-        savedData.GamesPlayed++;
+        savedData.Points += savedData.ExtraChance.IsActive ? score - savedData.ExtraChance.Score : score;
+
+        if (!savedData.ExtraChance.IsActive)
+        {
+            savedData.GamesPlayed++;
+        }
         if (tier > savedData.HighTier)
         {
             savedData.HighTier = tier;
@@ -109,5 +178,10 @@ public class GameOverUI : MonoBehaviour
         {
             newIndicator.SetActive(true);
         }
+    }
+
+    private void OnDestroy()
+    {
+        DeinitializeAdEvents();
     }
 }

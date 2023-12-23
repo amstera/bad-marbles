@@ -65,12 +65,19 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
 
     public void ForwardButtonPressed()
     {
+        plopSound?.Play();
         StartCoroutine(TransitionPage(page1, page2));
     }
 
     public void BackwardButtonPressed()
     {
+        plopSound?.Play();
         StartCoroutine(TransitionPage(page2, page1));
+    }
+
+    public void RestorePurchases()
+    {
+        IAPManager.instance.RestorePurchases();
     }
 
     private IEnumerator TransitionPage(GameObject fromPage, GameObject toPage)
@@ -205,7 +212,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     {
         int currentYear = DateTime.Now.Year;
         string gameVersion = Application.version;
-        footerText.text = $"Bad Marbles © {currentYear} - Version {gameVersion}";
+        footerText.text = $"Bad Marbles © {currentYear} Green Tea Games - Version {gameVersion}";
     }
 
     private IEnumerator RotateGear(float targetAngle)

@@ -12,12 +12,13 @@ public class MarbleSpawner : MonoBehaviour
     public Marble FireMarble;
     public TopMarble TopRedMarble;
     public Tier TierPrefab;
-    public float spawnInterval = 0.6f;
+    public float speed = 8f;
+    private float spawnInterval = 0.6f;
     private float timer = 0;
-    private float speed = 8f;
     private float maxSpeed = 40f;
     private float acceleration = 0.5f;
     private bool isSpawningPaused = true;
+    private bool hasUpdatedTier;
     private List<Marble> allMarbles = new List<Marble>();
 
     private SaveObject savedData;
@@ -180,12 +181,14 @@ public class MarbleSpawner : MonoBehaviour
         {
             Tier newTier = Instantiate(TierPrefab, GetSpawnPosition(MarbleColor.Unknown, true), Quaternion.identity);
             newTier.text.text = $"Tier {tier}";
-            newTier.marble.speed = speed;
+            newTier.marble.speed = hasUpdatedTier ? speed : 15;
 
             Destroy(newTier.gameObject, 5);
         }
 
-        StartCoroutine(PauseSpawning());
+        StartCoroutine(PauseSpawning(tier));
+
+        hasUpdatedTier = true;
     }
 
     public void DestroyAll(bool onlyBad = false)
@@ -204,12 +207,16 @@ public class MarbleSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator PauseSpawning()
+    IEnumerator PauseSpawning(int tier)
     {
         isSpawningPaused = true;
         float pauseDuration = -0.1f * speed + 3f;
 
         pauseDuration = Mathf.Clamp(pauseDuration, 0.75f, 2f);
+        if (!hasUpdatedTier)
+        {
+            pauseDuration = tier > 3 ? 2.5f : 2;
+        }
 
         yield return new WaitForSeconds(pauseDuration);
         isSpawningPaused = false;

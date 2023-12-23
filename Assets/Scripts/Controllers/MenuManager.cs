@@ -1,4 +1,5 @@
 using EasyTransition;
+using OneManEscapePlan.ModalDialogs.Scripts;
 using TMPro;
 using UnityEngine;
 
@@ -19,6 +20,11 @@ public class MenuManager : MonoBehaviour
         if (!savedData.CanShowAds)
         {
             noAdsButton.SetActive(false);
+        }
+        if (savedData.ExtraChance.IsActive)
+        {
+            savedData.ExtraChance.IsActive = false;
+            SaveManager.Save(savedData);
         }
 
         UpdateHighScoreText();
@@ -41,7 +47,6 @@ public class MenuManager : MonoBehaviour
 
     private void UpdateHighScoreText()
     {
-        SaveObject savedData = SaveManager.Load();
         highScoreText.text = $"{savedData.HighScore}";
     }
 

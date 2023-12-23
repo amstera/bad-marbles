@@ -33,7 +33,7 @@ public class PerksManager : MonoBehaviour
     private NextPerkUI nextPerkInstance;
 
     private Coroutine updateScrollViewCoroutine;
-    private float fadeDuration = 0.1f;
+    private float fadeDuration = 0.075f;
 
     // Grid layout settings
     private Vector2 initialPosition = new Vector2(-105, -130);

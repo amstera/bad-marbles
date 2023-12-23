@@ -148,7 +148,6 @@ GameObject:
   - component: {fileID: 4061710315537938426}
   - component: {fileID: 1349184973066125222}
   - component: {fileID: 7471529338938445106}
-  - component: {fileID: 5228888357283636090}
   - component: {fileID: 3811689731270881390}
   m_Layer: 5
   m_Name: No Ads
@@ -244,32 +243,6 @@ MonoBehaviour:
   noAdsButton: {fileID: 0}
   confettiPS: {fileID: 0}
   plopSound: {fileID: 3811689731270881390}
---- !u!114 &5228888357283636090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3999427727453153113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f7dd963c1a8b427b96975fa211478a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  consumePurchase: 1
-  dontDestroyOnLoad: 1
-  onProductsFetched:
-    m_PersistentCalls:
-      m_Calls: []
-  onPurchaseComplete:
-    m_PersistentCalls:
-      m_Calls: []
-  onPurchaseFailed:
-    m_PersistentCalls:
-      m_Calls: []
-  onPurchaseDetailedFailedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!82 &3811689731270881390
 AudioSource:
   m_ObjectHideFlags: 0

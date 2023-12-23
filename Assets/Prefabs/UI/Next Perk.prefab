@@ -387,3 +387,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 6768960034957971266}
   image: {fileID: 2751819325531606858}
+  gradient: {fileID: 7099330025280540605}
+  linearColor1Unlocked: {r: 0.65607506, g: 0.8773585, b: 0.062077243, a: 0.3529412}
+  linearColor2Unlocked: {r: 1, g: 0.9831489, b: 0, a: 0.4627451}
+  linearColor1Next: {r: 0.4039216, g: 0.11764707, b: 0.8117648, a: 0.3529412}
+  linearColor2Next: {r: 0.9803922, g: 0.039215688, b: 0.7490196, a: 0.4627451}

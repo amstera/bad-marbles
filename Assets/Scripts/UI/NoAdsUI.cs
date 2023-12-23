@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections;
+using OneManEscapePlan.ModalDialogs.Scripts;
 
 public class NoAdsUI : MonoBehaviour, IPointerDownHandler
 {
@@ -88,6 +89,7 @@ public class NoAdsUI : MonoBehaviour, IPointerDownHandler
 
     private void HandlePurchaseFailed(Product product)
     {
+        DialogManager.Instance.ShowDialog("Alert", "Failed to purchase.");
         Debug.Log("Purchase of Remove Ads failed.");
     }
 

@@ -60,6 +60,7 @@ public class SaveObject
 
     public Settings Settings = new Settings();
     public SelectedPerks SelectedPerks = new SelectedPerks();
+    public ExtraChance ExtraChance = new ExtraChance();
 }
 
 [System.Serializable]
@@ -82,3 +83,13 @@ public class SelectedPerks
     public PerkEnum SelectedRamp = PerkEnum.DefaultRamp;
     public int LastRampPoints = 0;
 }
+
+[System.Serializable]
+public class ExtraChance
+{
+    public bool IsActive;
+    public int Score;
+    public int Tier;
+    public float MarbleSpawnSpeed;
+}
+

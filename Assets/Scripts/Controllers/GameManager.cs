@@ -65,22 +65,29 @@ public class GameManager : MonoBehaviour
     private float marbleHitRadius = 2f;
     private int streakSavers = 0;
     private SaveObject savedData;
+    private ExtraChance extraChance;
 
     void Awake()
     {
         savedData = SaveManager.Load();
         InitializeSingleton();
         SetPerks();
+        extraChance = savedData.ExtraChance;
+
+        if (extraChance.IsActive)
+        {
+            UpdateExtraChanceValues();
+        }
     }
 
     void Start()
     {
-        AdsManager.Instance.OnAdClosedOrFailed += StartGame;
+        InitializeAdEvents();
 
-        if (ShouldShowAd())
+        if (!extraChance.IsActive && ShouldShowAd())
         {
             GameMusicPlayer.Instance.Pause();
-            AdsManager.Instance.ShowAd();
+            AdsManager.Instance.interstitialAd.ShowAd();
         }
         else
         {
@@ -103,11 +110,11 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+        DeinitializeAdEvents();
+
         GameMusicPlayer.Instance.Play();
         startText.gameObject.SetActive(true);
         StartCoroutine(UpdateTierRoutine());
-
-        AdsManager.Instance.OnAdClosedOrFailed -= StartGame;
     }
 
     private bool ShouldShowAd()
@@ -193,6 +200,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void UpdateExtraChanceValues()
+    {
+        score = extraChance.Score;
+        scoreText.SetScoreImmediately(score);
+        tier = extraChance.Tier;
+        marbleSpawner.speed = extraChance.MarbleSpawnSpeed;
+    }
+
+    private void InitializeAdEvents()
+    {
+        AdsManager.Instance.interstitialAd.OnAdCompleted += StartGame;
+        AdsManager.Instance.interstitialAd.OnAdSkipped += StartGame;
+        AdsManager.Instance.interstitialAd.OnAdFailed += StartGame;
+    }
+
+    private void DeinitializeAdEvents()
+    {
+        AdsManager.Instance.interstitialAd.OnAdCompleted -= StartGame;
+        AdsManager.Instance.interstitialAd.OnAdSkipped -= StartGame;
+        AdsManager.Instance.interstitialAd.OnAdFailed -= StartGame;
+    }
+
     private IEnumerator UpdateTierRoutine()
     {
         while (Lives > 0)
@@ -259,15 +288,15 @@ public class GameManager : MonoBehaviour
             marbleSpawner.DestroyAll();
             Destroy(FindAnyObjectByType<Tier>()?.gameObject);
 
-            gameOverUI.ShowGameOver(score, tier, savedData);
+            gameOverUI.ShowGameOver(score, tier, savedData, extraChance.IsActive, marbleSpawner.speed);
         }
     }
 
     private void OnDestroy()
     {
-        if (AdsManager.Instance != null)
+        if (AdsManager.Instance?.interstitialAd != null)
         {
-            AdsManager.Instance.OnAdClosedOrFailed -= StartGame;
+            DeinitializeAdEvents();
         }
     }
 }
