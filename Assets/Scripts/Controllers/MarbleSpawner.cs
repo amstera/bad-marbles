@@ -13,18 +13,18 @@ public class MarbleSpawner : MonoBehaviour
     public TopMarble TopRedMarble;
     public Tier TierPrefab;
     public float speed = 8f;
-    private float spawnInterval = 0.6f;
+    private float spawnInterval = 0.65f;
     private float timer = 0;
     private float maxSpeed = 40f;
-    private float acceleration = 0.5f;
+    private float acceleration = 0.55f;
     private bool isSpawningPaused = true;
     private bool hasUpdatedTier;
+    private int frameCounter = 0;
     private List<Marble> allMarbles = new List<Marble>();
 
     private SaveObject savedData;
     private bool hasAngelMarble;
     private bool hasGoldMarble;
-    private bool hasNoBigRedMarble;
 
     void Start()
     {
@@ -40,8 +40,16 @@ public class MarbleSpawner : MonoBehaviour
         }
 
         UpdateSpeed();
-        TrySpawnMarble();
+
+        // Update marble spawning every second frame
+        if (frameCounter % 2 == 0)
+        {
+            TrySpawnMarble();
+        }
+
+        frameCounter++;
     }
+
 
     void UpdateSpeed()
     {
@@ -54,7 +62,7 @@ public class MarbleSpawner : MonoBehaviour
 
     void TrySpawnMarble()
     {
-        timer -= Time.deltaTime;
+        timer -= Time.deltaTime * 2;  // Adjusting for every second frame update
         if (timer <= 0f)
         {
             SpawnMarble();
@@ -98,6 +106,17 @@ public class MarbleSpawner : MonoBehaviour
 
     Marble DetermineMarbleToSpawn(int tier, int randomValue)
     {
+        if (tier >= 12)
+        {
+            if (randomValue < 8)
+            {
+                SpawnPairedMarble(RedMarble, TopRedMarble);
+                return null;
+            }
+            if (randomValue < 20) return BigRedMarble;
+            else if (randomValue < 40) return FireMarble;
+            else if (randomValue < 55) return RedMarble;
+        }
         if (tier >= 10)
         {
             if (randomValue < 5)
@@ -105,35 +124,35 @@ public class MarbleSpawner : MonoBehaviour
                 SpawnPairedMarble(RedMarble, TopRedMarble);
                 return null;
             }
-            if (randomValue < 8 && !hasNoBigRedMarble) return BigRedMarble;
-            else if (randomValue < 25) return FireMarble;
+            if (randomValue < 15) return BigRedMarble;
+            else if (randomValue < 35) return FireMarble;
             else if (randomValue < 55) return RedMarble;
         }
         else if (tier >= 8)
         {
-            if (randomValue < 2)
+            if (randomValue < 5)
             {
                 SpawnPairedMarble(RedMarble, TopRedMarble);
                 return null;
             }
-            if (randomValue < 5 && !hasNoBigRedMarble) return BigRedMarble;
-            else if (randomValue < 20) return FireMarble;
+            if (randomValue < 10) return BigRedMarble;
+            else if (randomValue < 25) return FireMarble;
             else if (randomValue < 55) return RedMarble;
         }
         else if (tier >= 5)
         {
-            if (randomValue < 2)
+            if (randomValue < 4)
             {
                 SpawnPairedMarble(RedMarble, TopRedMarble);
                 return null;
             }
-            if (randomValue < 4 && !hasNoBigRedMarble) return BigRedMarble;
+            if (randomValue < 8) return BigRedMarble;
             else if (randomValue < 15) return FireMarble;
             else if (randomValue < 50) return RedMarble;
         }
         else if (tier >= 4)
         {
-            if (randomValue < 2 && !hasNoBigRedMarble) return BigRedMarble;
+            if (randomValue < 5) return BigRedMarble;
             else if (randomValue < 10) return FireMarble;
             else if (randomValue < 50) return RedMarble;
         }
@@ -141,6 +160,11 @@ public class MarbleSpawner : MonoBehaviour
         {
             if (randomValue < 10) return FireMarble;
             else if (randomValue < 50) return RedMarble;
+        }
+        else if (tier >= 2)
+        {
+            if (randomValue < 5) return FireMarble;
+            else if (randomValue < 45) return RedMarble;
         }
         else
         {
@@ -165,13 +189,13 @@ public class MarbleSpawner : MonoBehaviour
         {
             return GoldMarble;
         }
-
+        
         return GreenMarble;
     }
 
     void UpdateTimer()
     {
-        float newInterval = Mathf.Max(0.15f, spawnInterval - (speed / 1.5f / maxSpeed));
+        float newInterval = Mathf.Clamp(spawnInterval - (speed / 1.6f / maxSpeed), 0.15f, 0.48f);
         timer = newInterval;
     }
 
@@ -200,7 +224,7 @@ public class MarbleSpawner : MonoBehaviour
                 continue;
             }
 
-            if (!onlyBad || marble.color == MarbleColor.Red || marble.color == MarbleColor.Fire || marble.color == MarbleColor.BigRed)
+            if (!onlyBad || marble.livesLost > 0)
             {
                 marble.Destroy();
             }
@@ -233,10 +257,6 @@ public class MarbleSpawner : MonoBehaviour
             else if (perk == PerkEnum.GoldMarble)
             {
                 hasGoldMarble = true;
-            }
-            else if (perk == PerkEnum.NoBigMarbles)
-            {
-                hasNoBigRedMarble = true;
             }
         }
     }

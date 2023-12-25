@@ -26,7 +26,7 @@ public abstract class AdBase : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
         }
         else
         {
-            Debug.Log("Ad is not ready yet. Show requested.");
+            OnAdFailed?.Invoke();
             showRequested = true;
         }
     }

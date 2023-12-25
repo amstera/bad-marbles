@@ -241,8 +241,8 @@ MonoBehaviour:
   blendMode: 0
   intensity: 1
   gradientType: 0
-  linearColor1: {r: 0.49490905, g: 0.015686274, b: 1, a: 1}
-  linearColor2: {r: 0.69217473, g: 0.57022077, b: 0.8113208, a: 1}
+  linearColor1: {r: 0.48605585, g: 0, b: 1, a: 1}
+  linearColor2: {r: 0.34358168, g: 0.20692416, b: 0.4716981, a: 1}
   cornerColorUpperLeft: {r: 1, g: 0, b: 0, a: 1}
   cornerColorUpperRight: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   cornerColorLowerRight: {r: 0, g: 1, b: 0, a: 1}
@@ -416,7 +416,7 @@ MonoBehaviour:
   intensity: 1
   gradientType: 0
   linearColor1: {r: 0.69667906, g: 0.35506406, b: 0.9528302, a: 1}
-  linearColor2: {r: 1, g: 1, b: 1, a: 1}
+  linearColor2: {r: 0.995283, g: 0.9956669, b: 1, a: 1}
   cornerColorUpperLeft: {r: 1, g: 0, b: 0, a: 1}
   cornerColorUpperRight: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   cornerColorLowerRight: {r: 0, g: 1, b: 0, a: 1}
@@ -1141,8 +1141,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 26
+  m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1177,7 +1177,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: -3.9114265, z: 0, w: -4.695099}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

@@ -37,7 +37,7 @@ public class Marble : MonoBehaviour
         marbleRenderer.material.color = originalColor;
     }
 
-    void FixedUpdate()
+    protected void FixedUpdate()
     {
         if (rb.velocity.magnitude < speed)
         {

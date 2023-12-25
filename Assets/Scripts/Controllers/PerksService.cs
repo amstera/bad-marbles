@@ -81,9 +81,9 @@ public class PerkService
         });
         perks.Add(new Perk
         {
-            Id = PerkEnum.NoBigMarbles,
-            Name = "No Big Red",
-            Sprite = Resources.Load<Sprite>("Images/UI/Special/NoBigRed"),
+            Id = PerkEnum.SlowTime,
+            Name = "Slow Time",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/SlowTIme"),
             Points = 65000,
             Category = PerkCategory.Special
         });

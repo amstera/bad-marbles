@@ -34,7 +34,7 @@ public enum PerkEnum
     SciFiRamp = 24,
     TechLabBackground = 25,
     SimpleTune = 26,
-    NoBigMarbles = 27,
+    SlowTime = 27,
     ExtraLife3 = 28,
     RoadRamp = 29,
     GoldTrophy = 30,

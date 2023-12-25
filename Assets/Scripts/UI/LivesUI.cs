@@ -83,7 +83,7 @@ public class LivesUI : MonoBehaviour
         int startIndex = lifeImages.Length - lives;
         for (int i = 0; i < startIndex; i++)
         {
-            lifeImages[i].color = new Color(1, 1, 1, 0.5f);
+            lifeImages[i].color = new Color(1, 1, 1, 0.25f);
         }
         for (int i = startIndex; i < lifeImages.Length; i++)
         {

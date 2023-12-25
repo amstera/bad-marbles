@@ -11,6 +11,7 @@ public class NoAdsUI : MonoBehaviour, IPointerDownHandler
     public ParticleSystem confettiPS;
 
     public AudioSource plopSound;
+    public AudioSource purchaseSound;
 
     void Start()
     {
@@ -84,6 +85,7 @@ public class NoAdsUI : MonoBehaviour, IPointerDownHandler
     {
         confettiPS.Play();
         noAdsButton.SetActive(false);
+        purchaseSound?.Play();
         Hide();
     }
 
