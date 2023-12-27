@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public StressReceiver stressReceiver;
     public MarbleSpawner marbleSpawner;
     public StartText startText;
+    public TutorialUI tutorial;
 
     public AudioSource pointGainedSound;
     public AudioSource lifeLossSound;
@@ -84,7 +85,11 @@ public class GameManager : MonoBehaviour
     {
         InitializeAdEvents();
 
-        if (!extraChance.IsActive && ShouldShowAd())
+        if (savedData.GamesPlayed == 0)
+        {
+            ShowTutorial();
+        }
+        else if (!extraChance.IsActive && ShouldShowAd())
         {
             GameMusicPlayer.Instance.Pause();
             AdsManager.Instance.interstitialAd.ShowAd();
@@ -110,6 +115,7 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+        tutorial.ClosePopup -= StartGame;
         DeinitializeAdEvents();
 
         GameMusicPlayer.Instance.Play();
@@ -290,6 +296,12 @@ public class GameManager : MonoBehaviour
 
             gameOverUI.ShowGameOver(score, tier, savedData, extraChance.IsActive, marbleSpawner.speed);
         }
+    }
+
+    private void ShowTutorial()
+    {
+        tutorial.ClosePopup += StartGame;
+        tutorial.Show();
     }
 
     private void OnDestroy()

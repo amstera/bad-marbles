@@ -15,6 +15,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     public Slider musicVolumeSlider;
     public Toggle sfxToggle, vibrationsToggle;
     public TextMeshProUGUI gamesPlayedAmountText, highestStreakAmountText, highestTierAmountText, avgScoreAmountText, footerText;
+    public TutorialUI tutorialUI;
     #endregion
 
     #region Page Components
@@ -146,6 +147,11 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
         StartCoroutine(Fade(true));
         StartCoroutine(PopIn(popUp, popUpDuration));
         StartCoroutine(RotateGear(45));
+    }
+
+    public void ShowTutorial()
+    {
+        tutorialUI.Show("Close");
     }
 
     private void SetSFXVolume(bool enabled)

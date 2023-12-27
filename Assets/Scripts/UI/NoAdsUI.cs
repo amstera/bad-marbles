@@ -25,7 +25,7 @@ public class NoAdsUI : MonoBehaviour, IPointerDownHandler
 
     public void Show()
     {
-        panelCanvasGroup.blocksRaycasts = true;
+        gameObject.SetActive(true);
         StartCoroutine(ShowRoutine());
     }
 
@@ -37,6 +37,8 @@ public class NoAdsUI : MonoBehaviour, IPointerDownHandler
         // Pop-in animation for the pop-up
         popUp.transform.localScale = Vector3.zero;
         yield return StartCoroutine(PopIn(popUp, 0.2f));
+
+        panelCanvasGroup.blocksRaycasts = true;
     }
 
     public void Hide()
@@ -50,6 +52,8 @@ public class NoAdsUI : MonoBehaviour, IPointerDownHandler
         yield return StartCoroutine(FadeCanvasGroup(panelCanvasGroup, 0.2f, 0));
         popUp.transform.localScale = Vector3.zero;
         panelCanvasGroup.blocksRaycasts = false;
+
+        gameObject.SetActive(false);
     }
 
     private IEnumerator FadeCanvasGroup(CanvasGroup cg, float time, float targetAlpha)

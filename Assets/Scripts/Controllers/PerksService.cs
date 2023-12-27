@@ -177,7 +177,7 @@ public class PerkService
             Id = PerkEnum.StreamBackground,
             Name = "Magic Realm",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Stream"),
-            Points = 250,
+            Points = 100,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk
