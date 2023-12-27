@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private float marbleHitRadius = 2f;
+    private float marbleHitRadius = 2.5f;
     private int streakSavers = 0;
     private SaveObject savedData;
     private ExtraChance extraChance;

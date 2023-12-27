@@ -1,3 +1,4 @@
+using System.Collections;
 using EasyTransition;
 using TMPro;
 using UnityEngine;
@@ -10,9 +11,11 @@ public class MenuManager : MonoBehaviour
     public GameObject newIndicator;
     public GameObject goldTrophy;
 
-    private SaveObject savedData;
-
     public AudioSource plopSound;
+
+    private SaveObject savedData;
+    private float trophySwayAngle = 5.0f;
+    private float trophySwaySpeed = 2.0f;
 
     void Start()
     {
@@ -67,6 +70,17 @@ public class MenuManager : MonoBehaviour
         if (savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.GoldTrophy))
         {
             goldTrophy.SetActive(true);
+            StartCoroutine(SwayTrophy());
+        }
+    }
+
+    private IEnumerator SwayTrophy()
+    {
+        while (true)
+        {
+            float angle = trophySwayAngle * Mathf.Sin(Time.time * trophySwaySpeed);
+            goldTrophy.transform.rotation = Quaternion.Euler(0, 0, angle);
+            yield return null;
         }
     }
 }

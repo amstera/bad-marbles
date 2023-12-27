@@ -15,7 +15,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     public Slider musicVolumeSlider;
     public Toggle sfxToggle, vibrationsToggle;
     public TextMeshProUGUI gamesPlayedAmountText, highestStreakAmountText, highestTierAmountText, avgScoreAmountText, footerText;
-    public TutorialUI tutorialUI;
+    public TutorialUI tutorialUIPrefab;
     #endregion
 
     #region Page Components
@@ -144,6 +144,8 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
 
     public void ShowPanel()
     {
+        gameObject.SetActive(true);
+
         StartCoroutine(Fade(true));
         StartCoroutine(PopIn(popUp, popUpDuration));
         StartCoroutine(RotateGear(45));
@@ -151,6 +153,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
 
     public void ShowTutorial()
     {
+        var tutorialUI = Instantiate(tutorialUIPrefab, transform.parent);
         tutorialUI.Show("Close");
     }
 
@@ -171,6 +174,11 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
         }
         canvasGroup.alpha = targetAlpha;
         canvasGroup.blocksRaycasts = fadeIn;
+
+        if (!fadeIn)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private IEnumerator PopIn(GameObject obj, float time)

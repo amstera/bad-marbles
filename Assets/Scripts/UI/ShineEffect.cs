@@ -8,9 +8,21 @@ public class ShineEffect : MonoBehaviour
     public float moveDuration = 3f;
     public float waitTime = 0f;
 
-    private void Start()
+    private Coroutine moveShineCoroutine;
+
+    void OnEnable()
     {
-        StartCoroutine(MoveShine());
+        moveShineCoroutine = StartCoroutine(MoveShine());
+    }
+
+    void OnDisable()
+    {
+        if (moveShineCoroutine != null)
+        {
+            StopCoroutine(moveShineCoroutine);
+        }
+
+        transform.localPosition = new Vector3(startX, transform.localPosition.y, transform.localPosition.z);
     }
 
     IEnumerator MoveShine()
@@ -27,6 +39,7 @@ public class ShineEffect : MonoBehaviour
                 yield return null;
             }
 
+            // Reset to start position
             transform.localPosition = new Vector3(startX, transform.localPosition.y, transform.localPosition.z);
 
             yield return new WaitForSeconds(waitTime);

@@ -89,12 +89,8 @@ public class TutorialUI : MonoBehaviour
 
         ClosePopup?.Invoke();
 
-        page2.alpha = 0;
-        page2.gameObject.SetActive(false);
-        page1.alpha = 1;
-        page1.gameObject.SetActive(true);
-
         gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     private IEnumerator FadeCanvasGroup(CanvasGroup cg, float time, float targetAlpha)
@@ -238,28 +234,9 @@ public class TutorialUI : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
 
         page1.gameObject.SetActive(false);
-        ResetShatteredMarbles();
         page2.gameObject.SetActive(true);
 
         // Start fading in page2
         StartCoroutine(FadeCanvasGroup(page2, 0.5f, 1));
     }
-
-    private void ResetShatteredMarbles()
-    {
-        marbleButton1.gameObject.SetActive(true);
-        marbleButton2.gameObject.SetActive(true);
-
-        ResetMarble(shatteredMarble1);
-        ResetMarble(shatteredMarble2);
-    }
-
-    private void ResetMarble(GameObject marbleObject)
-    {
-        foreach (Transform child in marbleObject.transform)
-        {
-            child.localPosition = Vector3.zero;
-        }
-    }
-
 }
