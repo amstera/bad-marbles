@@ -13,6 +13,7 @@ public class PerksManager : MonoBehaviour
     public AudioSource plopSound;
     public AudioSource pageFlipSound;
 
+    public Button backButton;
     public Button perksButton, musicButton, backgroundButton, rampButton;
     public GameObject musicViewedIndicator, backgroundViewedIndicator, rampViewedIndicator;
     public RectTransform selectedIndicator;
@@ -339,8 +340,19 @@ public class PerksManager : MonoBehaviour
         }
     }
 
-    public void LoadMenu()
+    public void BackButtonAreaPressed()
     {
+        StartCoroutine(BackButtonPressed());
+    }
+
+    private IEnumerator BackButtonPressed()
+    {
+        backButton.image.color = new Color(0.8f, 0.8f, 0.8f, 1);
+
+        yield return new WaitForSeconds(0.1f);
+
+        backButton.image.color = Color.white;
+
         TransitionManager.Instance().Transition("Menu", transition, 0);
         plopSound?.Play();
     }

@@ -157,6 +157,11 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
         tutorialUI.Show("Close");
     }
 
+    public void ShowSupport()
+    {
+        Application.OpenURL("https://www.google.com");
+    }
+
     private void SetSFXVolume(bool enabled)
     {
         audioMixer.SetFloat(SFX_VOLUME_PARAM, enabled ? 0f : SFX_VOLUME_OFF);

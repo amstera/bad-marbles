@@ -60,9 +60,13 @@ public class MarbleSpawner : MonoBehaviour
             {
                 growthRate *= 2.25f;
             }
-            else
+            else if (speed < maxSpeed * 0.75f)
             {
                 growthRate *= 1.25f;
+            }
+            else
+            {
+                growthRate *= 1.75f;
             }
             speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
         }
@@ -204,7 +208,7 @@ public class MarbleSpawner : MonoBehaviour
 
     void UpdateTimer()
     {
-        float intervalConstant = 1.525f;
+        float intervalConstant = 1.52f;
         if (speed < 12)
         {
             intervalConstant = 1.85f;

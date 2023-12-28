@@ -9,7 +9,7 @@ public class MenuMusicPlayer : MonoBehaviour
     public AudioClip backgroundMusicClip;
 
     private SaveObject savedData;
-    private float defaultBackgroundMusicVolume = 0.4f;
+    private float defaultBackgroundMusicVolume = 0.3f;
 
     void Awake()
     {

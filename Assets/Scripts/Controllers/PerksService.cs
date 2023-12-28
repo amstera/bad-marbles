@@ -65,7 +65,7 @@ public class PerkService
             Sprite = Resources.Load<Sprite>("Images/UI/Special/StreakSaver"),
             Points = 15000,
             Category = PerkCategory.Special,
-            Description = "Get one streak saved per game! (Can be stacked)"
+            Description = "Get a streak saved per game! (Can be stacked)"
         });
         perks.Add(new Perk
         {
@@ -101,7 +101,7 @@ public class PerkService
             Sprite = Resources.Load<Sprite>("Images/UI/Special/StreakSaver"),
             Points = 85000,
             Category = PerkCategory.Special,
-            Description = "Get one streak saved per game! (Can be stacked)"
+            Description = "Get a streak saved per game! (Can be stacked)"
         });
         perks.Add(new Perk
         {
@@ -117,7 +117,7 @@ public class PerkService
             Id = PerkEnum.GoldTrophy,
             Name = "Gold Trophy",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/GoldTrophy"),
-            Points = 200000,
+            Points = 20000,
             Category = PerkCategory.Special,
             Description = "You're the Bad Marbles champion!"
         });
@@ -137,7 +137,7 @@ public class PerkService
             Id = PerkEnum.RockinMarbles,
             Name = "Rockin' Marbles",
             Sprite = Resources.Load<Sprite>("Images/UI/Music/RockinMarbles"),
-            Points = 1500,
+            Points = 1000,
             Category = PerkCategory.Music
         });
         perks.Add(new Perk
@@ -195,7 +195,7 @@ public class PerkService
             Id = PerkEnum.CandyBackground,
             Name = "Candy Land",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Candy"),
-            Points = 1000,
+            Points = 1500,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk

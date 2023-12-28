@@ -8,9 +8,16 @@ public class GoldTrophyUI : MonoBehaviour, IPointerDownHandler
     public GameObject popUp;
 
     public AudioSource plopSound;
+    public AudioSource goldTrophyMusic;
+
+    private float defaultBackgroundMusicVolume = 0.5f;
+    private SaveObject savedData;
 
     void Start()
     {
+        savedData = SaveManager.Load();
+        goldTrophyMusic.volume = defaultBackgroundMusicVolume * savedData.Settings.Volume;
+
         popUp.transform.localScale = Vector3.zero;
         panelCanvasGroup.blocksRaycasts = false;
     }
@@ -21,6 +28,9 @@ public class GoldTrophyUI : MonoBehaviour, IPointerDownHandler
 
         plopSound?.Play();
         StartCoroutine(ShowRoutine());
+
+        MenuMusicPlayer.Instance.backgroundMusic.Stop();
+        goldTrophyMusic.Play();
     }
 
     private IEnumerator ShowRoutine()
@@ -48,6 +58,9 @@ public class GoldTrophyUI : MonoBehaviour, IPointerDownHandler
         panelCanvasGroup.blocksRaycasts = false;
 
         gameObject.SetActive(false);
+
+        MenuMusicPlayer.Instance.backgroundMusic.Play();
+        goldTrophyMusic.Stop();
     }
 
     private IEnumerator FadeCanvasGroup(CanvasGroup cg, float time, float targetAlpha)
