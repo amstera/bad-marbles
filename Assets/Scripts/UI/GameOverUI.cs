@@ -35,6 +35,7 @@ public class GameOverUI : MonoBehaviour
 
     public void ShowGameOver(int score, int tier, SaveObject savedData, bool isExtraChance, float marbleSpawnSpeed)
     {
+        Time.timeScale = 1;
         gameObject.SetActive(true);
 
         StartCoroutine(FadeInCanvasGroup());
