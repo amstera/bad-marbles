@@ -37,7 +37,8 @@ public class PerkService
             Name = "Extra Life #1",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
             Points = 2500,
-            Category = PerkCategory.Special
+            Category = PerkCategory.Special,
+            Description = "Start the game with 1 extra life!"
         });
         perks.Add(new Perk
         {
@@ -45,7 +46,8 @@ public class PerkService
             Name = "2X Marble",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/AngelMarble"),
             Points = 4000,
-            Category = PerkCategory.Special
+            Category = PerkCategory.Special,
+            Description = "Halo marbles sometimes show up worth double points!"
         });
         perks.Add(new Perk
         {
@@ -53,7 +55,8 @@ public class PerkService
             Name = "Red Bomb",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/Bomb"),
             Points = 5000,
-            Category = PerkCategory.Special
+            Category = PerkCategory.Special,
+            Description = "Tap it to destroy all visible bad marbles once per game!"
         });
         perks.Add(new Perk
         {
@@ -61,7 +64,8 @@ public class PerkService
             Name = "Streak Saver #1",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/StreakSaver"),
             Points = 15000,
-            Category = PerkCategory.Special
+            Category = PerkCategory.Special,
+            Description = "Get one streak saved per game! (Can be stacked)"
         });
         perks.Add(new Perk
         {
@@ -69,7 +73,8 @@ public class PerkService
             Name = "Extra Life #2",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
             Points = 25000,
-            Category = PerkCategory.Special
+            Category = PerkCategory.Special,
+            Description = "Start the game with 1 extra life!"
         });
         perks.Add(new Perk
         {
@@ -77,7 +82,8 @@ public class PerkService
             Name = "5X Marble",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/GoldMarble"),
             Points = 45000,
-            Category = PerkCategory.Special
+            Category = PerkCategory.Special,
+            Description = "Gold marbles sometimes show up worth 5x points!"
         });
         perks.Add(new Perk
         {
@@ -85,7 +91,8 @@ public class PerkService
             Name = "Slow Time",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/SlowTIme"),
             Points = 65000,
-            Category = PerkCategory.Special
+            Category = PerkCategory.Special,
+            Description = "Tap it to slow time for five seconds once per game!"
         });
         perks.Add(new Perk
         {
@@ -93,7 +100,8 @@ public class PerkService
             Name = "Streak Saver #2",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/StreakSaver"),
             Points = 85000,
-            Category = PerkCategory.Special
+            Category = PerkCategory.Special,
+            Description = "Get one streak saved per game! (Can be stacked)"
         });
         perks.Add(new Perk
         {
@@ -101,7 +109,8 @@ public class PerkService
             Name = "Extra Life #3",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
             Points = 100000,
-            Category = PerkCategory.Special
+            Category = PerkCategory.Special,
+            Description = "Start the game with 1 extra life!"
         });
         perks.Add(new Perk
         {
@@ -109,7 +118,8 @@ public class PerkService
             Name = "Gold Trophy",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/GoldTrophy"),
             Points = 200000,
-            Category = PerkCategory.Special
+            Category = PerkCategory.Special,
+            Description = "You're the Bad Marbles champion!"
         });
 
 

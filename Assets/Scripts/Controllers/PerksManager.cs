@@ -23,8 +23,9 @@ public class PerksManager : MonoBehaviour
     public ScrollRect scrollView;
     public RectTransform scrollViewRect;
     public RectTransform scrollViewContent;
+    public PerkPopUpUI perkPopUp;
 
-    private float indicatorMoveSpeed = 0.15f;
+    private float indicatorMoveSpeed = 0.1f;
     private SaveObject savedData;
     private Button lastPressedButton;
     private List<PerkUI> currentPerks = new List<PerkUI>();
@@ -107,7 +108,7 @@ public class PerksManager : MonoBehaviour
             perkObject.transform.SetSiblingIndex(0); // Position perks below the next perk
 
             // Initialize perk data
-            perkObject.InitializePerk(perk.Id, perk.Name, perk.Sprite, perk.Points, perk.Category, perk.IsSelected, perk.IsUnlocked, unlockedPerks.Contains(perk));
+            perkObject.InitializePerk(perk.Id, perk.Name, perk.Description, perk.Sprite, perk.Points, perk.Category, perk.IsSelected, perk.IsUnlocked, unlockedPerks.Contains(perk));
 
             perkObject.OnPerkClicked += HandlePerkClick;
             currentPerks.Add(perkObject);
@@ -283,6 +284,11 @@ public class PerksManager : MonoBehaviour
             if (clickedPerk.isSelected)
             {
                 savedData.SelectedPerks.SelectedSpecial.Add(clickedPerk.id);
+                if (!string.IsNullOrEmpty(clickedPerk.description) && !savedData.SeenDescription.Contains(clickedPerk.id))
+                {
+                    perkPopUp.Show(clickedPerk.perkName, clickedPerk.description, clickedPerk.perkImage.sprite);
+                    savedData.SeenDescription.Add(clickedPerk.id);
+                }
             }
             else
             {

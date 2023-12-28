@@ -10,6 +10,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
 {
     public PerkEnum id;
     public string perkName;
+    public string description;
     public Sprite perkSprite;
     public int pointsRequired;
     public bool isSelected;
@@ -52,12 +53,13 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
         UpdatePerkDisplay();
     }
 
-    public void InitializePerk(PerkEnum id, string name, Sprite sprite, int points, PerkCategory category, bool isSelected, bool isUnlocked, bool isNewIndicatorEnabled)
+    public void InitializePerk(PerkEnum id, string name, string description, Sprite sprite, int points, PerkCategory category, bool isSelected, bool isUnlocked, bool isNewIndicatorEnabled)
     {
         this.id = id;
         perkName = name;
         perkSprite = sprite;
         pointsRequired = points;
+        this.description = description;
         this.category = category;
         this.isSelected = isSelected;
         this.isUnlocked = isUnlocked;
