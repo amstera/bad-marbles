@@ -117,7 +117,7 @@ public class PerkService
             Id = PerkEnum.GoldTrophy,
             Name = "Gold Trophy",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/GoldTrophy"),
-            Points = 20000,
+            Points = 200000,
             Category = PerkCategory.Special,
             Description = "You're the Bad Marbles champion!"
         });
