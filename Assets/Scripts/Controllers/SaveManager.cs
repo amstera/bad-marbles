@@ -57,6 +57,9 @@ public class SaveObject
     public int HighStreak = 1;
     public bool CanShowAds = true;
     public bool HasShownRateApp;
+    public bool HasSeenPerksTutorial;
+    public bool HasSeenPerksPopup;
+
     public List<PerkEnum> SeenDescription = new List<PerkEnum>();
 
     public Settings Settings = new Settings();

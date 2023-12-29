@@ -16,6 +16,7 @@ public class PerksManager : MonoBehaviour
     public Button backButton;
     public Button perksButton, musicButton, backgroundButton, rampButton;
     public GameObject musicViewedIndicator, backgroundViewedIndicator, rampViewedIndicator;
+    public GameObject arrow;
     public RectTransform selectedIndicator;
     public CanvasGroup scrollViewCanvasGroup;
 
@@ -61,8 +62,25 @@ public class PerksManager : MonoBehaviour
 
         lastPressedButton = perksButton;
 
-        PopulateScrollViewContent(PerkCategory.Special);
-        UpdateLastViewedIndicator(PerkCategory.Special, null);
+        if (!savedData.HasSeenPerksPopup)
+        {
+            perkPopUp.Show("Perks Vault", "Every game played earns points to unlock new perks!", perksButton.image.sprite);
+            savedData.HasSeenPerksPopup = true;
+
+            SaveManager.Save(savedData);
+        }
+
+        if (!savedData.HasSeenPerksTutorial && unlockedCategories.Contains(PerkCategory.Background))
+        {
+            OnButtonClicked(backgroundButton, backgroundViewedIndicator);
+            arrow.SetActive(true);
+            StartCoroutine(SwayArrowCoroutine());
+        }
+        else
+        {
+            PopulateScrollViewContent(PerkCategory.Special);
+            UpdateLastViewedIndicator(PerkCategory.Special, null);
+        }
     }
 
     private void SetUpButton(Button button, PerkCategory category, GameObject indicator, List<PerkCategory> unlockedCategories)
@@ -331,6 +349,12 @@ public class PerksManager : MonoBehaviour
             }
         }
 
+        if (!savedData.HasSeenPerksTutorial && clickedPerk.isSelected)
+        {
+            arrow.SetActive(false);
+            savedData.HasSeenPerksTutorial = true;
+        }
+
         SaveManager.Save(savedData);
         PerkService.Instance.savedData = savedData;
 
@@ -375,5 +399,17 @@ public class PerksManager : MonoBehaviour
         MenuMusicPlayer.Instance.backgroundMusic.clip = bgMusicInfo.clip;
         MenuMusicPlayer.Instance.backgroundMusic.volume = bgMusicInfo.volume;
         MenuMusicPlayer.Instance.backgroundMusic.Play();
+    }
+
+    private IEnumerator SwayArrowCoroutine()
+    {
+        float swaySpeed = 2;
+
+        while (arrow.activeSelf)
+        {
+            float swayPosition = Mathf.Lerp(-32f, -23f, (Mathf.Sin(Time.time * swaySpeed * 2) + 1) / 2);
+            arrow.transform.localPosition = new Vector3(swayPosition, arrow.transform.localPosition.y, arrow.transform.localPosition.z);
+            yield return null;
+        }
     }
 }

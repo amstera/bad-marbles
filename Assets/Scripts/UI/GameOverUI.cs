@@ -16,8 +16,10 @@ public class GameOverUI : MonoBehaviour
     public CanvasGroup canvasGroup;
     public TransitionSettings transition;
     public ParticleSystem confettiPS;
+    public Button playAgainButton;
     public Button noAdsButton;
     public Button secondChanceButton;
+    public GameObject arrow;
 
     public AudioSource highScoreSound;
     public AudioSource plopSound;
@@ -25,6 +27,8 @@ public class GameOverUI : MonoBehaviour
     private int score, tier;
     private float marbleSpawnSpeed;
     private SaveObject savedData;
+    private float swayAngle = 5.0f;
+    private float swaySpeed = 2.0f;
 
     private void Awake()
     {
@@ -38,6 +42,8 @@ public class GameOverUI : MonoBehaviour
         Time.timeScale = 1;
         gameObject.SetActive(true);
 
+        this.savedData = savedData;
+
         StartCoroutine(FadeInCanvasGroup());
         UpdateScoreText(score);
         UpdateHighScoreText(score, tier, savedData);
@@ -47,7 +53,6 @@ public class GameOverUI : MonoBehaviour
         this.score = score;
         this.tier = tier - 1;
         this.marbleSpawnSpeed = marbleSpawnSpeed;
-        this.savedData = savedData;
 
         if (!savedData.CanShowAds)
         {
@@ -180,6 +185,38 @@ public class GameOverUI : MonoBehaviour
         if (categories.Count > 0)
         {
             newIndicator.SetActive(true);
+            StartCoroutine(SwayNewIndicator());
+
+            if (!savedData.HasSeenPerksTutorial)
+            {
+                arrow.SetActive(true);
+                StartCoroutine(SwayArrowCoroutine());
+
+                playAgainButton.interactable = false;
+                playAgainButton.GetComponentInChildren<ShineEffect>().enabled = false;
+                secondChanceButton.interactable = false;
+                secondChanceButton.GetComponentInChildren<ShineEffect>().enabled = false;
+            }
+        }
+    }
+
+    private IEnumerator SwayNewIndicator()
+    {
+        while (true)
+        {
+            float angle = swayAngle * Mathf.Sin(Time.time * swaySpeed);
+            newIndicator.transform.rotation = Quaternion.Euler(0, 0, angle);
+            yield return null;
+        }
+    }
+
+    private IEnumerator SwayArrowCoroutine()
+    {
+        while (true)
+        {
+            float swayPosition = Mathf.Lerp(-96f, -101f, (Mathf.Sin(Time.time * swaySpeed * 2) + 1) / 2);
+            arrow.transform.localPosition = new Vector3(swayPosition, arrow.transform.localPosition.y, arrow.transform.localPosition.z);
+            yield return null;
         }
     }
 

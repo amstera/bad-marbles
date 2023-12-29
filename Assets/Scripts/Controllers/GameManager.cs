@@ -63,7 +63,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private float marbleHitRadius = 2.25f;
+    private float marbleHitRadius = 2.5f;
+
     private int streakSavers = 0;
     private SaveObject savedData;
     private ExtraChance extraChance;
@@ -167,7 +168,11 @@ public class GameManager : MonoBehaviour
     bool CheckAndDestroyNearbyMarble(Vector3 point)
     {
         int layerMask = 1 << 3; // Layer mask for marbles
-        Collider[] hitColliders = Physics.OverlapSphere(point, marbleHitRadius, layerMask);
+
+        var startPoint = point + new Vector3(0, -1, -1);
+        var endPoint = point - new Vector3(0, -1, -1);
+
+        Collider[] hitColliders = Physics.OverlapCapsule(startPoint, endPoint, marbleHitRadius, layerMask);
         foreach (var hitCollider in hitColliders)
         {
             if (TryDestroyMarble(hitCollider))

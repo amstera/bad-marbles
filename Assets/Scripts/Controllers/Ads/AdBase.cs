@@ -4,9 +4,8 @@ using UnityEngine.Advertisements;
 
 public abstract class AdBase : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
 {
-    protected string surfacingId; // This will be set by derived classes
+    protected string surfacingId;
     protected bool isAdReady = false;
-    protected bool showRequested = false;
 
     public event Action OnAdCompleted;
     public event Action OnAdSkipped;
@@ -22,12 +21,10 @@ public abstract class AdBase : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
         if (isAdReady)
         {
             Advertisement.Show(surfacingId, this);
-            showRequested = false;
         }
         else
         {
             OnAdFailed?.Invoke();
-            showRequested = true;
         }
     }
 
@@ -36,11 +33,6 @@ public abstract class AdBase : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
         if (placementId == surfacingId)
         {
             isAdReady = true;
-            if (showRequested)
-            {
-                Advertisement.Show(surfacingId, this);
-                showRequested = false;
-            }
         }
     }
 
@@ -49,14 +41,12 @@ public abstract class AdBase : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSh
         Debug.LogError($"Error loading Ad on {placementId}: {error} - {message}");
         OnAdFailed?.Invoke();
         isAdReady = false;
-        showRequested = false;
     }
 
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
         Debug.LogError($"Error showing Ad on {placementId}: {error} - {message}");
         OnAdFailed?.Invoke();
-        showRequested = false;
     }
 
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)

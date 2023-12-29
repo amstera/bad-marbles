@@ -14,8 +14,8 @@ public class MenuManager : MonoBehaviour
     public AudioSource plopSound;
 
     private SaveObject savedData;
-    private float trophySwayAngle = 5.0f;
-    private float trophySwaySpeed = 2.0f;
+    private float swayAngle = 5.0f;
+    private float swaySpeed = 2.0f;
 
     void Start()
     {
@@ -51,6 +51,7 @@ public class MenuManager : MonoBehaviour
         if (categories.Count > 0)
         {
             newIndicator.SetActive(true);
+            StartCoroutine(SwayNewIndicator());
         }
     }
 
@@ -78,8 +79,18 @@ public class MenuManager : MonoBehaviour
     {
         while (true)
         {
-            float angle = trophySwayAngle * Mathf.Sin(Time.time * trophySwaySpeed);
+            float angle = swayAngle * Mathf.Sin(Time.time * swaySpeed);
             goldTrophy.transform.rotation = Quaternion.Euler(0, 0, angle);
+            yield return null;
+        }
+    }
+
+    private IEnumerator SwayNewIndicator()
+    {
+        while (true)
+        {
+            float angle = swayAngle * Mathf.Sin(Time.time * swaySpeed);
+            newIndicator.transform.rotation = Quaternion.Euler(0, 0, angle);
             yield return null;
         }
     }
