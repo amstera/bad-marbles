@@ -36,7 +36,7 @@ public class PerkService
             Id = PerkEnum.ExtraLife1,
             Name = "Extra Life #1",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
-            Points = 2500,
+            Points = 2000,
             Category = PerkCategory.Special,
             Description = "Start the game with 1 extra life!"
         });
@@ -203,7 +203,7 @@ public class PerkService
             Id = PerkEnum.SnowBackground,
             Name = "Snowy Inn",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Snow"),
-            Points = 2000,
+            Points = 2500,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk

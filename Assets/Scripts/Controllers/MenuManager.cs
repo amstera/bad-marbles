@@ -14,8 +14,8 @@ public class MenuManager : MonoBehaviour
     public AudioSource plopSound;
 
     private SaveObject savedData;
-    private float swayAngle = 5.0f;
-    private float swaySpeed = 2.0f;
+    private float swayAngle = 5f;
+    private float swaySpeed = 4f;
 
     void Start()
     {

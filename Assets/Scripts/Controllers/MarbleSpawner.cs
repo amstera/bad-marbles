@@ -62,7 +62,7 @@ public class MarbleSpawner : MonoBehaviour
             }
             else if (speed < maxSpeed * 0.75f)
             {
-                growthRate *= 1.25f;
+                growthRate *= 1.5f;
             }
             else
             {
@@ -140,7 +140,7 @@ public class MarbleSpawner : MonoBehaviour
             else if (randomValue < 35) return FireMarble;
             else if (randomValue < 55) return RedMarble;
         }
-        else if (tier >= 8)
+        else if (tier >= 7)
         {
             if (randomValue < 5)
             {
@@ -213,11 +213,11 @@ public class MarbleSpawner : MonoBehaviour
         {
             intervalConstant = 1.8f;
         }
-        else if (speed < maxSpeed/2)
+        else if (speed < maxSpeed * 0.75)
         {
-            intervalConstant = 1.6f;
+            intervalConstant = 1.65f;
         }
-        float newInterval = Mathf.Clamp(spawnInterval - (speed / intervalConstant / maxSpeed), 0.15f, 0.48f);
+        float newInterval = Mathf.Clamp(spawnInterval - (speed / intervalConstant / maxSpeed), 0.12f, 0.48f);
         timer = newInterval;
     }
 
