@@ -20,6 +20,7 @@ public class MarbleSpawner : MonoBehaviour
     private bool isSpawningPaused = true;
     private bool hasUpdatedTier;
     private int frameCounter = 0;
+    private int tier;
     private List<Marble> allMarbles = new List<Marble>();
 
     private SaveObject savedData;
@@ -56,17 +57,17 @@ public class MarbleSpawner : MonoBehaviour
         if (speed < maxSpeed)
         {
             float growthRate = (maxSpeed - speed) / maxSpeed;
-            if (speed < maxSpeed / 2)
+            if (tier < 3)
             {
-                growthRate *= 2.2f;
+                growthRate *= 2.45f;
             }
-            else if (speed < maxSpeed * 0.75f)
+            else if (tier < 6)
             {
                 growthRate *= 1.5f;
             }
             else
             {
-                growthRate *= 2f;
+                growthRate *= 1.85f;
             }
             speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
         }
@@ -131,7 +132,7 @@ public class MarbleSpawner : MonoBehaviour
         }
         if (tier >= 10)
         {
-            if (randomValue < 6)
+            if (randomValue < 5)
             {
                 SpawnPairedMarble(RedMarble, TopRedMarble);
                 return null;
@@ -142,23 +143,34 @@ public class MarbleSpawner : MonoBehaviour
         }
         else if (tier >= 7)
         {
-            if (randomValue < 5)
-            {
-                SpawnPairedMarble(RedMarble, TopRedMarble);
-                return null;
-            }
-            if (randomValue < 10) return BigRedMarble;
-            else if (randomValue < 25) return FireMarble;
-            else if (randomValue < 55) return RedMarble;
-        }
-        else if (tier >= 5)
-        {
             if (randomValue < 4)
             {
                 SpawnPairedMarble(RedMarble, TopRedMarble);
                 return null;
             }
             if (randomValue < 8) return BigRedMarble;
+            else if (randomValue < 20) return FireMarble;
+            else if (randomValue < 55) return RedMarble;
+        }
+        else if (tier >= 6)
+        {
+            if (randomValue < 2)
+            {
+                SpawnPairedMarble(RedMarble, TopRedMarble);
+                return null;
+            }
+            if (randomValue < 6) return BigRedMarble;
+            else if (randomValue < 15) return FireMarble;
+            else if (randomValue < 50) return RedMarble;
+        }
+        else if (tier >= 5)
+        {
+            if (randomValue < 1)
+            {
+                SpawnPairedMarble(RedMarble, TopRedMarble);
+                return null;
+            }
+            if (randomValue < 6) return BigRedMarble;
             else if (randomValue < 15) return FireMarble;
             else if (randomValue < 50) return RedMarble;
         }
@@ -208,7 +220,7 @@ public class MarbleSpawner : MonoBehaviour
 
     void UpdateTimer()
     {
-        float intervalConstant = 0.9f;
+        float intervalConstant = 0.925f;
         float newInterval = Mathf.Clamp(spawnInterval - (speed / intervalConstant / maxSpeed), 0.12f, spawnInterval);
         timer = newInterval;
     }
@@ -218,11 +230,13 @@ public class MarbleSpawner : MonoBehaviour
         if (tier > 1)
         {
             Tier newTier = Instantiate(TierPrefab, GetSpawnPosition(MarbleColor.Unknown, true), Quaternion.identity);
-            newTier.text.text = $"Tier {tier}";
-            newTier.marble.speed = hasUpdatedTier ? speed : 15;
+            newTier.UpdateTier(tier);
+            newTier.UpdateSpeed(hasUpdatedTier ? speed : 15);
 
             Destroy(newTier.gameObject, 5);
         }
+
+        this.tier = tier;
 
         StartCoroutine(PauseSpawning(tier));
 
@@ -248,12 +262,20 @@ public class MarbleSpawner : MonoBehaviour
     IEnumerator PauseSpawning(int tier)
     {
         isSpawningPaused = true;
-        float pauseDuration = -0.1f * speed + 3f;
+        float pauseDuration;
 
-        pauseDuration = Mathf.Clamp(pauseDuration, 0.75f, 2f);
-        if (!hasUpdatedTier)
+        if (tier == 1)
         {
-            pauseDuration = tier > 3 ? 2.5f : 2;
+            pauseDuration = 1.5f;
+        }
+        else
+        {
+            pauseDuration = -0.1f * speed + 3f;
+            pauseDuration = Mathf.Clamp(pauseDuration, 0.75f, 2f);
+            if (!hasUpdatedTier)
+            {
+                pauseDuration = tier > 3 ? 2.5f : 2;
+            }
         }
 
         yield return new WaitForSeconds(pauseDuration);

@@ -317,7 +317,7 @@ public class PerkService
             Id = PerkEnum.SciFiRamp,
             Name = "Sci-Fi Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/SciFiRamp"),
-            Points = 15000,
+            Points = 17500,
             Category = PerkCategory.Ramp
         });
         perks.Add(new Perk
