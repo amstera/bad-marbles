@@ -194,8 +194,6 @@ public class GameOverUI : MonoBehaviour
 
                 playAgainButton.interactable = false;
                 playAgainButton.GetComponentInChildren<ShineEffect>().enabled = false;
-                secondChanceButton.interactable = false;
-                secondChanceButton.GetComponentInChildren<ShineEffect>().enabled = false;
             }
         }
     }

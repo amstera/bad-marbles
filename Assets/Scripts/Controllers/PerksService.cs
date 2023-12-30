@@ -36,7 +36,7 @@ public class PerkService
             Id = PerkEnum.ExtraLife1,
             Name = "Extra Life #1",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
-            Points = 2000,
+            Points = 1500,
             Category = PerkCategory.Special,
             Description = "Start the game with 1 extra life!"
         });
@@ -54,7 +54,7 @@ public class PerkService
             Id = PerkEnum.Bomb,
             Name = "Red Bomb",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/Bomb"),
-            Points = 5000,
+            Points = 8000,
             Category = PerkCategory.Special,
             Description = "Tap it to destroy all visible bad marbles once per game!"
         });
@@ -195,7 +195,7 @@ public class PerkService
             Id = PerkEnum.CandyBackground,
             Name = "Candy Land",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Candy"),
-            Points = 1500,
+            Points = 2000,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk
@@ -203,7 +203,7 @@ public class PerkService
             Id = PerkEnum.SnowBackground,
             Name = "Snowy Inn",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Snow"),
-            Points = 2500,
+            Points = 3000,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk
@@ -211,7 +211,7 @@ public class PerkService
             Id = PerkEnum.RetroBackground,
             Name = "Retro Forest",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Retro"),
-            Points = 11000,
+            Points = 6000,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk
@@ -219,7 +219,7 @@ public class PerkService
             Id = PerkEnum.ToysBackground,
             Name = "Toy Room",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Toys"),
-            Points = 17500,
+            Points = 12500,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk
@@ -290,10 +290,18 @@ public class PerkService
         });
         perks.Add(new Perk
         {
+            Id = PerkEnum.ChocolateRamp,
+            Name = "Chocolate Ramp",
+            Sprite = Resources.Load<Sprite>("Images/UI/Ramps/ChocolateRamp"),
+            Points = 2500,
+            Category = PerkCategory.Ramp
+        });
+        perks.Add(new Perk
+        {
             Id = PerkEnum.IceRamp,
             Name = "Ice Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/IceRamp"),
-            Points = 3000,
+            Points = 5000,
             Category = PerkCategory.Ramp
         });
         perks.Add(new Perk
@@ -301,15 +309,7 @@ public class PerkService
             Id = PerkEnum.WoodRamp,
             Name = "Wood Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/WoodRamp"),
-            Points = 7500,
-            Category = PerkCategory.Ramp
-        });
-        perks.Add(new Perk
-        {
-            Id = PerkEnum.ChocolateRamp,
-            Name = "Chocolate Ramp",
-            Sprite = Resources.Load<Sprite>("Images/UI/Ramps/ChocolateRamp"),
-            Points = 12500,
+            Points = 7000,
             Category = PerkCategory.Ramp
         });
         perks.Add(new Perk
@@ -317,7 +317,7 @@ public class PerkService
             Id = PerkEnum.SciFiRamp,
             Name = "Sci-Fi Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/SciFiRamp"),
-            Points = 30000,
+            Points = 15000,
             Category = PerkCategory.Ramp
         });
         perks.Add(new Perk
@@ -325,7 +325,7 @@ public class PerkService
             Id = PerkEnum.RoadRamp,
             Name = "Road Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/RoadRamp"),
-            Points = 42500,
+            Points = 30000,
             Category = PerkCategory.Ramp
         });
         perks.Add(new Perk

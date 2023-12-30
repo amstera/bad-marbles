@@ -13,7 +13,7 @@ public class MarbleSpawner : MonoBehaviour
     public TopMarble TopRedMarble;
     public Tier TierPrefab;
     public float speed = 8f;
-    private float spawnInterval = 0.6f;
+    private float spawnInterval = 1f;
     private float timer = 0;
     private float maxSpeed = 45f;
     private float acceleration = 0.55f;
@@ -177,7 +177,7 @@ public class MarbleSpawner : MonoBehaviour
         else if (tier >= 2)
         {
             if (randomValue < 5) return FireMarble;
-            else if (randomValue < 45) return RedMarble;
+            else if (randomValue < 50) return RedMarble;
         }
         else
         {
@@ -208,16 +208,8 @@ public class MarbleSpawner : MonoBehaviour
 
     void UpdateTimer()
     {
-        float intervalConstant = 1.5f;
-        if (speed < 12)
-        {
-            intervalConstant = 1.8f;
-        }
-        else if (speed < maxSpeed * 0.75)
-        {
-            intervalConstant = 1.65f;
-        }
-        float newInterval = Mathf.Clamp(spawnInterval - (speed / intervalConstant / maxSpeed), 0.12f, 0.48f);
+        float intervalConstant = 0.9f;
+        float newInterval = Mathf.Clamp(spawnInterval - (speed / intervalConstant / maxSpeed), 0.12f, spawnInterval);
         timer = newInterval;
     }
 

@@ -4494,6 +4494,8 @@ MonoBehaviour:
     type: 3}
   TierPrefab: {fileID: 7627756417556560729, guid: 343c5979357894924b85d5cb77c45e26,
     type: 3}
+  lineDrawerPrefab: {fileID: 2398329903940397617, guid: a0f923009662e4c5f9a2f0fe9381745d,
+    type: 3}
   speed: 8
 --- !u!1001 &1251299231
 PrefabInstance:
@@ -5080,6 +5082,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ramp
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 590bba69b2b76495cbc374823b05f7eb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
