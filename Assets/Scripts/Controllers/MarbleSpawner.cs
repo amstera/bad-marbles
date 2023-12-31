@@ -12,6 +12,7 @@ public class MarbleSpawner : MonoBehaviour
     public Marble FireMarble;
     public TopMarble TopRedMarble;
     public Tier TierPrefab;
+    public Ramp ramp;
     public float speed = 8f;
     private float spawnInterval = 1f;
     private float timer = 0;
@@ -59,17 +60,15 @@ public class MarbleSpawner : MonoBehaviour
             float growthRate = (maxSpeed - speed) / maxSpeed;
             if (tier < 3)
             {
-                growthRate *= 2.45f;
-            }
-            else if (tier < 6)
-            {
-                growthRate *= 1.5f;
+                growthRate *= 2.1f;
             }
             else
             {
-                growthRate *= 1.85f;
+                growthRate *= 1.8f;
             }
             speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
+
+            ramp.scrollSpeed = speed * 0.0125f;
         }
     }
 
@@ -152,20 +151,9 @@ public class MarbleSpawner : MonoBehaviour
             else if (randomValue < 20) return FireMarble;
             else if (randomValue < 55) return RedMarble;
         }
-        else if (tier >= 6)
-        {
-            if (randomValue < 2)
-            {
-                SpawnPairedMarble(RedMarble, TopRedMarble);
-                return null;
-            }
-            if (randomValue < 6) return BigRedMarble;
-            else if (randomValue < 15) return FireMarble;
-            else if (randomValue < 50) return RedMarble;
-        }
         else if (tier >= 5)
         {
-            if (randomValue < 1)
+            if (randomValue < 2)
             {
                 SpawnPairedMarble(RedMarble, TopRedMarble);
                 return null;
@@ -220,8 +208,16 @@ public class MarbleSpawner : MonoBehaviour
 
     void UpdateTimer()
     {
-        float intervalConstant = 0.925f;
-        float newInterval = Mathf.Clamp(spawnInterval - (speed / intervalConstant / maxSpeed), 0.12f, spawnInterval);
+        float intervalConstant = 0.95f;
+        if (tier > 3)
+        {
+            intervalConstant = 1f;
+        }
+        if (tier > 5)
+        {
+            intervalConstant = 1.05f;
+        }
+        float newInterval = Mathf.Clamp(spawnInterval - (speed / intervalConstant / maxSpeed), 0.13f, spawnInterval);
         timer = newInterval;
     }
 

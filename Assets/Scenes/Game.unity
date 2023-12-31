@@ -4494,8 +4494,7 @@ MonoBehaviour:
     type: 3}
   TierPrefab: {fileID: 7627756417556560729, guid: 343c5979357894924b85d5cb77c45e26,
     type: 3}
-  lineDrawerPrefab: {fileID: 2398329903940397617, guid: a0f923009662e4c5f9a2f0fe9381745d,
-    type: 3}
+  ramp: {fileID: 1275537696}
   speed: 8
 --- !u!1001 &1251299231
 PrefabInstance:
@@ -4990,6 +4989,7 @@ MonoBehaviour:
   hitPrefab: {fileID: 5363222188136180112, guid: c13454ece684045b9b53e90f69251abf,
     type: 3}
   boardHitSound: {fileID: 8300000, guid: 0acf7615c74d1460e9bc8c68278059a0, type: 3}
+  scrollSpeed: 0.1
 --- !u!1001 &1307602615
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6671,7 +6671,7 @@ ReflectionProbe:
   m_Enabled: 1
   serializedVersion: 2
   m_Type: 0
-  m_Mode: 2
+  m_Mode: 0
   m_RefreshMode: 0
   m_TimeSlicingMode: 0
   m_Resolution: 1024

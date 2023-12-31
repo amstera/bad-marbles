@@ -5,11 +5,13 @@ public class Ramp : MonoBehaviour
 {
     public GameObject hitPrefab;
     public AudioClip boardHitSound;
+    public float scrollSpeed = 0.1f;
 
     private Dictionary<PerkEnum, string> rampMaterials;
     private SaveObject savedData;
     private MeshRenderer meshRenderer;
     private string fileLocation = "Materials/Ramp";
+    private float yOffset = 0f;
 
     private void Awake()
     {
@@ -34,6 +36,29 @@ public class Ramp : MonoBehaviour
     {
         savedData = SaveManager.Load();
         SetRampMaterial(savedData.SelectedPerks.SelectedRamp);
+    }
+
+    private void Update()
+    {
+        UpdateMaterialOffset();
+    }
+
+    private void UpdateMaterialOffset()
+    {
+        yOffset += Time.deltaTime * scrollSpeed;
+        yOffset = yOffset % 1; // Ensures yOffset stays between 0 and 1
+
+        if (meshRenderer.material != null)
+        {
+            Vector2 currentOffset = meshRenderer.material.GetTextureOffset("_MainTex");
+            meshRenderer.material.SetTextureOffset("_MainTex", new Vector2(currentOffset.x, yOffset));
+
+            if (meshRenderer.material.HasProperty("_BumpMap"))
+            {
+                Vector2 currentBumpMapOffset = meshRenderer.material.GetTextureOffset("_BumpMap");
+                meshRenderer.material.SetTextureOffset("_BumpMap", new Vector2(currentBumpMapOffset.x, yOffset));
+            }
+        }
     }
 
     public void Hit(Vector3 hitPoint)
