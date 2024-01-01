@@ -44,8 +44,8 @@ public class MarbleSpawner : MonoBehaviour
 
         UpdateSpeed();
 
-        // Update marble spawning every second frame
-        if (frameCounter % 2 == 0)
+        // Update marble spawning every fourth frame
+        if (frameCounter % 4 == 0)
         {
             TrySpawnMarble();
         }
@@ -56,26 +56,21 @@ public class MarbleSpawner : MonoBehaviour
 
     void UpdateSpeed()
     {
-        if (speed < maxSpeed)
+        if (speed >= maxSpeed)
         {
-            float growthRate = (maxSpeed - speed) / maxSpeed;
-            if (tier < 3)
-            {
-                growthRate *= 2.125f;
-            }
-            else
-            {
-                growthRate *= 1.825f;
-            }
-            speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
-
-            ramp.UpdateScrollSpeed(speed);
+            return;
         }
+
+        float growthRate = (maxSpeed - speed) / maxSpeed;
+        growthRate *= (tier < 3) ? 2.05f : 1.8f;
+        speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
+
+        ramp.UpdateScrollSpeed(speed);
     }
 
     void TrySpawnMarble()
     {
-        timer -= Time.deltaTime * 2;  // Adjusting for every second frame update
+        timer -= Time.deltaTime * 4;  // Adjusting for every second frame update
         if (timer <= 0f)
         {
             SpawnMarble();
@@ -85,21 +80,9 @@ public class MarbleSpawner : MonoBehaviour
 
     Vector3 GetSpawnPosition(MarbleColor type, bool isTier = false)
     {
-        float xPosition;
-        float yPosition = 14f;
-        if (isTier)
-        {
-            xPosition = 0;
-        }
-        else if (type == MarbleColor.BigRed)
-        {
-            xPosition = Random.Range(-3f, 3f);
-            yPosition = 14.5f;
-        }
-        else
-        {
-            xPosition = Random.Range(-3.9f, 3.9f);
-        }
+        float xRange = (type == MarbleColor.BigRed) ? 3f : 3.9f;
+        float xPosition = isTier ? 0 : Random.Range(-xRange, xRange);
+        float yPosition = (type == MarbleColor.BigRed) ? 14.5f : 14f;
         return new Vector3(xPosition, yPosition, 23.5f);
     }
 
@@ -228,7 +211,7 @@ public class MarbleSpawner : MonoBehaviour
         {
             Tier newTier = Instantiate(TierPrefab, GetSpawnPosition(MarbleColor.Unknown, true), Quaternion.identity);
             newTier.UpdateTier(tier);
-            newTier.UpdateSpeed(hasUpdatedTier ? speed : 15);
+            newTier.UpdateSpeed(hasUpdatedTier ? speed * 1.15f : 15);
 
             Destroy(newTier.gameObject, 5);
         }
@@ -242,8 +225,9 @@ public class MarbleSpawner : MonoBehaviour
 
     public void DestroyAll(bool onlyBad = false)
     {
-        foreach (var marble in allMarbles)
+        for (int i = allMarbles.Count - 1; i >= 0; i--)
         {
+            Marble marble = allMarbles[i];
             if (marble == null)
             {
                 continue;
@@ -252,6 +236,7 @@ public class MarbleSpawner : MonoBehaviour
             if (!onlyBad || marble.livesLost > 0)
             {
                 marble.Destroy();
+                allMarbles.RemoveAt(i);
             }
         }
     }
