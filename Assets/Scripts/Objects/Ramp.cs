@@ -5,13 +5,16 @@ public class Ramp : MonoBehaviour
 {
     public GameObject hitPrefab;
     public AudioClip boardHitSound;
-    public float scrollSpeed = 0.1f;
 
     private Dictionary<PerkEnum, string> rampMaterials;
     private SaveObject savedData;
     private MeshRenderer meshRenderer;
     private string fileLocation = "Materials/Ramp";
+
+    private float scrollSpeed;
+    private bool forwardDir = true;
     private float yOffset = 0f;
+    private float speedAdjustmentRatio = 0.0125f;
 
     private void Awake()
     {
@@ -45,8 +48,16 @@ public class Ramp : MonoBehaviour
 
     private void UpdateMaterialOffset()
     {
-        yOffset += Time.deltaTime * scrollSpeed;
-        yOffset = yOffset % 1; // Ensures yOffset stays between 0 and 1
+        if (forwardDir)
+        {
+            yOffset -= Time.deltaTime * scrollSpeed;
+            if (yOffset < -1) yOffset += 1;
+        }
+        else
+        {
+            yOffset += Time.deltaTime * scrollSpeed;
+            yOffset = yOffset % 1;
+        }
 
         if (meshRenderer.material != null)
         {
@@ -69,6 +80,11 @@ public class Ramp : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(boardHitSound, hitPoint);
         }
+    }
+
+    public void UpdateScrollSpeed(float speed)
+    {
+        scrollSpeed = speed * speedAdjustmentRatio;
     }
 
     private void SetRampMaterial(PerkEnum selectedRamp)

@@ -96,7 +96,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
 
     private void SetPerkSelected(bool selected)
     {
-        if (selected)
+        if (selected && isUnlocked)
         {
             perkOutline.BorderWidth = selectedBorderWidth;
             perkOutline.color = selectedBorderColor;

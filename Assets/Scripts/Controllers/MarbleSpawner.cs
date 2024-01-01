@@ -32,6 +32,7 @@ public class MarbleSpawner : MonoBehaviour
     {
         savedData = SaveManager.Load();
         CheckForPerks();
+        ramp.UpdateScrollSpeed(speed);
     }
 
     void Update()
@@ -60,15 +61,15 @@ public class MarbleSpawner : MonoBehaviour
             float growthRate = (maxSpeed - speed) / maxSpeed;
             if (tier < 3)
             {
-                growthRate *= 2.1f;
+                growthRate *= 2.125f;
             }
             else
             {
-                growthRate *= 1.8f;
+                growthRate *= 1.825f;
             }
             speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
 
-            ramp.scrollSpeed = speed * 0.0125f;
+            ramp.UpdateScrollSpeed(speed);
         }
     }
 
@@ -213,7 +214,7 @@ public class MarbleSpawner : MonoBehaviour
         {
             intervalConstant = 1f;
         }
-        if (tier > 5)
+        if (tier > 6)
         {
             intervalConstant = 1.05f;
         }
