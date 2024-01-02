@@ -12,7 +12,6 @@ public class MarbleSpawner : MonoBehaviour
     public Marble FireMarble;
     public TopMarble TopRedMarble;
     public Tier TierPrefab;
-    public Ramp ramp;
     public float speed = 8f;
     private float spawnInterval = 1f;
     private float timer = 0;
@@ -32,7 +31,6 @@ public class MarbleSpawner : MonoBehaviour
     {
         savedData = SaveManager.Load();
         CheckForPerks();
-        ramp.UpdateScrollSpeed(speed);
     }
 
     void Update()
@@ -62,10 +60,8 @@ public class MarbleSpawner : MonoBehaviour
         }
 
         float growthRate = (maxSpeed - speed) / maxSpeed;
-        growthRate *= (tier < 3) ? 2.05f : 1.8f;
+        growthRate *= (tier < 3) ? 2.2f : 1.8f;
         speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
-
-        ramp.UpdateScrollSpeed(speed);
     }
 
     void TrySpawnMarble()
@@ -73,7 +69,14 @@ public class MarbleSpawner : MonoBehaviour
         timer -= Time.deltaTime * 4;  // Adjusting for every second frame update
         if (timer <= 0f)
         {
-            SpawnMarble();
+            if (tier > 1 && Random.Range(0, 100) < 5 && SpawnMarbleCouple())
+            {
+                // spawned marble couple
+            }
+            else
+            {
+                SpawnMarble();
+            }
             UpdateTimer();
         }
     }
@@ -88,15 +91,13 @@ public class MarbleSpawner : MonoBehaviour
 
     void SpawnMarble()
     {
-        int tier = GameManager.Instance.Tier;
         int randomValue = Random.Range(0, 100);
         Marble marbleToSpawn = DetermineMarbleToSpawn(tier, randomValue);
 
         if (marbleToSpawn != null)
         {
-            Marble spawnedMarble = Instantiate(marbleToSpawn, GetSpawnPosition(marbleToSpawn.color), marbleToSpawn.transform.rotation);
-            spawnedMarble.speed = speed;
-            allMarbles.Add(spawnedMarble);
+            Vector3 spawnPosition = GetSpawnPosition(marbleToSpawn.color);
+            InstantiateMarble(marbleToSpawn, spawnPosition);
         }
     }
 
@@ -148,6 +149,11 @@ public class MarbleSpawner : MonoBehaviour
         }
         else if (tier >= 4)
         {
+            if (randomValue < 1)
+            {
+                SpawnPairedMarble(RedMarble, TopRedMarble);
+                return null;
+            }
             if (randomValue < 5) return BigRedMarble;
             else if (randomValue < 15) return FireMarble;
             else if (randomValue < 50) return RedMarble;
@@ -193,11 +199,15 @@ public class MarbleSpawner : MonoBehaviour
     void UpdateTimer()
     {
         float intervalConstant = 0.95f;
-        if (tier > 3)
+        if (tier >= 10)
         {
-            intervalConstant = 1f;
+            intervalConstant = 1.125f;
         }
-        if (tier > 6)
+        else if (tier > 6)
+        {
+            intervalConstant = 1.15f;
+        }
+        else if (tier > 3)
         {
             intervalConstant = 1.05f;
         }
@@ -211,7 +221,7 @@ public class MarbleSpawner : MonoBehaviour
         {
             Tier newTier = Instantiate(TierPrefab, GetSpawnPosition(MarbleColor.Unknown, true), Quaternion.identity);
             newTier.UpdateTier(tier);
-            newTier.UpdateSpeed(hasUpdatedTier ? speed * 1.15f : 15);
+            newTier.UpdateSpeed(hasUpdatedTier ? speed * 1.1f : 15);
 
             Destroy(newTier.gameObject, 5);
         }
@@ -291,5 +301,36 @@ public class MarbleSpawner : MonoBehaviour
 
         allMarbles.Add(bottomMarble);
         allMarbles.Add(topMarble);
+    }
+
+    bool SpawnMarbleCouple()
+    {
+        var randomValue = Random.Range(0, 100);
+        Marble firstMarble = DetermineMarbleToSpawn(tier, randomValue);
+        if (firstMarble.color != MarbleColor.Red && firstMarble.color != MarbleColor.Green && firstMarble.color != MarbleColor.Fire)
+        {
+            return false;
+        }
+
+        Vector3 firstPosition = GetSpawnPosition(firstMarble.color);
+        InstantiateMarble(firstMarble, firstPosition);
+
+        Marble secondMarble = DetermineMarbleToSpawn(tier, randomValue);
+
+        Vector3 secondPosition;
+        do
+        {
+            secondPosition = GetSpawnPosition(firstMarble.color);
+        } while (Mathf.Abs(secondPosition.x - firstPosition.x) < 2);
+        InstantiateMarble(secondMarble, secondPosition);
+
+        return true;
+    }
+
+    void InstantiateMarble(Marble marble, Vector3 position)
+    {
+        Marble spawnedMarble = Instantiate(marble, position, marble.transform.rotation);
+        spawnedMarble.speed = speed;
+        allMarbles.Add(spawnedMarble);
     }
 }

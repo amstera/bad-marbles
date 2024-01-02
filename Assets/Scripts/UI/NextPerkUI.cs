@@ -29,13 +29,13 @@ public class NextPerkUI : MonoBehaviour
         string perkText;
         if (isUnlocked)
         {
-            perkText = $"<color=yellow>Awesome!</color> You unlocked the \"{perk.Name}\" perk!";
+            perkText = $"You unlocked the \"{perk.Name}\" reward!";
         }
         else
         {
             int pointsAway = perk.Points - currentPoints;
             string pointsText = FormatPoints(pointsAway) + (pointsAway == 1 ? " point" : " points");
-            perkText = $"<color=yellow>{pointsText}</color> until \"{perk.Name}\" perk!";
+            perkText = $"<color=yellow>{pointsText}</color> until \"{perk.Name}\" reward!";
         }
 
         text.text = perkText;

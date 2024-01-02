@@ -28,7 +28,7 @@ public class GameOverUI : MonoBehaviour
     private float marbleSpawnSpeed;
     private SaveObject savedData;
     private float swayAngle = 5f;
-    private float swaySpeed = 4f;
+    private float swaySpeed = 3f;
 
     private void Awake()
     {

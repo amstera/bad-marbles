@@ -22,6 +22,7 @@ namespace EasyTransition
         private void Awake()
         {
             instance = this;
+            gameObject.SetActive(false);
         }
 
         public static TransitionManager Instance()
@@ -39,6 +40,8 @@ namespace EasyTransition
         /// <param name="startDelay">The delay before the transition starts.</param>
         public void Transition(TransitionSettings transition, float startDelay)
         {
+            gameObject.SetActive(true);
+
             if (transition == null || runningTransition)
             {
                 Debug.LogError("You have to assing a transition.");
@@ -57,6 +60,8 @@ namespace EasyTransition
         /// <param name="startDelay">The delay before the transition starts.</param>
         public void Transition(string sceneName, TransitionSettings transition, float startDelay)
         {
+            gameObject.SetActive(true);
+
             if (transition == null || runningTransition)
             {
                 Debug.LogError("You have to assing a transition.");
@@ -111,7 +116,6 @@ namespace EasyTransition
 
             onTransitionCutPointReached?.Invoke();
 
-
             SceneManager.LoadScene(sceneName);
 
             yield return new WaitForSecondsRealtime(transitionSettings.destroyTime);
@@ -141,6 +145,8 @@ namespace EasyTransition
             yield return new WaitForSecondsRealtime(transitionSettings.destroyTime);
 
             onTransitionEnd?.Invoke();
+
+            gameObject.SetActive(false);
         }
 
         IEnumerator Timer(float delay, TransitionSettings transitionSettings)
@@ -167,6 +173,8 @@ namespace EasyTransition
             onTransitionEnd?.Invoke();
 
             runningTransition = false;
+
+            gameObject.SetActive(false);
         }
 
         private IEnumerator Start()

@@ -413,8 +413,8 @@ MonoBehaviour:
   blendMode: 0
   intensity: 1
   gradientType: 0
-  linearColor1: {r: 0.40493134, g: 0.11764703, b: 0.8117647, a: 0.3529412}
-  linearColor2: {r: 0.9811321, g: 0.032395888, b: 0.74773866, a: 0.4627451}
+  linearColor1: {r: 0.4039216, g: 0.11764707, b: 0.8117648, a: 0.6862745}
+  linearColor2: {r: 0.9803922, g: 0.039215688, b: 0.7490196, a: 0.6392157}
   cornerColorUpperLeft: {r: 1, g: 0, b: 0, a: 1}
   cornerColorUpperRight: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   cornerColorLowerRight: {r: 0, g: 1, b: 0, a: 1}
@@ -480,7 +480,7 @@ MonoBehaviour:
   text: {fileID: 6768960034957971266}
   image: {fileID: 2751819325531606858}
   gradient: {fileID: 7099330025280540605}
-  linearColor1Unlocked: {r: 0.65607506, g: 0.8773585, b: 0.062077243, a: 0.3529412}
-  linearColor2Unlocked: {r: 1, g: 0.9831489, b: 0, a: 0.4627451}
-  linearColor1Next: {r: 0.4039216, g: 0.11764707, b: 0.8117648, a: 0.3529412}
-  linearColor2Next: {r: 0.9803922, g: 0.039215688, b: 0.7490196, a: 0.4627451}
+  linearColor1Unlocked: {r: 0.36078432, g: 0.94509804, b: 0.09411765, a: 0.69411767}
+  linearColor2Unlocked: {r: 0.5686275, g: 0.85882354, b: 0.32941177, a: 0.70980394}
+  linearColor1Next: {r: 0.4039216, g: 0.11764707, b: 0.8117648, a: 0.53333336}
+  linearColor2Next: {r: 0.9803922, g: 0.039215688, b: 0.7490196, a: 0.5372549}

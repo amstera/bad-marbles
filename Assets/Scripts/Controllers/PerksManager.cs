@@ -64,7 +64,7 @@ public class PerksManager : MonoBehaviour
 
         if (!savedData.HasSeenPerksPopup)
         {
-            perkPopUp.Show("Perks Vault", "Every game played earns points to unlock new perks!", perksButton.image.sprite);
+            perkPopUp.Show("Rewards", "Every game played earns points to unlock new rewards!", perksButton.image.sprite);
             savedData.HasSeenPerksPopup = true;
 
             SaveManager.Save(savedData);

@@ -11,11 +11,6 @@ public class Ramp : MonoBehaviour
     private MeshRenderer meshRenderer;
     private string fileLocation = "Materials/Ramp";
 
-    private float scrollSpeed;
-    private bool forwardDir = true;
-    private float yOffset = 0f;
-    private float speedAdjustmentRatio = 0.0125f;
-
     private void Awake()
     {
         rampMaterials = new Dictionary<PerkEnum, string>
@@ -41,37 +36,6 @@ public class Ramp : MonoBehaviour
         SetRampMaterial(savedData.SelectedPerks.SelectedRamp);
     }
 
-    private void Update()
-    {
-        UpdateMaterialOffset();
-    }
-
-    private void UpdateMaterialOffset()
-    {
-        if (forwardDir)
-        {
-            yOffset -= Time.deltaTime * scrollSpeed;
-            if (yOffset < -1) yOffset += 1;
-        }
-        else
-        {
-            yOffset += Time.deltaTime * scrollSpeed;
-            yOffset = yOffset % 1;
-        }
-
-        if (meshRenderer.material != null)
-        {
-            Vector2 currentOffset = meshRenderer.material.GetTextureOffset("_MainTex");
-            meshRenderer.material.SetTextureOffset("_MainTex", new Vector2(currentOffset.x, yOffset));
-
-            if (meshRenderer.material.HasProperty("_BumpMap"))
-            {
-                Vector2 currentBumpMapOffset = meshRenderer.material.GetTextureOffset("_BumpMap");
-                meshRenderer.material.SetTextureOffset("_BumpMap", new Vector2(currentBumpMapOffset.x, yOffset));
-            }
-        }
-    }
-
     public void Hit(Vector3 hitPoint)
     {
         Destroy(Instantiate(hitPrefab, hitPoint, Quaternion.identity), 1);
@@ -80,11 +44,6 @@ public class Ramp : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(boardHitSound, hitPoint);
         }
-    }
-
-    public void UpdateScrollSpeed(float speed)
-    {
-        scrollSpeed = speed * speedAdjustmentRatio;
     }
 
     private void SetRampMaterial(PerkEnum selectedRamp)

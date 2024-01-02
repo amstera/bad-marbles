@@ -41,7 +41,6 @@ public class Marble : MonoBehaviour
     {
         if (rb.velocity.magnitude < speed)
         {
-            // Apply force in the direction of the current movement to reach the desired speed
             rb.AddForce(rb.velocity.normalized * speed, ForceMode.Acceleration);
         }
     }

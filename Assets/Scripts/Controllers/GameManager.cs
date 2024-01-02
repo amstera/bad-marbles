@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public MarbleSpawner marbleSpawner;
     public StartText startText;
     public TutorialUI tutorial;
+    public VignetteAnimator vignetteAnimator;
 
     public AudioSource pointGainedSound;
     public AudioSource lifeLossSound;
@@ -217,6 +218,7 @@ public class GameManager : MonoBehaviour
         scoreText.SetScoreImmediately(score);
         tier = extraChance.Tier;
         marbleSpawner.speed = extraChance.MarbleSpawnSpeed;
+        vignetteAnimator.initialIntensity += (tier - 1) * 0.066f;
     }
 
     private void InitializeAdEvents()

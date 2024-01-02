@@ -15,7 +15,7 @@ public class MenuManager : MonoBehaviour
 
     private SaveObject savedData;
     private float swayAngle = 5f;
-    private float swaySpeed = 4f;
+    private float swaySpeed = 3f;
 
     void Start()
     {
