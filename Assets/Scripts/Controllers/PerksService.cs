@@ -187,7 +187,7 @@ public class PerkService
             Id = PerkEnum.ToysBackground,
             Name = "Toy Room",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Toys"),
-            Points = 100,
+            Points = 500,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk
@@ -285,7 +285,7 @@ public class PerkService
             Id = PerkEnum.WoodRamp,
             Name = "Wood Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/WoodRamp"),
-            Points = 500,
+            Points = 50,
             Category = PerkCategory.Ramp
         });
         perks.Add(new Perk

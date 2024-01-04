@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,8 +14,9 @@ public class GameManager : MonoBehaviour
     public StressReceiver stressReceiver;
     public MarbleSpawner marbleSpawner;
     public StartText startText;
-    public TutorialUI tutorial;
     public VignetteAnimator vignetteAnimator;
+    public TutorialPanel tutorialPanel;
+    public TutorialUI tutorialUI;
 
     public AudioSource pointGainedSound;
     public AudioSource lifeLossSound;
@@ -69,6 +71,9 @@ public class GameManager : MonoBehaviour
     private int streakSavers = 0;
     private SaveObject savedData;
     private ExtraChance extraChance;
+    private int marblesHit = 0;
+    private bool canHitMarbles = true;
+    private bool isInvincible;
 
     void Awake()
     {
@@ -87,11 +92,7 @@ public class GameManager : MonoBehaviour
     {
         InitializeAdEvents();
 
-        if (savedData.GamesPlayed == 0)
-        {
-            ShowTutorial();
-        }
-        else if (!extraChance.IsActive && ShouldShowAd())
+        if (!extraChance.IsActive && ShouldShowAd())
         {
             GameMusicPlayer.Instance.Pause();
             AdsManager.Instance.interstitialAd.ShowAd();
@@ -99,6 +100,10 @@ public class GameManager : MonoBehaviour
         else
         {
             StartGame();
+            if (!savedData.HasSeenTutorial)
+            {
+                StartCoroutine(ActivateTutorial());
+            }
         }
     }
 
@@ -117,12 +122,14 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
-        tutorial.ClosePopup -= StartGame;
         DeinitializeAdEvents();
 
         GameMusicPlayer.Instance.Play();
         startText.gameObject.SetActive(true);
-        StartCoroutine(UpdateTierRoutine());
+        if (savedData.HasSeenTutorial)
+        {
+            StartCoroutine(UpdateTierRoutine());
+        }
     }
 
     private bool ShouldShowAd()
@@ -132,6 +139,11 @@ public class GameManager : MonoBehaviour
 
     void ProcessMarbleHit()
     {
+        if (!canHitMarbles)
+        {
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -160,6 +172,7 @@ public class GameManager : MonoBehaviour
         if (marble != null && marble.color != MarbleColor.Tier)
         {
             marble.Destroy();
+            marblesHit++;
             return true;
         }
 
@@ -255,6 +268,11 @@ public class GameManager : MonoBehaviour
 
     public void LoseLives(int livesLost)
     {
+        if (isInvincible)
+        {
+            return;
+        }
+
         Lives -= livesLost;
         var curStreak = CalculateMultiplier();
         if (curStreak > 1)
@@ -305,17 +323,69 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ShowTutorial()
-    {
-        tutorial.ClosePopup += StartGame;
-        tutorial.Show();
-    }
-
     private void OnDestroy()
     {
         if (AdsManager.Instance?.interstitialAd != null)
         {
             DeinitializeAdEvents();
         }
+    }
+
+    private IEnumerator ActivateTutorial()
+    {
+        marbleSpawner.OnlyMarbleColor = MarbleColor.Red;
+        marbleSpawner.canUpdateSpeed = false;
+        vignetteAnimator.enabled = false;
+        Tier++;
+
+        tutorialUI.ClosePopup += FinishTutorial;
+
+        yield return new WaitForSeconds(4f);
+        Time.timeScale = 0.35f;
+
+        isInvincible = true;
+
+        tutorialPanel.Show("1.", "Smash <color=red>Red Marbles</color> before they pass the screen!");
+
+        yield return new WaitUntil(() => marblesHit > 0); // wait for marble to be hit
+
+        tutorialPanel.Hide();
+
+        Time.timeScale = 1;
+        yield return new WaitForSeconds(0.5f);
+
+        tutorialPanel.Show("2.", "Miss a <color=red>Red Marble</color> and you'll lose a <color=red>heart</color>!");
+
+        isInvincible = false;
+        canHitMarbles = false;
+
+        yield return new WaitUntil(() => Lives < 2); // wait until you lose life
+
+        tutorialPanel.Hide();
+        isInvincible = true;
+
+        yield return new WaitForSeconds(0.5f);
+        marbleSpawner.DestroyAll();
+        marbleSpawner.OnlyMarbleColor = MarbleColor.Green;
+
+        tutorialPanel.Show("3.", "Let <color=green>Green Marbles</color> pass to score <color=green>points</color>!");
+
+        yield return new WaitUntil(() => Score > 0); // wait until you get a point
+
+        yield return new WaitForSeconds(1f);
+        tutorialPanel.Hide();
+        marbleSpawner.DestroyAll();
+        marbleSpawner.enabled = false;
+
+        tutorialUI.Show();
+    }
+
+    private void FinishTutorial()
+    {
+        tutorialUI.ClosePopup -= FinishTutorial;
+        savedData.HasSeenTutorial = true;
+        SaveManager.Save(savedData);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

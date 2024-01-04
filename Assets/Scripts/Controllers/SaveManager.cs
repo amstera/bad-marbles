@@ -57,6 +57,7 @@ public class SaveObject
     public int HighStreak = 1;
     public bool CanShowAds = true;
     public bool HasShownRateApp;
+    public bool HasSeenTutorial;
     public bool HasSeenPerksTutorial;
     public bool HasSeenPerksPopup;
 

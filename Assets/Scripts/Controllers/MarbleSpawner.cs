@@ -12,10 +12,14 @@ public class MarbleSpawner : MonoBehaviour
     public Marble FireMarble;
     public TopMarble TopRedMarble;
     public Tier TierPrefab;
+
     public float speed = 8f;
+    public bool canUpdateSpeed = true;
+    public MarbleColor OnlyMarbleColor;
+
+    private float maxSpeed = 45f;
     private float spawnInterval = 1f;
     private float timer = 0;
-    private float maxSpeed = 45f;
     private float acceleration = 0.55f;
     private bool isSpawningPaused = true;
     private bool hasUpdatedTier;
@@ -54,7 +58,7 @@ public class MarbleSpawner : MonoBehaviour
 
     void UpdateSpeed()
     {
-        if (speed >= maxSpeed)
+        if (speed >= maxSpeed || !canUpdateSpeed)
         {
             return;
         }
@@ -103,6 +107,16 @@ public class MarbleSpawner : MonoBehaviour
 
     Marble DetermineMarbleToSpawn(int tier, int randomValue)
     {
+        if (OnlyMarbleColor != MarbleColor.Unknown)
+        {
+            if (OnlyMarbleColor == MarbleColor.Red) return RedMarble;
+            if (OnlyMarbleColor == MarbleColor.Green) return GreenMarble;
+            if (OnlyMarbleColor == MarbleColor.Fire) return FireMarble;
+            if (OnlyMarbleColor == MarbleColor.BigRed) return BigRedMarble;
+            if (OnlyMarbleColor == MarbleColor.Angel) return AngelMarble;
+            if (OnlyMarbleColor == MarbleColor.Gold) return GoldMarble;
+        }
+
         if (tier >= 12)
         {
             if (randomValue < 8)

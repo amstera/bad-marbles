@@ -628,7 +628,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Let\n <color=green>Green Marbles</color> \npass to score <color=yellow>points</color>!"
+  m_text: ...Not the <color=green>Green Marbles</color>!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61f6d7ff6ce5c4ebd88de88efa4cdff5, type: 2}
   m_sharedMaterial: {fileID: 1768230906505952818, guid: 61f6d7ff6ce5c4ebd88de88efa4cdff5,
@@ -1110,7 +1110,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: START IT!
+  m_text: PLAY GAME!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61f6d7ff6ce5c4ebd88de88efa4cdff5, type: 2}
   m_sharedMaterial: {fileID: 1768230906505952818, guid: 61f6d7ff6ce5c4ebd88de88efa4cdff5,
@@ -1469,7 +1469,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5858777071554948463}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -1825,7 +1825,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -142.00002}
+  m_AnchoredPosition: {x: 0, y: -150}
   m_SizeDelta: {x: -230, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6494079895307270062
@@ -1856,7 +1856,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Tap \n<color=red>Bad Marbles</color> \nas they pass!"
+  m_text: 'REMEMBER...
+
+    HIT THE <color=red>RED MARBLES</color>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61f6d7ff6ce5c4ebd88de88efa4cdff5, type: 2}
   m_sharedMaterial: {fileID: 1768230906505952818, guid: 61f6d7ff6ce5c4ebd88de88efa4cdff5,
@@ -2110,7 +2112,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 160, y: 162}
+  m_AnchoredPosition: {x: 160, y: 121}
   m_SizeDelta: {x: 194, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5393360689126872117
@@ -2448,7 +2450,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 108}
+  m_AnchoredPosition: {x: -100, y: 66.99998}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2082387067744844027

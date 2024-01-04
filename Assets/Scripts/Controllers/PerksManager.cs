@@ -70,9 +70,9 @@ public class PerksManager : MonoBehaviour
             SaveManager.Save(savedData);
         }
 
-        if (!savedData.HasSeenPerksTutorial && unlockedCategories.Contains(PerkCategory.Background))
+        if (!savedData.HasSeenPerksTutorial && unlockedCategories.Contains(PerkCategory.Ramp))
         {
-            OnButtonClicked(backgroundButton, backgroundViewedIndicator);
+            OnButtonClicked(rampButton, rampViewedIndicator);
             arrow.SetActive(true);
             StartCoroutine(SwayArrowCoroutine());
         }

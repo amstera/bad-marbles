@@ -8,6 +8,7 @@ public class NextPerkUI : MonoBehaviour
     public TextMeshProUGUI text;
     public Image image;
     public UIGradient gradient;
+    public GameObject newIndicator;
 
     public Color linearColor1Unlocked;
     public Color linearColor2Unlocked;
@@ -30,6 +31,7 @@ public class NextPerkUI : MonoBehaviour
         if (isUnlocked)
         {
             perkText = $"You unlocked the \"{perk.Name}\" reward!";
+            newIndicator.SetActive(true);
         }
         else
         {
