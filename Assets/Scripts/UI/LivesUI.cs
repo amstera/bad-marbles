@@ -80,6 +80,8 @@ public class LivesUI : MonoBehaviour
         rectTransform.localScale = originalScale;
         lifeImages[lifeIndex].color = endColor;
         isPopping = false;
+
+        UpdateLivesUI();
     }
 
     private void UpdateLivesUI()

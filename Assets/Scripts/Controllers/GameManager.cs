@@ -333,10 +333,10 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ActivateTutorial()
     {
+        Tier++;
         marbleSpawner.OnlyMarbleColor = MarbleColor.Red;
         marbleSpawner.canUpdateSpeed = false;
         vignetteAnimator.enabled = false;
-        Tier++;
 
         tutorialUI.ClosePopup += FinishTutorial;
 

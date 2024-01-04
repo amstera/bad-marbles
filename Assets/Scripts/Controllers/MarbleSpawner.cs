@@ -321,6 +321,11 @@ public class MarbleSpawner : MonoBehaviour
     {
         var randomValue = Random.Range(0, 100);
         Marble firstMarble = DetermineMarbleToSpawn(tier, randomValue);
+        if (firstMarble == null)
+        {
+            return false;
+        }
+
         if (firstMarble.color != MarbleColor.Red && firstMarble.color != MarbleColor.Green && firstMarble.color != MarbleColor.Fire)
         {
             return false;

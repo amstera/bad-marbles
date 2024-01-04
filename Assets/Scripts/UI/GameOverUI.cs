@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using EasyTransition;
 using UnityEngine.iOS;
 using OneManEscapePlan.ModalDialogs.Scripts;
+using UnityEngine.Analytics;
+using System.Collections.Generic;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -169,6 +171,15 @@ public class GameOverUI : MonoBehaviour
         if (!savedData.ExtraChance.IsActive)
         {
             savedData.GamesPlayed++;
+
+            AnalyticsResult analyticsResult = Analytics.CustomEvent("gamesPlayed",
+                new Dictionary<string, object>
+                {
+                    { "gamesPlayedCount", savedData.GamesPlayed },
+                    { "score", score },
+                }
+            );
+            Debug.Log("Analytics Event Sent: " + analyticsResult.ToString());
         }
         if (tier > savedData.HighTier)
         {
