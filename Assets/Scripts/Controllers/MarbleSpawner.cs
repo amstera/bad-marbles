@@ -64,7 +64,7 @@ public class MarbleSpawner : MonoBehaviour
         }
 
         float growthRate = (maxSpeed - speed) / maxSpeed;
-        growthRate *= (tier < 3) ? 2.2f : 1.8f;
+        growthRate *= (tier < 3) ? 2.3f : 1.8f;
         speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
     }
 
@@ -87,7 +87,7 @@ public class MarbleSpawner : MonoBehaviour
 
     Vector3 GetSpawnPosition(MarbleColor type, bool isTier = false)
     {
-        float xRange = (type == MarbleColor.BigRed) ? 3f : 3.9f;
+        float xRange = (type == MarbleColor.BigRed) ? 3f : 3.8f;
         float xPosition = isTier ? 0 : Random.Range(-xRange, xRange);
         float yPosition = (type == MarbleColor.BigRed) ? 14.5f : 14f;
         return new Vector3(xPosition, yPosition, 23.5f);

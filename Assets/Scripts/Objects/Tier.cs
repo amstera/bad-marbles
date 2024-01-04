@@ -5,6 +5,7 @@ public class Tier : MonoBehaviour
 {
     public Marble marble;
     public TextMeshPro text;
+    public AudioSource tierAS;
 
     private Color gradientStartGreen = new Color(0x34 / 255f, 0xFF / 255f, 0x00 / 255f); // Light Green
     private Color gradientEndGreen = new Color(0x0E / 255f, 0x4D / 255f, 0x00 / 255f); // Dark Green
@@ -25,6 +26,8 @@ public class Tier : MonoBehaviour
         Color gradientEnd = Color.Lerp(gradientEndGreen, gradientEndRed, normalizedTier);
         VertexGradient gradient = new VertexGradient(gradientStart, gradientStart, gradientEnd, gradientEnd);
         text.colorGradient = gradient;
+
+        tierAS.PlayDelayed(1f);
     }
 
     // Update marble speed

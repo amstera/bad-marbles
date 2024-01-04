@@ -6,58 +6,54 @@ public class LivesUI : MonoBehaviour
 {
     public RawImage[] lifeImages;
     private int lives;
-    private bool isPopping = false;
+    private bool[] isPopping;
+    private int startIndex;
 
     void Start()
     {
         lives = GameManager.Instance.Lives;
+        startIndex = lifeImages.Length - lives;
         HideExtraLives();
-        UpdateLivesUI();
+        isPopping = new bool[lifeImages.Length];
     }
 
     public void UpdateLives(int newLives)
     {
         int oldLives = lives;
         lives = newLives;
-        UpdateLivesUI();
 
-        // Determine which heart to animate
         if (newLives < oldLives) // Lost life
         {
-            StartCoroutine(PopEffect(FindLastFadedHeartIndex(), false));
+            for (int i = 0; i < oldLives - newLives; i++)
+            {
+                int index = startIndex + i;
+                if (index >= 0 && index < lifeImages.Length)
+                {
+                    StartCoroutine(PopEffect(index, false));
+                }
+            }
         }
         else if (newLives > oldLives) // Gained life
         {
-            StartCoroutine(PopEffect(FindFirstNonFadedHeartIndex(), true));
+            for (int i = 0; i < newLives - oldLives; i++)
+            {
+                int index = startIndex - i;
+                if (index >= 0 && index < lifeImages.Length)
+                {
+                    StartCoroutine(PopEffect(index, true));
+                }
+            }
         }
-    }
 
-    private int FindLastFadedHeartIndex()
-    {
-        for (int i = lifeImages.Length - 1; i >= 0; i--)
-        {
-            if (lifeImages[i].color.a < 1f)
-                return i;
-        }
-        return -1;
-    }
-
-    private int FindFirstNonFadedHeartIndex()
-    {
-        for (int i = 0; i < lifeImages.Length; i++)
-        {
-            if (lifeImages[i].color.a == 1f)
-                return i;
-        }
-        return -1;
+        startIndex = lifeImages.Length - lives;
     }
 
     private IEnumerator PopEffect(int lifeIndex, bool isGainingLife)
     {
-        if (isPopping || lifeIndex < 0 || lifeIndex >= lifeImages.Length)
+        if (lifeIndex < 0 || isPopping[lifeIndex] || lifeIndex >= lifeImages.Length)
             yield break;
 
-        isPopping = true;
+        isPopping[lifeIndex] = true;
         float duration = 0.2f;
         float elapsed = 0;
         RectTransform rectTransform = lifeImages[lifeIndex].GetComponent<RectTransform>();
@@ -79,27 +75,11 @@ public class LivesUI : MonoBehaviour
 
         rectTransform.localScale = originalScale;
         lifeImages[lifeIndex].color = endColor;
-        isPopping = false;
-
-        UpdateLivesUI();
-    }
-
-    private void UpdateLivesUI()
-    {
-        int startIndex = lifeImages.Length - lives;
-        for (int i = 0; i < startIndex; i++)
-        {
-            lifeImages[i].color = lifeImages[i].color.a == 1 ? new Color(1, 1, 1, 0.99f) : new Color(1, 1, 1, 0.25f);
-        }
-        for (int i = startIndex; i < lifeImages.Length; i++)
-        {
-            lifeImages[i].color = Color.white;
-        }
+        isPopping[lifeIndex] = false;
     }
 
     private void HideExtraLives()
     {
-        int startIndex = lifeImages.Length - lives;
         for (int i = 0; i < startIndex; i++)
         {
             lifeImages[i].gameObject.SetActive(false);

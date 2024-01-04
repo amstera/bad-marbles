@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public VignetteAnimator vignetteAnimator;
     public TutorialPanel tutorialPanel;
     public TutorialUI tutorialUI;
+    public ComplimentText complimentText;
 
     public AudioSource pointGainedSound;
     public AudioSource lifeLossSound;
@@ -172,7 +173,15 @@ public class GameManager : MonoBehaviour
         if (marble != null && marble.color != MarbleColor.Tier)
         {
             marble.Destroy();
-            marblesHit++;
+            if (marble.livesLost > 0)
+            {
+                marblesHit++;
+                if (marblesHit > 0 && marblesHit % 10 == 0)
+                {
+                    complimentText.ShowCompliment();
+                }
+            }
+
             return true;
         }
 
@@ -280,6 +289,7 @@ public class GameManager : MonoBehaviour
             ResetStreak();
         }
         stressReceiver?.InduceStress(0.4f);
+        complimentText.Hide();
 
         lifeLossSound?.Play();
         if (savedData.Settings.VibrationEnabled)
