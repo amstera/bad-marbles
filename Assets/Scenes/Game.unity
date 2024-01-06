@@ -3295,6 +3295,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsTextPrefab: {fileID: 5862916028141756628, guid: bb86cfc9cc0bd4019a34f3d6dd13b9ea,
     type: 3}
+  BigExplosion: {fileID: 1901273149253999252, guid: d73ca8b96a8bc4e79afa14157f3b6b8a,
+    type: 3}
+  stressReceiver: {fileID: 963194231}
 --- !u!1 &854567089
 GameObject:
   m_ObjectHideFlags: 0
@@ -4670,7 +4673,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -52.8, y: -233.6}
+  m_AnchoredPosition: {x: -52.8, y: -227.1}
   m_SizeDelta: {x: 65, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1150964054
@@ -5005,6 +5008,8 @@ MonoBehaviour:
   BigRedMarble: {fileID: 4634631138362618351, guid: 6b608ace9dfd04cb5879e8d3d9cee24b,
     type: 3}
   FireMarble: {fileID: 4634631138362618351, guid: ca326c9f9ab2a48cb932568b65714008,
+    type: 3}
+  BombMarble: {fileID: 4634631138362618351, guid: f76088148528b46d1aa18d13969571af,
     type: 3}
   TopRedMarble: {fileID: 3200087346768525174, guid: affab770dcce24b4faf23ba0bd479c0f,
     type: 3}
@@ -7184,7 +7189,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -52.80002, y: -313.6}
+  m_AnchoredPosition: {x: -52.80002, y: -316.3}
   m_SizeDelta: {x: 65, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1643733777

@@ -62,9 +62,9 @@ public class MenuManager : MonoBehaviour
             noAdsButton.SetActive(false);
         }
 
-        if (savedData.ExtraChance.IsActive)
+        if (savedData.ExtraChance.ActiveCount > 0)
         {
-            savedData.ExtraChance.IsActive = false;
+            savedData.ExtraChance.ActiveCount = 0;
             SaveManager.Save(savedData);
         }
 

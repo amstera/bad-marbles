@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         SetPerks();
         extraChance = savedData.ExtraChance;
 
-        if (extraChance.IsActive)
+        if (extraChance.ActiveCount > 0)
         {
             UpdateExtraChanceValues();
         }
@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
     {
         InitializeAdEvents();
 
-        if (!extraChance.IsActive && ShouldShowAd())
+        if (extraChance.ActiveCount == 0 && ShouldShowAd())
         {
             GameMusicPlayer.Instance.Pause();
             AdsManager.Instance.interstitialAd.ShowAd();
@@ -259,7 +259,7 @@ public class GameManager : MonoBehaviour
         score = extraChance.Score;
         scoreText.SetScoreImmediately(score);
         tier = extraChance.Tier;
-        marbleSpawner.speed = extraChance.MarbleSpawnSpeed * 0.65f;
+        marbleSpawner.speed = Mathf.Max(marbleSpawner.speed, extraChance.MarbleSpawnSpeed * 0.65f);
         vignetteAnimator.elapsedTime = (tier - 1) * 15;
     }
 
@@ -349,7 +349,7 @@ public class GameManager : MonoBehaviour
             marbleSpawner.DestroyAll();
             Destroy(FindAnyObjectByType<Tier>()?.gameObject);
 
-            gameOverUI.ShowGameOver(score, tier, savedData, extraChance.IsActive, marbleSpawner.speed);
+            gameOverUI.ShowGameOver(score, tier, savedData, extraChance.ActiveCount, marbleSpawner.speed);
         }
     }
 

@@ -39,7 +39,7 @@ public class GameOverUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
     }
 
-    public void ShowGameOver(int score, int tier, SaveObject savedData, bool isExtraChance, float marbleSpawnSpeed)
+    public void ShowGameOver(int score, int tier, SaveObject savedData, int activeCount, float marbleSpawnSpeed)
     {
         Time.timeScale = 1;
         gameObject.SetActive(true);
@@ -60,10 +60,10 @@ public class GameOverUI : MonoBehaviour
         {
             noAdsButton.gameObject.SetActive(false);
         }
-        if (isExtraChance)
+        if (activeCount >= 2 || (activeCount == 1 && !savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.ExtraChance)))
         {
             secondChanceButton.gameObject.SetActive(false);
-            savedData.ExtraChance.IsActive = false;
+            savedData.ExtraChance.ActiveCount = 0;
 
             SaveManager.Save(savedData);
         }
@@ -72,6 +72,12 @@ public class GameOverUI : MonoBehaviour
     public void LoadGame()
     {
         DeinitializeAdEvents();
+        if (savedData.ExtraChance.ActiveCount > 0)
+        {
+            savedData.ExtraChance.ActiveCount = 0;
+            SaveManager.Save(savedData);
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -98,13 +104,14 @@ public class GameOverUI : MonoBehaviour
         GameMusicPlayer.Instance.Play();
 
         canvasGroup.alpha = 0;
-        savedData.ExtraChance.IsActive = true;
+        savedData.ExtraChance.ActiveCount++;
         savedData.ExtraChance.Score = score;
         savedData.ExtraChance.Tier = tier;
         savedData.ExtraChance.MarbleSpawnSpeed = marbleSpawnSpeed;
         SaveManager.Save(savedData);
 
-        LoadGame();
+        DeinitializeAdEvents();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void RewardedAdFailedToLoad()
@@ -166,9 +173,9 @@ public class GameOverUI : MonoBehaviour
             }
         }
 
-        savedData.Points += savedData.ExtraChance.IsActive ? score - savedData.ExtraChance.Score : score;
+        savedData.Points += savedData.ExtraChance.ActiveCount > 0 ? score - savedData.ExtraChance.Score : score;
 
-        if (!savedData.ExtraChance.IsActive)
+        if (savedData.ExtraChance.ActiveCount == 0)
         {
             savedData.GamesPlayed++;
 

@@ -10,6 +10,7 @@ public class MarbleSpawner : MonoBehaviour
     public Marble RedMarble;
     public Marble BigRedMarble;
     public Marble FireMarble;
+    public Marble BombMarble;
     public TopMarble TopRedMarble;
     public Tier TierPrefab;
 
@@ -24,12 +25,14 @@ public class MarbleSpawner : MonoBehaviour
     private bool isSpawningPaused = true;
     private bool hasUpdatedTier;
     private int frameCounter = 0;
+    private int lastBombMarbleTier;
     private int tier;
     private List<Marble> allMarbles = new List<Marble>();
 
     private SaveObject savedData;
     private bool hasAngelMarble;
     private bool hasGoldMarble;
+    private bool hasNoBombs;
 
     void Start()
     {
@@ -115,6 +118,12 @@ public class MarbleSpawner : MonoBehaviour
             if (OnlyMarbleColor == MarbleColor.BigRed) return BigRedMarble;
             if (OnlyMarbleColor == MarbleColor.Angel) return AngelMarble;
             if (OnlyMarbleColor == MarbleColor.Gold) return GoldMarble;
+        }
+
+        if (!hasNoBombs && tier >= 4 && tier - lastBombMarbleTier >= 1 && Random.Range(0, 10) == 0)
+        {
+            lastBombMarbleTier = tier;
+            return BombMarble;
         }
 
         if (tier >= 12)
@@ -299,6 +308,10 @@ public class MarbleSpawner : MonoBehaviour
             else if (perk == PerkEnum.GoldMarble)
             {
                 hasGoldMarble = true;
+            }
+            else if (perk == PerkEnum.NoBombs)
+            {
+                hasNoBombs = true;
             }
         }
     }

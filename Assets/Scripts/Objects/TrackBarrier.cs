@@ -3,6 +3,8 @@ using UnityEngine;
 public class TrackBarrier : MonoBehaviour
 {
     public PointsText pointsTextPrefab;
+    public GameObject BigExplosion;
+    public StressReceiver stressReceiver;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -16,14 +18,20 @@ public class TrackBarrier : MonoBehaviour
 
             if (GameManager.Instance.Lives > 0)
             {
+                var hitPoint = collision.contacts[0].point;
                 if (marble.points > 0)
                 {
                     GameManager.Instance.AddScore(marble.points);
-                    ShowPoints(marble.points, collision.contacts[0].point);
+                    ShowPoints(marble.points, hitPoint);
                 }
                 else if (marble.livesLost > 0)
                 {
                     GameManager.Instance.LoseLives(marble.livesLost);
+                    if (marble.color == MarbleColor.Bomb)
+                    {
+                        stressReceiver?.InduceStress(1f, true);
+                        Destroy(Instantiate(BigExplosion, hitPoint, Quaternion.identity), 5);
+                    }
                 }
             }
 

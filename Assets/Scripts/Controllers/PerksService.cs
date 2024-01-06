@@ -114,6 +114,24 @@ public class PerkService
         });
         perks.Add(new Perk
         {
+            Id = PerkEnum.NoBombs,
+            Name = "No Bombs",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/NoBombs"),
+            Points = 120000,
+            Category = PerkCategory.Special,
+            Description = "Bombs no longer show up!"
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.ExtraChance,
+            Name = "Extra Chance #2",
+            Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraChance"),
+            Points = 150000,
+            Category = PerkCategory.Special,
+            Description = "Get a second Extra Chance when you lose!"
+        });
+        perks.Add(new Perk
+        {
             Id = PerkEnum.GoldTrophy,
             Name = "Gold Trophy",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/GoldTrophy"),
@@ -121,7 +139,6 @@ public class PerkService
             Category = PerkCategory.Special,
             Description = "You're the Bad Marbles champion!"
         });
-
 
         // Music
         perks.Add(new Perk
@@ -267,7 +284,7 @@ public class PerkService
             Id = PerkEnum.MarbleBackground,
             Name = "Marbleville",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Marbleville"),
-            Points = 120000,
+            Points = 130000,
             Category = PerkCategory.Background
         });
 

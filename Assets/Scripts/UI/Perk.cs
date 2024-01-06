@@ -45,7 +45,9 @@ public enum PerkEnum
     GrassRamp = 35,
     DarkRamp = 36,
     UnderwaterBackground = 37,
-    MarbleBackground = 38
+    MarbleBackground = 38,
+    NoBombs = 39,
+    ExtraChance = 40
 }
 
 [System.Serializable]

@@ -34,7 +34,7 @@ public class BombButton : MonoBehaviour
 
         if (slowTimeButton != null)
         {
-            slowTimeButton.MovePosition(transform.position);
+            slowTimeButton.MovePosition(transform.position, true);
         }
 
         Destroy(gameObject, destructionDelay);

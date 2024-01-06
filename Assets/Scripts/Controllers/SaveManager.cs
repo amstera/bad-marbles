@@ -92,7 +92,7 @@ public class SelectedPerks
 [System.Serializable]
 public class ExtraChance
 {
-    public bool IsActive;
+    public int ActiveCount;
     public int Score;
     public int Tier;
     public float MarbleSpawnSpeed;
