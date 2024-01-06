@@ -7,7 +7,7 @@ public class ComplimentText : MonoBehaviour
     public TextMeshProUGUI complimentText;
 
     private Coroutine fadeOutCoroutine;
-    private string[] compliments = new string[] { "Awesome!", "Nice One!", "Don't Stop!", "Well Done!", "Keep Going!" };
+    private string[] compliments = new string[] { "Awesome!", "Nice One!", "Don't Stop!", "Well Done!", "Keep Going!", "Marble-ous!", "Crushing It!", "Rock Solid!", "Smashing!", "Perfect!" };
 
     private void Awake()
     {

@@ -15,7 +15,7 @@ public class PerksManager : MonoBehaviour
 
     public Button backButton;
     public Button perksButton, musicButton, backgroundButton, rampButton;
-    public GameObject musicViewedIndicator, backgroundViewedIndicator, rampViewedIndicator;
+    public GameObject perksViewedIndicator, musicViewedIndicator, backgroundViewedIndicator, rampViewedIndicator;
     public GameObject arrow;
     public RectTransform selectedIndicator;
     public CanvasGroup scrollViewCanvasGroup;
@@ -55,7 +55,7 @@ public class PerksManager : MonoBehaviour
         unlockedPerks = unlockedData.perks;
         nextPerks = PerkService.Instance.GetNextPerksForAllCategories();
 
-        SetUpButton(perksButton, PerkCategory.Special, null, unlockedCategories);
+        SetUpButton(perksButton, PerkCategory.Special, perksViewedIndicator, unlockedCategories);
         SetUpButton(musicButton, PerkCategory.Music, musicViewedIndicator, unlockedCategories);
         SetUpButton(backgroundButton, PerkCategory.Background, backgroundViewedIndicator, unlockedCategories);
         SetUpButton(rampButton, PerkCategory.Ramp, rampViewedIndicator, unlockedCategories);
@@ -303,6 +303,7 @@ public class PerksManager : MonoBehaviour
             if (clickedPerk.isSelected)
             {
                 savedData.SelectedPerks.SelectedSpecial.Add(clickedPerk.id);
+                UpdateLastViewedIndicator(PerkCategory.Special, perksViewedIndicator);
                 if (!string.IsNullOrEmpty(clickedPerk.description) && !savedData.SeenDescription.Contains(clickedPerk.id))
                 {
                     perkPopUp.Show(clickedPerk.perkName, clickedPerk.description, clickedPerk.perkImage.sprite);

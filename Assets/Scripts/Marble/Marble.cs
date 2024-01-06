@@ -11,8 +11,19 @@ public class Marble : MonoBehaviour
     public int points;
     public int livesLost;
     public float fadeInDuration = 0.5f;
+    public Material blueMaterial;
 
     public event Action OnDestroyed;
+
+    void Awake()
+    {
+        /*
+        if (livesLost > 0 && GameManager.Instance.Tier > 1 && blueMaterial != null && UnityEngine.Random.Range(0, 3) == 1)
+        {
+            GetComponent<Renderer>().material = blueMaterial;
+        }
+        */
+    }
 
     protected void Start()
     {

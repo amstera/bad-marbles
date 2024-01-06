@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private float marbleHitRadius = 2.5f;
+    private float marbleHitRadius = 2.6f;
 
     private int streakSavers = 0;
     private SaveObject savedData;
@@ -75,6 +76,10 @@ public class GameManager : MonoBehaviour
     private int marblesHit = 0;
     private bool canHitMarbles = true;
     private bool isInvincible;
+
+    private HashSet<Marble> touchedMarbles = new HashSet<Marble>();
+    const int MarbleLayerMask = 1 << 3;
+    private Vector3 downBackVector = new Vector3(0, -1, -1);
 
     void Awake()
     {
@@ -110,58 +115,57 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Lives <= 0)
+        if (Lives <= 0 || !canHitMarbles)
         {
             return;
         }
 
-        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+        ProcessTouches();
+
+        touchedMarbles.Clear();
+    }
+
+    void ProcessTouches()
+    {
+        if (Input.touchCount > 0)
         {
-            ProcessMarbleHit();
+            foreach (Touch touch in Input.touches)
+            {
+                if (touch.phase == TouchPhase.Began)
+                {
+                    ProcessTouchInput(touch.position);
+                }
+            }
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            ProcessTouchInput(Input.mousePosition);
         }
     }
 
-    private void StartGame()
+    void ProcessTouchInput(Vector2 screenPosition)
     {
-        DeinitializeAdEvents();
-
-        GameMusicPlayer.Instance.Play();
-        startText.gameObject.SetActive(true);
-        if (savedData.HasSeenTutorial)
-        {
-            StartCoroutine(UpdateTierRoutine());
-        }
-    }
-
-    private bool ShouldShowAd()
-    {
-        return savedData.CanShowAds && savedData.GamesPlayed > 0 && savedData.GamesPlayed % 3 == 0;
-    }
-
-    void ProcessMarbleHit()
-    {
-        if (!canHitMarbles)
-        {
-            return;
-        }
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(screenPosition);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            bool marbleDestroyed = TryDestroyMarble(hit.collider);
+            TryProcessHitObject(hit.collider, hit.point);
+        }
+    }
+
+    void TryProcessHitObject(Collider collider, Vector3 hitPoint)
+    {
+        bool marbleDestroyed = TryDestroyMarble(collider);
+        if (!marbleDestroyed)
+        {
+            marbleDestroyed = CheckAndDestroyNearbyMarble(hitPoint);
             if (!marbleDestroyed)
             {
-                // If no marble was directly hit, check for nearby marbles
-                marbleDestroyed = CheckAndDestroyNearbyMarble(hit.point);
-                if (!marbleDestroyed)
+                Ramp ramp = collider.GetComponent<Ramp>();
+                if (ramp != null)
                 {
-                    Ramp ramp = hit.collider.GetComponent<Ramp>();
-                    if (ramp != null)
-                    {
-                        ramp.Hit(hit.point);
-                    }
+                    ramp.Hit(hitPoint);
                 }
             }
         }
@@ -170,8 +174,9 @@ public class GameManager : MonoBehaviour
     bool TryDestroyMarble(Collider collider)
     {
         Marble marble = collider.GetComponent<Marble>();
-        if (marble != null && marble.color != MarbleColor.Tier)
+        if (marble != null && !touchedMarbles.Contains(marble) && marble.color != MarbleColor.Tier)
         {
+            touchedMarbles.Add(marble);
             marble.Destroy();
             if (marble.livesLost > 0)
             {
@@ -190,12 +195,10 @@ public class GameManager : MonoBehaviour
 
     bool CheckAndDestroyNearbyMarble(Vector3 point)
     {
-        int layerMask = 1 << 3; // Layer mask for marbles
+        var startPoint = point + downBackVector;
+        var endPoint = point - downBackVector;
 
-        var startPoint = point + new Vector3(0, -1, -1);
-        var endPoint = point - new Vector3(0, -1, -1);
-
-        Collider[] hitColliders = Physics.OverlapCapsule(startPoint, endPoint, marbleHitRadius, layerMask);
+        Collider[] hitColliders = Physics.OverlapCapsule(startPoint, endPoint, marbleHitRadius, MarbleLayerMask);
         foreach (var hitCollider in hitColliders)
         {
             if (TryDestroyMarble(hitCollider))
@@ -205,6 +208,23 @@ public class GameManager : MonoBehaviour
         }
 
         return false; // No marble found
+    }
+
+    private void StartGame()
+    {
+        DeinitializeAdEvents();
+
+        GameMusicPlayer.Instance.Play();
+        startText.gameObject.SetActive(true);
+        if (savedData.HasSeenTutorial)
+        {
+            StartCoroutine(UpdateTierRoutine());
+        }
+    }
+
+    private bool ShouldShowAd()
+    {
+        return savedData.CanShowAds && savedData.GamesPlayed > 0 && savedData.GamesPlayed % 3 == 0;
     }
 
     private void InitializeSingleton()
@@ -239,8 +259,8 @@ public class GameManager : MonoBehaviour
         score = extraChance.Score;
         scoreText.SetScoreImmediately(score);
         tier = extraChance.Tier;
-        marbleSpawner.speed = extraChance.MarbleSpawnSpeed;
-        vignetteAnimator.initialIntensity += (tier - 1) * 0.066f;
+        marbleSpawner.speed = extraChance.MarbleSpawnSpeed * 0.65f;
+        vignetteAnimator.elapsedTime = (tier - 1) * 15;
     }
 
     private void InitializeAdEvents()
