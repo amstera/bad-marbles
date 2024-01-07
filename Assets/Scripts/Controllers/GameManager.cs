@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
     }
 
     private float marbleHitRadius = 2.6f;
+    private float elapsedTime = 0;
 
     private int streakSavers = 0;
     private SaveObject savedData;
@@ -119,6 +120,8 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
+
+        elapsedTime += Time.deltaTime;
 
         ProcessTouches();
 
@@ -259,8 +262,10 @@ public class GameManager : MonoBehaviour
         score = extraChance.Score;
         scoreText.SetScoreImmediately(score);
         tier = extraChance.Tier;
-        marbleSpawner.speed = Mathf.Max(marbleSpawner.speed, extraChance.MarbleSpawnSpeed * 0.65f);
-        vignetteAnimator.elapsedTime = (tier - 1) * 15;
+        var newSpeed = extraChance.ActiveCount == 1 ? extraChance.MarbleSpawnSpeed * 0.75f : extraChance.MarbleSpawnSpeed;
+        marbleSpawner.speed = Mathf.Max(marbleSpawner.speed, newSpeed);
+        elapsedTime = extraChance.ElapsedTime;
+        vignetteAnimator.SetElapsedTime(elapsedTime);
     }
 
     private void InitializeAdEvents()
@@ -282,7 +287,8 @@ public class GameManager : MonoBehaviour
         while (Lives > 0)
         {
             Tier++;
-            yield return new WaitForSeconds(15);
+            int secondsToWait = tier <= 5 ? 15 : 10;
+            yield return new WaitForSeconds(secondsToWait);
         }
     }
 
@@ -349,7 +355,7 @@ public class GameManager : MonoBehaviour
             marbleSpawner.DestroyAll();
             Destroy(FindAnyObjectByType<Tier>()?.gameObject);
 
-            gameOverUI.ShowGameOver(score, tier, savedData, extraChance.ActiveCount, marbleSpawner.speed);
+            gameOverUI.ShowGameOver(score, tier, savedData, extraChance.ActiveCount, marbleSpawner.speed, elapsedTime);
         }
     }
 

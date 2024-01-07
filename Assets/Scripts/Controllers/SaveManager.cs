@@ -96,5 +96,6 @@ public class ExtraChance
     public int Score;
     public int Tier;
     public float MarbleSpawnSpeed;
+    public float ElapsedTime;
 }
 

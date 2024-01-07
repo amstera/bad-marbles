@@ -30,6 +30,7 @@ public class MarbleSpawner : MonoBehaviour
     private List<Marble> allMarbles = new List<Marble>();
 
     private SaveObject savedData;
+    private GameManager gameManager;
     private bool hasAngelMarble;
     private bool hasGoldMarble;
     private bool hasNoBombs;
@@ -37,12 +38,13 @@ public class MarbleSpawner : MonoBehaviour
     void Start()
     {
         savedData = SaveManager.Load();
+        gameManager = GameManager.Instance;
         CheckForPerks();
     }
 
     void Update()
     {
-        if (GameManager.Instance.Lives <= 0 || isSpawningPaused)
+        if (gameManager.Lives <= 0 || isSpawningPaused)
         {
             return;
         }
@@ -224,11 +226,11 @@ public class MarbleSpawner : MonoBehaviour
         float intervalConstant = 0.95f;
         if (tier >= 10)
         {
-            intervalConstant = 1.125f;
+            intervalConstant = 1.1f;
         }
-        else if (tier > 6)
+        else if (tier >= 6)
         {
-            intervalConstant = 1.15f;
+            intervalConstant = 1.125f;
         }
         else if (tier > 3)
         {

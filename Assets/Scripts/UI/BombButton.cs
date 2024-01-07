@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BombButton : MonoBehaviour
 {
@@ -9,12 +11,16 @@ public class BombButton : MonoBehaviour
 
     private float destructionDelay = 0.1f;
     private SaveObject savedData;
-    private bool isPressed;
+    private bool isPressed = true;
 
     void Awake()
     {
         savedData = SaveManager.Load();
-        if (!savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.Bomb))
+        if (savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.Bomb))
+        {
+            StartCoroutine(EnableButton());
+        }
+        else
         {
             gameObject.SetActive(false);
         }
@@ -38,5 +44,12 @@ public class BombButton : MonoBehaviour
         }
 
         Destroy(gameObject, destructionDelay);
+    }
+
+    private IEnumerator EnableButton()
+    {
+        yield return new WaitForSeconds(3);
+
+        isPressed = false;
     }
 }

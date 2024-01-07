@@ -54,7 +54,7 @@ public class LivesUI : MonoBehaviour
             yield break;
 
         isPopping[lifeIndex] = true;
-        float duration = 0.2f;
+        float duration = 0.25f;
         float elapsed = 0;
         RectTransform rectTransform = lifeImages[lifeIndex].GetComponent<RectTransform>();
 

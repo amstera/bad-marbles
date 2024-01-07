@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -7,14 +8,14 @@ public class VignetteAnimator : MonoBehaviour
     public SpriteRenderer background;
     private Vignette vignette;
 
-    public float elapsedTime = 0f;
+    private float elapsedTime = 0f;
+    private Coroutine animationCoroutine;
 
-    private float initialIntensity = 0.15f;
-    private float transitionDuration = 105;
-    private float targetIntensity = 0.55f;
-
-    private Color startColor = Color.white; // White color
-    private Color targetColor = new Color32(55, 125, 210, 255); // Specific blue color
+    private const float InitialIntensity = 0.15f;
+    private const float TransitionDuration = 110;
+    private const float TargetIntensity = 0.55f;
+    private readonly Color StartColor = Color.white;
+    private readonly Color TargetColor = new Color32(250, 200, 130, 255);
 
     void Start()
     {
@@ -24,23 +25,53 @@ public class VignetteAnimator : MonoBehaviour
             return;
         }
 
-        vignette.intensity.value = Mathf.Min(initialIntensity, targetIntensity);
-        background.color = startColor;
+        vignette.intensity.value = InitialIntensity;
+        background.color = StartColor;
+        animationCoroutine = StartCoroutine(AnimateVignetteAndBackground());
     }
 
-    void Update()
+    private IEnumerator AnimateVignetteAndBackground()
     {
-        if (GameManager.Instance.Lives > 0 && elapsedTime < transitionDuration)
+        while (elapsedTime < TransitionDuration)
         {
+            UpdateVignetteAndBackground();
+
+            yield return null;
+
             elapsedTime += Time.deltaTime;
-
-            if (vignette.intensity.value < targetIntensity)
-            {
-                float newIntensity = Mathf.Lerp(initialIntensity, targetIntensity, elapsedTime / transitionDuration);
-                vignette.intensity.value = newIntensity;
-            }
-
-            background.color = Color.Lerp(startColor, targetColor, elapsedTime / transitionDuration);
         }
+
+        // Ensure final values are set
+        if (vignette != null)
+        {
+            vignette.intensity.value = TargetIntensity;
+        }
+        if (background != null)
+        {
+            background.color = TargetColor;
+        }
+    }
+
+    private void UpdateVignetteAndBackground()
+    {
+        float progress = Mathf.Clamp(elapsedTime / TransitionDuration, 0f, 1f);
+        if (vignette != null)
+        {
+            vignette.intensity.value = Mathf.Lerp(InitialIntensity, TargetIntensity, progress);
+        }
+        if (background != null)
+        {
+            background.color = Color.Lerp(StartColor, TargetColor, progress);
+        }
+    }
+
+    public void SetElapsedTime(float newElapsedTime)
+    {
+        elapsedTime = newElapsedTime;
+        if (animationCoroutine != null)
+        {
+            StopCoroutine(animationCoroutine);
+        }
+        animationCoroutine = StartCoroutine(AnimateVignetteAndBackground());
     }
 }

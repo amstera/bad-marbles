@@ -27,7 +27,7 @@ public class GameOverUI : MonoBehaviour
     public AudioSource plopSound;
 
     private int score, tier;
-    private float marbleSpawnSpeed;
+    private float marbleSpawnSpeed, elapsedTime;
     private SaveObject savedData;
     private float swayAngle = 5f;
     private float swaySpeed = 3f;
@@ -39,7 +39,7 @@ public class GameOverUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
     }
 
-    public void ShowGameOver(int score, int tier, SaveObject savedData, int activeCount, float marbleSpawnSpeed)
+    public void ShowGameOver(int score, int tier, SaveObject savedData, int activeCount, float marbleSpawnSpeed, float elapsedTime)
     {
         Time.timeScale = 1;
         gameObject.SetActive(true);
@@ -55,6 +55,7 @@ public class GameOverUI : MonoBehaviour
         this.score = score;
         this.tier = tier - 1;
         this.marbleSpawnSpeed = marbleSpawnSpeed;
+        this.elapsedTime = elapsedTime;
 
         if (!savedData.CanShowAds)
         {
@@ -107,6 +108,7 @@ public class GameOverUI : MonoBehaviour
         savedData.ExtraChance.ActiveCount++;
         savedData.ExtraChance.Score = score;
         savedData.ExtraChance.Tier = tier;
+        savedData.ExtraChance.ElapsedTime = elapsedTime;
         savedData.ExtraChance.MarbleSpawnSpeed = marbleSpawnSpeed;
         SaveManager.Save(savedData);
 
