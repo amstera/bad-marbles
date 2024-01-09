@@ -34,7 +34,7 @@ public class TrackBarrier : MonoBehaviour
                     }
                     else
                     {
-                        ShowLives(hitPoint);
+                        ShowLives(hitPoint, -marble.livesLost);
                     }
                 }
             }
@@ -53,9 +53,9 @@ public class TrackBarrier : MonoBehaviour
         }
     }
 
-    private void ShowLives(Vector3 position)
+    private void ShowLives(Vector3 position, int livesLost)
     {
         PointsText pointsTextInstance = Instantiate(pointsTextPrefab, position, Quaternion.identity);
-        pointsTextInstance.SetLives(true);
+        pointsTextInstance.SetLives(livesLost);
     }
 }

@@ -354,7 +354,7 @@ public class MarbleSpawner : MonoBehaviour
         ExtraLife extraLife = Instantiate(ExtraLife, GetSpawnPosition(MarbleColor.Life), Quaternion.identity);
         extraLife.UpdateSpeed(speed);
 
-        Destroy(extraLife.gameObject, 3);
+        Destroy(extraLife.gameObject, 5);
     }
 
     private void CheckForPerks()

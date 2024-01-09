@@ -3,75 +3,83 @@ using TMPro;
 
 public class PointsText : MonoBehaviour
 {
-    public float baseLifetime = 0.6f;
-    public float riseSpeed = 22f;
-    public float moveAwaySpeed = 6f;
+    public float lifetime = 0.6f;
     public TextMeshPro textMesh;
 
-    private float lifetime;
     private float timer;
-    private Camera mainCamera;
+    private float riseSpeed = 22f;
+    private float moveAwaySpeed = 6f;
+    private float zDepth = 10;
+    private static Camera mainCamera;
     private Vector3 targetWorldPosition;
-    private bool setLives;
+    private Vector3 direction;
+    private Color textColor;
 
-    private void Start()
+    private void Awake()
     {
-        timer = 0;
-        mainCamera = Camera.main;
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+        }
 
-        float zDepth = 10f;
-        Vector3 screenTop = new Vector3(setLives ? Screen.width - 25 : 0, Screen.height, zDepth);
-        targetWorldPosition = mainCamera.ScreenToWorldPoint(screenTop);
-
-        AdjustLifetimeBasedOnYPosition();
-    }
-
-    private void AdjustLifetimeBasedOnYPosition()
-    {
-        float defaultYPosition = -9.22f;
-        float yPosDifference = transform.position.y - defaultYPosition;
-        lifetime = Mathf.Max(baseLifetime - yPosDifference * 0.01f, 0); 
+        textColor = textMesh.color;
     }
 
     public void SetPoints(int points)
     {
         textMesh.text = $"+{points}";
+        InitializeText(new Vector3(0, Screen.height, zDepth));
     }
 
-    public void SetLives(bool isLoss)
+    public void SetLives(int lifeChange)
     {
-        if (isLoss)
-        {
-            textMesh.text = $"-♥";
-            textMesh.colorGradient = new VertexGradient(Color.red, Color.red, Color.red, Color.red);
-        }
-        else
-        {
-            textMesh.text = $"+♥";
-        }
+        string heartSymbol = "♥";
+        string sign = lifeChange >= 0 ? "+" : "-";
+        int numberOfHearts = Mathf.Abs(lifeChange);
+        string hearts = new string(heartSymbol[0], numberOfHearts);
 
+        textMesh.text = $"{sign}{hearts}";
+
+        if (lifeChange < 0)
+        {
+            textMesh.colorGradient = new VertexGradient(Color.red);
+        }
         riseSpeed = 18f;
-        setLives = true;
+        InitializeText(new Vector3(Screen.width - 25, Screen.height, zDepth));
+    }
+
+    private void InitializeText(Vector3 screenTop)
+    {
+        timer = 0;
+        targetWorldPosition = mainCamera.ScreenToWorldPoint(screenTop);
     }
 
     private void Update()
     {
         timer += Time.deltaTime;
 
-        Vector3 direction = targetWorldPosition - transform.position;
-        direction.z = 0;
-        direction.Normalize();
+        if (direction == Vector3.zero)
+        {
+            direction = targetWorldPosition - transform.position;
+            direction.z = 0;
+            direction.Normalize();
+        }
 
         transform.position += direction * riseSpeed * Time.deltaTime;
         transform.position += new Vector3(0, 0, moveAwaySpeed * Time.deltaTime);
 
-        float fadeProgress = timer / lifetime;
-        float alpha = Mathf.Clamp01(1.0f - fadeProgress);
-        textMesh.color = new Color(textMesh.color.r, textMesh.color.g, textMesh.color.b, alpha);
+        UpdateTextAlpha();
 
         if (timer >= lifetime)
         {
             Destroy(gameObject);
         }
+    }
+
+    private void UpdateTextAlpha()
+    {
+        float fadeProgress = timer / lifetime;
+        textColor.a = Mathf.Clamp01(1.0f - fadeProgress);
+        textMesh.color = textColor;
     }
 }

@@ -10045,7 +10045,7 @@ MonoBehaviour:
   heart: {fileID: 1352556851449539069}
   explosion: {fileID: 5363222188136180112, guid: 05e393090fa254d12992a644b8b333c2,
     type: 3}
-  pointsTextPrefab: {fileID: 5862916028141756628, guid: bb86cfc9cc0bd4019a34f3d6dd13b9ea,
+  floatingHeart: {fileID: 1342902756221744998, guid: 02f04b8af442f4cad9e8eb8aa1c10d5a,
     type: 3}
 --- !u!82 &620045002511267585
 AudioSource:
