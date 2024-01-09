@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6188557520336585942}
   - component: {fileID: 2650292374617681397}
   - component: {fileID: 2966114314763672447}
-  - component: {fileID: 4634631138362618351}
+  - component: {fileID: 30544092614624487}
   - component: {fileID: 249469579517227054}
   - component: {fileID: 3355332593829620396}
   m_Layer: 3
@@ -138,7 +138,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.04
   m_Center: {x: 0, y: 0, z: -0.000000007450581}
---- !u!114 &4634631138362618351
+--- !u!114 &30544092614624487
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,16 +147,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 264323573569318862}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2669c3bf90c404862896ea42b1556bfa, type: 3}
+  m_Script: {fileID: 11500000, guid: 94b4d5fe4112a46ac8f7e4d01ede9007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 10
   shatteredMarblePrefab: {fileID: 4826364496075277931, guid: bcf1367a608ef472fb35d4e25ea96019,
     type: 3}
   color: 7
   points: 0
   livesLost: 10
   fadeInDuration: 0.5
+  flashingMaterial: {fileID: 2100000, guid: eb464be287ad3410a8e14d3b1d7603e3, type: 2}
+  flashSpeedMultiplier: 1
 --- !u!82 &249469579517227054
 AudioSource:
   m_ObjectHideFlags: 0

@@ -681,8 +681,8 @@ MonoBehaviour:
   blendMode: 0
   intensity: 1
   gradientType: 0
-  linearColor1: {r: 0.66489154, g: 0.22745097, b: 0.99215686, a: 1}
-  linearColor2: {r: 0.13389996, g: 0.2947506, b: 0.5566038, a: 1}
+  linearColor1: {r: 0.7607843, g: 0.2, b: 0.98039216, a: 1}
+  linearColor2: {r: 0.28627452, g: 0.16078432, b: 0.6156863, a: 1}
   cornerColorUpperLeft: {r: 1, g: 0, b: 0, a: 1}
   cornerColorUpperRight: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   cornerColorLowerRight: {r: 0, g: 1, b: 0, a: 1}

@@ -1114,8 +1114,8 @@ MonoBehaviour:
   blendMode: 0
   intensity: 1
   gradientType: 0
-  linearColor1: {r: 0.77637374, g: 0.22745097, b: 0.99215686, a: 1}
-  linearColor2: {r: 0.23809443, g: 0.17647056, b: 0.59607846, a: 1}
+  linearColor1: {r: 0.7605318, g: 0.19900322, b: 0.9811321, a: 1}
+  linearColor2: {r: 0.2846702, g: 0.15908688, b: 0.6132076, a: 1}
   cornerColorUpperLeft: {r: 1, g: 0, b: 0, a: 1}
   cornerColorUpperRight: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   cornerColorLowerRight: {r: 0, g: 1, b: 0, a: 1}
@@ -3568,7 +3568,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: c4ad60ca39b514a69b297435b94576ba, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5108,7 +5108,7 @@ MonoBehaviour:
     type: 3}
   FireMarble: {fileID: 4634631138362618351, guid: ca326c9f9ab2a48cb932568b65714008,
     type: 3}
-  BombMarble: {fileID: 4634631138362618351, guid: f76088148528b46d1aa18d13969571af,
+  BombMarble: {fileID: 30544092614624487, guid: f76088148528b46d1aa18d13969571af,
     type: 3}
   TopRedMarble: {fileID: 3200087346768525174, guid: affab770dcce24b4faf23ba0bd479c0f,
     type: 3}
