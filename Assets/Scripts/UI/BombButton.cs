@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BombButton : MonoBehaviour
 {
@@ -38,7 +37,7 @@ public class BombButton : MonoBehaviour
         marbleSpawner?.DestroyAll(onlyBad: true);
         stressReceiver?.InduceStress(0.8f, true);
 
-        if (slowTimeButton != null)
+        if (slowTimeButton != null && slowTimeButton.gameObject.activeSelf)
         {
             slowTimeButton.MovePosition(transform.position, true);
         }

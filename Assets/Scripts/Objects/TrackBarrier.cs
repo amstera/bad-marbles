@@ -32,6 +32,10 @@ public class TrackBarrier : MonoBehaviour
                         stressReceiver?.InduceStress(1f, true);
                         Destroy(Instantiate(BigExplosion, hitPoint, Quaternion.identity), 5);
                     }
+                    else
+                    {
+                        ShowLives(hitPoint);
+                    }
                 }
             }
 
@@ -47,5 +51,11 @@ public class TrackBarrier : MonoBehaviour
             PointsText pointsTextInstance = Instantiate(pointsTextPrefab, position, Quaternion.identity);
             pointsTextInstance.SetPoints(points);
         }
+    }
+
+    private void ShowLives(Vector3 position)
+    {
+        PointsText pointsTextInstance = Instantiate(pointsTextPrefab, position, Quaternion.identity);
+        pointsTextInstance.SetLives(true);
     }
 }

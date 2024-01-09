@@ -194,10 +194,13 @@ public class GameManager : MonoBehaviour
             }
             else if (marble.color == MarbleColor.Life)
             {
-                Lives++;
-                lifeGainedSound?.Play();
+                if (Lives > 0)
+                {
+                    Lives++;
+                    lifeGainedSound?.Play();
 
-                marble.GetComponentInParent<ExtraLife>().Destroy();
+                    marble.GetComponentInParent<ExtraLife>().Destroy();
+                }
             }
 
             marble.Destroy();

@@ -37,6 +37,18 @@ public class MarbleSpawner : MonoBehaviour
     private bool hasGoldMarble;
     private bool hasNoBombs;
 
+    struct MarbleProbability
+    {
+        public int Probability;
+        public Marble MarbleType;
+
+        public MarbleProbability(int probability, Marble marbleType)
+        {
+            Probability = probability;
+            MarbleType = marbleType;
+        }
+    }
+
     void Start()
     {
         savedData = SaveManager.Load();
@@ -116,97 +128,51 @@ public class MarbleSpawner : MonoBehaviour
     {
         if (OnlyMarbleColor != MarbleColor.Unknown)
         {
-            if (OnlyMarbleColor == MarbleColor.Red) return RedMarble;
-            if (OnlyMarbleColor == MarbleColor.Green) return GreenMarble;
-            if (OnlyMarbleColor == MarbleColor.Fire) return FireMarble;
-            if (OnlyMarbleColor == MarbleColor.BigRed) return BigRedMarble;
-            if (OnlyMarbleColor == MarbleColor.Angel) return AngelMarble;
-            if (OnlyMarbleColor == MarbleColor.Gold) return GoldMarble;
+            return GetSpecificMarble(OnlyMarbleColor);
         }
 
-        if (!hasNoBombs && tier >= 4 && tier - lastBombMarbleTier >= 1 && Random.Range(0, 10) == 0)
+        if (ShouldSpawnBombMarble(tier))
         {
             lastBombMarbleTier = tier;
             return BombMarble;
         }
-        else if ((tier == 6 || tier == 12) && tier != lastExtraLifeTier && gameManager.Lives < gameManager.StartingLives)
+
+        if (ShouldSpawnExtraLife(tier))
         {
             lastExtraLifeTier = tier;
             CreateExtraLife();
             return null;
         }
 
-        if (tier >= 12)
+        var tierData = GetTierData(tier);
+        foreach (var marbleProb in tierData)
         {
-            if (randomValue < 8)
+            if (randomValue < marbleProb.Probability)
             {
-                SpawnPairedMarble(RedMarble, TopRedMarble);
-                return null;
+                if (marbleProb.MarbleType == TopRedMarble)
+                {
+                    SpawnPairedMarble(RedMarble, TopRedMarble);
+                    return null;
+                }
+                return marbleProb.MarbleType;
             }
-            if (randomValue < 20) return BigRedMarble;
-            else if (randomValue < 40) return FireMarble;
-            else if (randomValue < 55) return RedMarble;
-        }
-        if (tier >= 10)
-        {
-            if (randomValue < 5)
-            {
-                SpawnPairedMarble(RedMarble, TopRedMarble);
-                return null;
-            }
-            if (randomValue < 15) return BigRedMarble;
-            else if (randomValue < 35) return FireMarble;
-            else if (randomValue < 55) return RedMarble;
-        }
-        else if (tier >= 7)
-        {
-            if (randomValue < 4)
-            {
-                SpawnPairedMarble(RedMarble, TopRedMarble);
-                return null;
-            }
-            if (randomValue < 8) return BigRedMarble;
-            else if (randomValue < 20) return FireMarble;
-            else if (randomValue < 55) return RedMarble;
-        }
-        else if (tier >= 5)
-        {
-            if (randomValue < 2)
-            {
-                SpawnPairedMarble(RedMarble, TopRedMarble);
-                return null;
-            }
-            if (randomValue < 6) return BigRedMarble;
-            else if (randomValue < 15) return FireMarble;
-            else if (randomValue < 50) return RedMarble;
-        }
-        else if (tier >= 4)
-        {
-            if (randomValue < 1)
-            {
-                SpawnPairedMarble(RedMarble, TopRedMarble);
-                return null;
-            }
-            if (randomValue < 5) return BigRedMarble;
-            else if (randomValue < 15) return FireMarble;
-            else if (randomValue < 50) return RedMarble;
-        }
-        else if (tier >= 3)
-        {
-            if (randomValue < 2) return BigRedMarble;
-            if (randomValue < 10) return FireMarble;
-            else if (randomValue < 50) return RedMarble;
-        }
-        else if (tier >= 2)
-        {
-            if (randomValue < 5) return FireMarble;
-            else if (randomValue < 50) return RedMarble;
-        }
-        else
-        {
-            if (randomValue < 45) return RedMarble;
         }
 
+        return GetGoodMarble();
+    }
+
+    bool ShouldSpawnBombMarble(int currentTier)
+    {
+        return !hasNoBombs && currentTier >= 4 && currentTier - lastBombMarbleTier >= 1 && Random.Range(0, 10) == 0;
+    }
+
+    bool ShouldSpawnExtraLife(int currentTier)
+    {
+        return (currentTier == 3 || currentTier == 6 || currentTier == 12) && currentTier != lastExtraLifeTier && gameManager.Lives < gameManager.StartingLives;
+    }
+
+    Marble GetGoodMarble()
+    {
         int totalMarbles = 100;
         int angelMarbles = hasAngelMarble ? 10 : 0; // 10% chance for angel marbles
         int goldMarbles = hasGoldMarble ? 3 : 0;   // 3% chance for gold marbles
@@ -225,8 +191,80 @@ public class MarbleSpawner : MonoBehaviour
         {
             return GoldMarble;
         }
-        
+
         return GreenMarble;
+    }
+
+    Marble GetSpecificMarble(MarbleColor color)
+    {
+        switch (color)
+        {
+            case MarbleColor.Red:
+                return RedMarble;
+            case MarbleColor.Green:
+                return GreenMarble;
+            case MarbleColor.Fire:
+                return FireMarble;
+            case MarbleColor.BigRed:
+                return BigRedMarble;
+            case MarbleColor.Angel:
+                return AngelMarble;
+            case MarbleColor.Gold:
+                return GoldMarble;
+            default:
+                return null;
+        }
+    }
+
+    List<MarbleProbability> GetTierData(int tier)
+    {
+        List<MarbleProbability> tierData = new List<MarbleProbability>();
+
+        if (tier >= 12)
+        {
+            tierData.Add(new MarbleProbability(8, TopRedMarble));
+            tierData.Add(new MarbleProbability(20, BigRedMarble));
+            tierData.Add(new MarbleProbability(40, FireMarble));
+            tierData.Add(new MarbleProbability(55, RedMarble));
+        }
+        else if (tier >= 10)
+        {
+            tierData.Add(new MarbleProbability(5, TopRedMarble));
+            tierData.Add(new MarbleProbability(15, BigRedMarble));
+            tierData.Add(new MarbleProbability(35, FireMarble));
+            tierData.Add(new MarbleProbability(55, RedMarble));
+        }
+        else if (tier >= 7)
+        {
+            tierData.Add(new MarbleProbability(4, TopRedMarble));
+            tierData.Add(new MarbleProbability(8, BigRedMarble));
+            tierData.Add(new MarbleProbability(20, FireMarble));
+            tierData.Add(new MarbleProbability(55, RedMarble));
+        }
+        else if (tier >= 5)
+        {
+            tierData.Add(new MarbleProbability(2, TopRedMarble));
+            tierData.Add(new MarbleProbability(6, BigRedMarble));
+            tierData.Add(new MarbleProbability(15, FireMarble));
+            tierData.Add(new MarbleProbability(50, RedMarble));
+        }
+        else if (tier >= 3)
+        {
+            tierData.Add(new MarbleProbability(2, BigRedMarble));
+            tierData.Add(new MarbleProbability(10, FireMarble));
+            tierData.Add(new MarbleProbability(50, RedMarble));
+        }
+        else if (tier >= 2)
+        {
+            tierData.Add(new MarbleProbability(5, FireMarble));
+            tierData.Add(new MarbleProbability(50, RedMarble));
+        }
+        else
+        {
+            tierData.Add(new MarbleProbability(45, RedMarble));
+        }
+
+        return tierData;
     }
 
     void UpdateTimer()
@@ -234,11 +272,11 @@ public class MarbleSpawner : MonoBehaviour
         float intervalConstant = 0.95f;
         if (tier >= 10)
         {
-            intervalConstant = 1.12f;
+            intervalConstant = 1.125f;
         }
         if (tier >= 7)
         {
-            intervalConstant = 1.11f;
+            intervalConstant = 1.115f;
         }
         else if (tier >= 5)
         {
@@ -316,7 +354,7 @@ public class MarbleSpawner : MonoBehaviour
         ExtraLife extraLife = Instantiate(ExtraLife, GetSpawnPosition(MarbleColor.Life), Quaternion.identity);
         extraLife.UpdateSpeed(speed);
 
-        Destroy(extraLife.gameObject, 5);
+        Destroy(extraLife.gameObject, 3);
     }
 
     private void CheckForPerks()
