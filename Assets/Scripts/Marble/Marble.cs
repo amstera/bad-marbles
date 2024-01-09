@@ -66,6 +66,7 @@ public class Marble : MonoBehaviour
 
 public enum MarbleColor
 {
+    Life = -2,
     Tier = -1,
     Unknown = 0,
     Green = 1,

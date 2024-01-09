@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     public AudioSource pointGainedSound;
     public AudioSource lifeLossSound;
+    public AudioSource lifeGainedSound;
 
     private int score;
     public int Score
@@ -68,6 +69,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public int StartingLives = 3;
+
     private float marbleHitRadius = 2.6f;
     private float elapsedTime = 0;
 
@@ -88,6 +91,7 @@ public class GameManager : MonoBehaviour
         InitializeSingleton();
         SetPerks();
         extraChance = savedData.ExtraChance;
+        StartingLives = lives;
 
         if (extraChance.ActiveCount > 0)
         {
@@ -180,7 +184,6 @@ public class GameManager : MonoBehaviour
         if (marble != null && !touchedMarbles.Contains(marble) && marble.color != MarbleColor.Tier)
         {
             touchedMarbles.Add(marble);
-            marble.Destroy();
             if (marble.livesLost > 0)
             {
                 marblesHit++;
@@ -189,6 +192,15 @@ public class GameManager : MonoBehaviour
                     complimentText.ShowCompliment();
                 }
             }
+            else if (marble.color == MarbleColor.Life)
+            {
+                Lives++;
+                lifeGainedSound?.Play();
+
+                marble.GetComponentInParent<ExtraLife>().Destroy();
+            }
+
+            marble.Destroy();
 
             return true;
         }

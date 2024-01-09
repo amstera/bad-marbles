@@ -11,7 +11,7 @@ public class TrackBarrier : MonoBehaviour
         Marble marble = collision.gameObject.GetComponent<Marble>();
         if (marble != null)
         {
-            if (marble.color == MarbleColor.Tier)
+            if (marble.color == MarbleColor.Tier || marble.color == MarbleColor.Life)
             {
                 return;
             }

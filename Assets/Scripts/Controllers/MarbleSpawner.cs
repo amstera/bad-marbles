@@ -13,6 +13,7 @@ public class MarbleSpawner : MonoBehaviour
     public Marble BombMarble;
     public TopMarble TopRedMarble;
     public Tier TierPrefab;
+    public ExtraLife ExtraLife;
 
     public float speed = 8f;
     public bool canUpdateSpeed = true;
@@ -26,6 +27,7 @@ public class MarbleSpawner : MonoBehaviour
     private bool hasUpdatedTier;
     private int frameCounter = 0;
     private int lastBombMarbleTier;
+    private int lastExtraLifeTier;
     private int tier;
     private List<Marble> allMarbles = new List<Marble>();
 
@@ -69,7 +71,7 @@ public class MarbleSpawner : MonoBehaviour
         }
 
         float growthRate = (maxSpeed - speed) / maxSpeed;
-        growthRate *= (tier < 3) ? 2.3f : 1.8f;
+        growthRate *= (tier < 3) ? 2.3f : 1.825f;
         speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
     }
 
@@ -90,10 +92,10 @@ public class MarbleSpawner : MonoBehaviour
         }
     }
 
-    Vector3 GetSpawnPosition(MarbleColor type, bool isTier = false)
+    Vector3 GetSpawnPosition(MarbleColor type)
     {
         float xRange = (type == MarbleColor.BigRed) ? 3f : 3.8f;
-        float xPosition = isTier ? 0 : Random.Range(-xRange, xRange);
+        float xPosition = type == MarbleColor.Tier ? 0 : Random.Range(-xRange, xRange);
         float yPosition = (type == MarbleColor.BigRed) ? 14.5f : 14f;
         return new Vector3(xPosition, yPosition, 23.5f);
     }
@@ -126,6 +128,12 @@ public class MarbleSpawner : MonoBehaviour
         {
             lastBombMarbleTier = tier;
             return BombMarble;
+        }
+        else if ((tier == 6 || tier == 12) && tier != lastExtraLifeTier && gameManager.Lives < gameManager.StartingLives)
+        {
+            lastExtraLifeTier = tier;
+            CreateExtraLife();
+            return null;
         }
 
         if (tier >= 12)
@@ -226,13 +234,17 @@ public class MarbleSpawner : MonoBehaviour
         float intervalConstant = 0.95f;
         if (tier >= 10)
         {
+            intervalConstant = 1.12f;
+        }
+        if (tier >= 7)
+        {
+            intervalConstant = 1.11f;
+        }
+        else if (tier >= 5)
+        {
             intervalConstant = 1.1f;
         }
-        else if (tier >= 6)
-        {
-            intervalConstant = 1.125f;
-        }
-        else if (tier > 3)
+        else if (tier == 4)
         {
             intervalConstant = 1.05f;
         }
@@ -244,7 +256,7 @@ public class MarbleSpawner : MonoBehaviour
     {
         if (tier > 1)
         {
-            Tier newTier = Instantiate(TierPrefab, GetSpawnPosition(MarbleColor.Unknown, true), Quaternion.identity);
+            Tier newTier = Instantiate(TierPrefab, GetSpawnPosition(MarbleColor.Tier), Quaternion.identity);
             newTier.UpdateTier(tier);
             newTier.UpdateSpeed(hasUpdatedTier ? speed * 1.1f : 15);
 
@@ -297,6 +309,14 @@ public class MarbleSpawner : MonoBehaviour
 
         yield return new WaitForSeconds(pauseDuration);
         isSpawningPaused = false;
+    }
+
+    private void CreateExtraLife()
+    {
+        ExtraLife extraLife = Instantiate(ExtraLife, GetSpawnPosition(MarbleColor.Life), Quaternion.identity);
+        extraLife.UpdateSpeed(speed);
+
+        Destroy(extraLife.gameObject, 5);
     }
 
     private void CheckForPerks()

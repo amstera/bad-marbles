@@ -13,7 +13,7 @@ public class VignetteAnimator : MonoBehaviour
 
     private const float InitialIntensity = 0.15f;
     private const float TransitionDuration = 110;
-    private const float TargetIntensity = 0.55f;
+    private const float TargetIntensity = 0.45f;
     private readonly Color StartColor = Color.white;
     private readonly Color TargetColor = new Color32(250, 200, 130, 255);
 

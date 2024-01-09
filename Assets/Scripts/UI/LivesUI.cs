@@ -37,7 +37,7 @@ public class LivesUI : MonoBehaviour
         {
             for (int i = 0; i < newLives - oldLives; i++)
             {
-                int index = startIndex - i;
+                int index = startIndex - i - 1;
                 if (index >= 0 && index < lifeImages.Length)
                 {
                     StartCoroutine(PopEffect(index, true));
