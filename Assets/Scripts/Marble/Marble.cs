@@ -75,5 +75,6 @@ public enum MarbleColor
     Angel = 4,
     Gold = 5,
     BigRed = 6,
-    Bomb = 7
+    Bomb = 7,
+    BlueFire = 8
 }

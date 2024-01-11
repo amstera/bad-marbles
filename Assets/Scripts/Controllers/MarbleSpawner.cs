@@ -11,6 +11,7 @@ public class MarbleSpawner : MonoBehaviour
     public Marble BigRedMarble;
     public Marble FireMarble;
     public Marble BombMarble;
+    public Marble BlueFireMarble;
     public TopMarble TopRedMarble;
     public Tier TierPrefab;
     public ExtraLife ExtraLife;
@@ -30,7 +31,7 @@ public class MarbleSpawner : MonoBehaviour
     private int lastExtraLifeTier;
     private int tier;
     private List<Marble> allMarbles = new List<Marble>();
-    private HashSet<MarbleColor> allowedMarbleColors = new HashSet<MarbleColor> { MarbleColor.Red, MarbleColor.Green, MarbleColor.Fire, MarbleColor.Bomb, MarbleColor.Gold, MarbleColor.Angel };
+    private HashSet<MarbleColor> allowedDupMarbleColors = new HashSet<MarbleColor> { MarbleColor.Red, MarbleColor.Green, MarbleColor.Fire, MarbleColor.Bomb, MarbleColor.Gold, MarbleColor.Angel, MarbleColor.BlueFire };
 
     private SaveObject savedData;
     private GameManager gameManager;
@@ -99,7 +100,7 @@ public class MarbleSpawner : MonoBehaviour
                 int randomNumber = Random.Range(0, 100);
                 if (randomNumber < 5)
                 {
-                    marbleCount = (tier > 3 && randomNumber < 2) ? 3 : 2;
+                    marbleCount = (tier > 5 && randomNumber < 2) ? 3 : 2;
                 }
             }
 
@@ -216,6 +217,7 @@ public class MarbleSpawner : MonoBehaviour
         {
             tierData.Add(new MarbleProbability(8, TopRedMarble));
             tierData.Add(new MarbleProbability(20, BigRedMarble));
+            tierData.Add(new MarbleProbability(30, BlueFireMarble));
             tierData.Add(new MarbleProbability(40, FireMarble));
             tierData.Add(new MarbleProbability(55, RedMarble));
         }
@@ -223,6 +225,7 @@ public class MarbleSpawner : MonoBehaviour
         {
             tierData.Add(new MarbleProbability(5, TopRedMarble));
             tierData.Add(new MarbleProbability(15, BigRedMarble));
+            tierData.Add(new MarbleProbability(20, BlueFireMarble));
             tierData.Add(new MarbleProbability(35, FireMarble));
             tierData.Add(new MarbleProbability(55, RedMarble));
         }
@@ -261,7 +264,7 @@ public class MarbleSpawner : MonoBehaviour
 
     void UpdateTimer()
     {
-        float intervalConstant = 0.95f;
+        float intervalConstant = 2f;
         if (tier >= 10)
         {
             intervalConstant = 1.125f;
@@ -278,7 +281,11 @@ public class MarbleSpawner : MonoBehaviour
         {
             intervalConstant = 1.05f;
         }
-        float newInterval = Mathf.Clamp(spawnInterval - (speed / intervalConstant / maxSpeed), 0.13f, spawnInterval);
+        else if (tier > 1)
+        {
+            intervalConstant = 0.95f;
+        }
+        float newInterval = Mathf.Clamp(spawnInterval - (speed / intervalConstant / maxSpeed), 0.135f, spawnInterval);
         timer = newInterval;
     }
 
@@ -399,7 +406,7 @@ public class MarbleSpawner : MonoBehaviour
         InstantiateMarble(marbleToSpawn, firstPosition);
         spawnedPositions.Add(firstPosition);
         
-        if (marbleCount > 1 && allowedMarbleColors.Contains(marbleToSpawn.color))
+        if (marbleCount > 1 && allowedDupMarbleColors.Contains(marbleToSpawn.color))
         {
             // Only attempt to spawn more marbles if marbleCount is greater than 1 and color is allowed
             for (int i = 1; i < marbleCount; i++)
