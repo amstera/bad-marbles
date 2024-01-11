@@ -99,7 +99,7 @@ public class MarbleSpawner : MonoBehaviour
                 int randomNumber = Random.Range(0, 100);
                 if (randomNumber < 5)
                 {
-                    marbleCount = (tier > 3 && randomNumber == 1) ? 3 : 2;
+                    marbleCount = (tier > 3 && randomNumber < 2) ? 3 : 2;
                 }
             }
 
@@ -160,7 +160,7 @@ public class MarbleSpawner : MonoBehaviour
 
     bool ShouldSpawnExtraLife(int currentTier)
     {
-        return (currentTier == 3 || currentTier == 6 || currentTier == 12) && currentTier != lastExtraLifeTier && gameManager.Lives < gameManager.StartingLives;
+        return currentTier > 1 && currentTier % 3 == 0 && currentTier != lastExtraLifeTier && gameManager.Lives < gameManager.StartingLives;
     }
 
     Marble GetGoodMarble()
@@ -428,7 +428,7 @@ public class MarbleSpawner : MonoBehaviour
     {
         foreach (Vector3 existingPosition in spawnedPositions)
         {
-            if (Mathf.Abs(existingPosition.x - position.x) < 2)
+            if (Mathf.Abs(existingPosition.x - position.x) < 1.5f)
             {
                 return false;
             }

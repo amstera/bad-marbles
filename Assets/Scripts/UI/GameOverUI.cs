@@ -41,12 +41,14 @@ public class GameOverUI : MonoBehaviour
     public void ShowGameOver(int score, int tier, SaveObject savedData, int activeCount, float marbleSpawnSpeed, float elapsedTime)
     {
         Time.timeScale = 1;
+        popUp.transform.localScale = Vector3.zero;
         gameObject.SetActive(true);
 
         this.savedData = savedData;
 
         StartCoroutine(FadeInCanvasGroup());
         UpdateScoreText(score);
+        ShowExtraChanceButton(activeCount);
         UpdateHighScoreText(score, tier, savedData);
         ShowNewIndicator();
         InitializeAdEvents();
@@ -56,16 +58,17 @@ public class GameOverUI : MonoBehaviour
         this.marbleSpawnSpeed = marbleSpawnSpeed;
         this.elapsedTime = elapsedTime;
 
-        if (!savedData.CanShowAds)
+        if (savedData.CanShowAds)
+        {
+            if (!secondChanceButton.gameObject.activeSelf)
+            {
+                Vector3 noAdsButtonPosition = noAdsButton.transform.localPosition;
+                noAdsButton.transform.localPosition = new Vector3(noAdsButtonPosition.x, noAdsButtonPosition.y + 50, noAdsButtonPosition.z);
+            }
+        }
+        else
         {
             noAdsButton.gameObject.SetActive(false);
-        }
-        if (activeCount >= 2 || (activeCount == 1 && !savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.ExtraChance)))
-        {
-            secondChanceButton.gameObject.SetActive(false);
-            savedData.ExtraChance.ActiveCount = 0;
-
-            SaveManager.Save(savedData);
         }
     }
 
@@ -144,11 +147,14 @@ public class GameOverUI : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
+        StartCoroutine(PopIn(popUp, 0.2f));
+
         while (canvasGroup.alpha < 1)
         {
             canvasGroup.alpha += Time.deltaTime / 0.35f;
             yield return null;
         }
+
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
     }
@@ -175,8 +181,8 @@ public class GameOverUI : MonoBehaviour
         }
         else
         {
-            float highScoreThreshold = savedData.HighScore * 0.9f;
-            if (score >= highScoreThreshold && score < savedData.HighScore)
+            float highScoreThreshold = savedData.HighScore * 0.85f;
+            if (secondChanceButton.gameObject.activeSelf && score >= highScoreThreshold && score < savedData.HighScore)
             {
                 int pointsAway = savedData.HighScore - score;
                 extraChanceReminderText.gameObject.SetActive(true);
@@ -233,6 +239,17 @@ public class GameOverUI : MonoBehaviour
         }
     }
 
+    private void ShowExtraChanceButton(int activeCount)
+    {
+        if (activeCount >= 2 || (activeCount == 1 && !savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.ExtraChance)))
+        {
+            secondChanceButton.gameObject.SetActive(false);
+            savedData.ExtraChance.ActiveCount = 0;
+
+            SaveManager.Save(savedData);
+        }
+    }
+
     private IEnumerator SwayNewIndicator()
     {
         while (true)
@@ -251,6 +268,18 @@ public class GameOverUI : MonoBehaviour
             arrow.transform.localPosition = new Vector3(swayPosition, arrow.transform.localPosition.y, arrow.transform.localPosition.z);
             yield return null;
         }
+    }
+
+    private IEnumerator PopIn(GameObject obj, float time)
+    {
+        Vector3 originalScale = obj.transform.localScale;
+        Vector3 targetScale = Vector3.one;
+        for (float t = 0; t < 1; t += Time.deltaTime / time)
+        {
+            obj.transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            yield return null;
+        }
+        obj.transform.localScale = targetScale;
     }
 
     private void OnDestroy()

@@ -21,6 +21,7 @@ public class TutorialUI : MonoBehaviour
     public AudioSource plopSound;
     public AudioSource marbleHitSound;
     public AudioSource pointGainedSound;
+    public AudioSource squeakSound;
 
     private float rotationSpeed = -20f;
     private Vector3 greenMarbleStartPos;
@@ -120,6 +121,7 @@ public class TutorialUI : MonoBehaviour
     {
         plopSound?.Play();
         marbleHitSound?.Play();
+        squeakSound?.Play();
 
         marbleButton1.gameObject.SetActive(false);
         marbleButton2.gameObject.SetActive(false);
