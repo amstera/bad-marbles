@@ -30,6 +30,7 @@ public class MarbleSpawner : MonoBehaviour
     private int lastExtraLifeTier;
     private int tier;
     private List<Marble> allMarbles = new List<Marble>();
+    private HashSet<MarbleColor> allowedMarbleColors = new HashSet<MarbleColor> { MarbleColor.Red, MarbleColor.Green, MarbleColor.Fire, MarbleColor.Bomb, MarbleColor.Gold, MarbleColor.Angel };
 
     private SaveObject savedData;
     private GameManager gameManager;
@@ -92,14 +93,17 @@ public class MarbleSpawner : MonoBehaviour
         timer -= Time.deltaTime * 4;  // Adjusting for every second frame update
         if (timer <= 0f)
         {
-            if (tier > 1 && Random.Range(0, 100) < 5 && SpawnMarbleCouple())
+            int marbleCount = 1;
+            if (tier > 1)
             {
-                // spawned marble couple
+                int randomNumber = Random.Range(0, 100);
+                if (randomNumber < 5)
+                {
+                    marbleCount = (tier > 3 && randomNumber == 1) ? 3 : 2;
+                }
             }
-            else
-            {
-                SpawnMarble();
-            }
+
+            SpawnMarbles(marbleCount);
             UpdateTimer();
         }
     }
@@ -110,18 +114,6 @@ public class MarbleSpawner : MonoBehaviour
         float xPosition = type == MarbleColor.Tier ? 0 : Random.Range(-xRange, xRange);
         float yPosition = (type == MarbleColor.BigRed) ? 14.5f : 14f;
         return new Vector3(xPosition, yPosition, 23.5f);
-    }
-
-    void SpawnMarble()
-    {
-        int randomValue = Random.Range(0, 100);
-        Marble marbleToSpawn = DetermineMarbleToSpawn(tier, randomValue);
-
-        if (marbleToSpawn != null)
-        {
-            Vector3 spawnPosition = GetSpawnPosition(marbleToSpawn.color);
-            InstantiateMarble(marbleToSpawn, spawnPosition);
-        }
     }
 
     Marble DetermineMarbleToSpawn(int tier, int randomValue)
@@ -390,32 +382,57 @@ public class MarbleSpawner : MonoBehaviour
         allMarbles.Add(topMarble);
     }
 
-    bool SpawnMarbleCouple()
+    void SpawnMarbles(int marbleCount)
     {
         var randomValue = Random.Range(0, 100);
-        Marble firstMarble = DetermineMarbleToSpawn(tier, randomValue);
-        if (firstMarble == null)
+        Marble marbleToSpawn = DetermineMarbleToSpawn(tier, randomValue);
+
+        if (marbleToSpawn == null)
         {
-            return false;
+            return;
         }
 
-        if (firstMarble.color != MarbleColor.Red && firstMarble.color != MarbleColor.Green && firstMarble.color != MarbleColor.Fire)
+        List<Vector3> spawnedPositions = new List<Vector3>();
+
+        // Spawn the first marble
+        Vector3 firstPosition = GetSpawnPosition(marbleToSpawn.color);
+        InstantiateMarble(marbleToSpawn, firstPosition);
+        spawnedPositions.Add(firstPosition);
+        
+        if (marbleCount > 1 && allowedMarbleColors.Contains(marbleToSpawn.color))
         {
-            return false;
+            // Only attempt to spawn more marbles if marbleCount is greater than 1 and color is allowed
+            for (int i = 1; i < marbleCount; i++)
+            {
+                Vector3 spawnPosition;
+                int attemptCounter = 0;
+                bool positionValid;
+
+                do
+                {
+                    spawnPosition = GetSpawnPosition(marbleToSpawn.color);
+                    positionValid = CheckSpawnPosition(spawnPosition, spawnedPositions);
+                    attemptCounter++;
+                } while (!positionValid && attemptCounter < 3);
+
+                if (positionValid)
+                {
+                    InstantiateMarble(marbleToSpawn, spawnPosition);
+                    spawnedPositions.Add(spawnPosition);
+                }
+            }
         }
+    }
 
-        Vector3 firstPosition = GetSpawnPosition(firstMarble.color);
-        InstantiateMarble(firstMarble, firstPosition);
-
-        Marble secondMarble = DetermineMarbleToSpawn(tier, randomValue);
-
-        Vector3 secondPosition;
-        do
+    bool CheckSpawnPosition(Vector3 position, List<Vector3> spawnedPositions)
+    {
+        foreach (Vector3 existingPosition in spawnedPositions)
         {
-            secondPosition = GetSpawnPosition(firstMarble.color);
-        } while (Mathf.Abs(secondPosition.x - firstPosition.x) < 2);
-        InstantiateMarble(secondMarble, secondPosition);
-
+            if (Mathf.Abs(existingPosition.x - position.x) < 2)
+            {
+                return false;
+            }
+        }
         return true;
     }
 

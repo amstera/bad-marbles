@@ -11,10 +11,9 @@ using System.Collections.Generic;
 
 public class GameOverUI : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI highScoreText;
+    public TextMeshProUGUI scoreText, highScoreText, extraChanceReminderText;
     public Image newIcon;
-    public GameObject newIndicator;
+    public GameObject newIndicator, popUp;
     public CanvasGroup canvasGroup;
     public TransitionSettings transition;
     public ParticleSystem confettiPS;
@@ -172,6 +171,22 @@ public class GameOverUI : MonoBehaviour
             if (savedData.GamesPlayed > 5 && !savedData.HasShownRateApp)
             {
                 savedData.HasShownRateApp = Device.RequestStoreReview();
+            }
+        }
+        else
+        {
+            float highScoreThreshold = savedData.HighScore * 0.9f;
+            if (score >= highScoreThreshold && score < savedData.HighScore)
+            {
+                int pointsAway = savedData.HighScore - score;
+                extraChanceReminderText.gameObject.SetActive(true);
+                extraChanceReminderText.text = $"{pointsAway} point{(pointsAway != 1 ? "s" : "")} away from high score!";
+
+                Vector3 popUpPosition = popUp.transform.localPosition;
+                popUp.transform.localPosition = new Vector3(popUpPosition.x, 50, popUpPosition.z);
+
+                Vector3 noAdsButtonPosition = noAdsButton.transform.localPosition;
+                noAdsButton.transform.localPosition = new Vector3(noAdsButtonPosition.x, noAdsButtonPosition.y - 50, noAdsButtonPosition.z);
             }
         }
 
