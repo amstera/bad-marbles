@@ -277,7 +277,7 @@ public class GameManager : MonoBehaviour
         score = extraChance.Score;
         scoreText.SetScoreImmediately(score);
         tier = extraChance.Tier;
-        var newSpeed = extraChance.ActiveCount == 1 ? extraChance.MarbleSpawnSpeed * 0.7f : extraChance.MarbleSpawnSpeed;
+        var newSpeed = extraChance.ActiveCount == 1 ? extraChance.MarbleSpawnSpeed * 0.7f : extraChance.MarbleSpawnSpeed * 0.9f;
         marbleSpawner.speed = Mathf.Max(marbleSpawner.speed, newSpeed);
         elapsedTime = extraChance.ElapsedTime;
         vignetteAnimator.SetElapsedTime(elapsedTime);

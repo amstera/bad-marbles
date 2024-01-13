@@ -91,22 +91,43 @@ public class MarbleSpawner : MonoBehaviour
 
     void TrySpawnMarble()
     {
-        timer -= Time.deltaTime * 4;  // Adjusting for every second frame update
-        if (timer <= 0f)
+        timer -= Time.deltaTime * 4;
+        if (timer > 0f)
         {
-            int marbleCount = 1;
-            if (tier > 1)
-            {
-                int randomNumber = Random.Range(0, 100);
-                if (randomNumber < 5)
-                {
-                    marbleCount = (tier > 5 && randomNumber < 2) ? 3 : 2;
-                }
-            }
-
-            SpawnMarbles(marbleCount);
-            UpdateTimer();
+            return;
         }
+
+        int marbleCount = CalculateMarbleCount(tier);
+        SpawnMarbles(marbleCount);
+        UpdateTimer();
+    }
+
+    int CalculateMarbleCount(int currentTier)
+    {
+        if (currentTier <= 1)
+        {
+            return 1;
+        }
+
+        int randomNumber = Random.Range(0, 100);
+        if (randomNumber >= 5)
+        {
+            return 1;
+        }
+
+        if (currentTier > 5)
+        {
+            if (randomNumber < 2)
+            {
+                if (currentTier >= 20 && randomNumber < 1)
+                {
+                    return 4;
+                }
+                return 3;
+            }
+        }
+
+        return 2;
     }
 
     Vector3 GetSpawnPosition(MarbleColor type)
@@ -161,7 +182,7 @@ public class MarbleSpawner : MonoBehaviour
 
     bool ShouldSpawnExtraLife(int currentTier)
     {
-        return currentTier > 1 && currentTier % 3 == 0 && currentTier != lastExtraLifeTier && gameManager.Lives < gameManager.StartingLives;
+        return currentTier > 1 && (currentTier > 12 ? currentTier % 6 == 0 : currentTier % 3 == 0) && currentTier != lastExtraLifeTier && gameManager.Lives < gameManager.StartingLives;
     }
 
     Marble GetGoodMarble()
@@ -213,6 +234,14 @@ public class MarbleSpawner : MonoBehaviour
     {
         List<MarbleProbability> tierData = new List<MarbleProbability>();
 
+        if (tier >= 15)
+        {
+            tierData.Add(new MarbleProbability(8, TopRedMarble));
+            tierData.Add(new MarbleProbability(20, BigRedMarble));
+            tierData.Add(new MarbleProbability(30, BlueFireMarble));
+            tierData.Add(new MarbleProbability(45, FireMarble));
+            tierData.Add(new MarbleProbability(60, RedMarble));
+        }
         if (tier >= 12)
         {
             tierData.Add(new MarbleProbability(8, TopRedMarble));
@@ -405,8 +434,9 @@ public class MarbleSpawner : MonoBehaviour
         Vector3 firstPosition = GetSpawnPosition(marbleToSpawn.color);
         InstantiateMarble(marbleToSpawn, firstPosition);
         spawnedPositions.Add(firstPosition);
-        
-        if (marbleCount > 1 && allowedDupMarbleColors.Contains(marbleToSpawn.color))
+
+        bool multipleBombCheck = marbleCount == 2 || tier >= 10 || marbleToSpawn.color != MarbleColor.Bomb;
+        if (marbleCount > 1 && multipleBombCheck && allowedDupMarbleColors.Contains(marbleToSpawn.color))
         {
             // Only attempt to spawn more marbles if marbleCount is greater than 1 and color is allowed
             for (int i = 1; i < marbleCount; i++)

@@ -337,7 +337,6 @@ public class PerksManager : MonoBehaviour
             if (clickedPerk.category == PerkCategory.Music)
             {
                 savedData.SelectedPerks.SelectedMusic = clickedPerk.id;
-
                 PlayTrack();
             }
             else if (clickedPerk.category == PerkCategory.Background)

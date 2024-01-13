@@ -47,7 +47,11 @@ public enum PerkEnum
     UnderwaterBackground = 37,
     MarbleBackground = 38,
     NoBombs = 39,
-    ExtraChance = 40
+    ExtraChance = 40,
+    GlassRamp = 41,
+    BrickRamp = 42,
+    ChillJazz = 43,
+    AcousticRambles = 44
 }
 
 [System.Serializable]
