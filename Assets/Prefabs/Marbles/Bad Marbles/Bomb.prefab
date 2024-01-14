@@ -156,7 +156,7 @@ MonoBehaviour:
   color: 7
   points: 0
   livesLost: 10
-  fadeInDuration: 0.1
+  fadeInDuration: 0.5
   flashingMaterial: {fileID: 2100000, guid: eb464be287ad3410a8e14d3b1d7603e3, type: 2}
 --- !u!82 &249469579517227054
 AudioSource:
