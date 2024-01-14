@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.UI.ProceduralImage;
 using UnityEngine.EventSystems;
-using System;
 using JoshH.UI;
+using System;
 
 public class PerkUI : MonoBehaviour, IPointerClickHandler
 {
@@ -25,6 +26,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     public ProceduralImage perkOutline;
     public UIGradient ForegroundGradient;
     public GameObject newIndicator;
+    public Shadow outlineShadow;
 
     public event Action<PerkUI> OnPerkClicked;
 
@@ -32,25 +34,25 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     private float lockedAlpha = 0.4f;
     private int selectedBorderWidth = 6;
     private int defaultBorderWidth = 3;
+    private float transitionDuration = 0.075f;
 
-    private readonly Color selectedBorderColor = new Color32(249, 255, 0, 255);
+    private readonly Color selectedBorderColor = new Color32(253, 255, 93, 255);
     private readonly Color defaultBorderColor = Color.gray;
-
     private readonly Color unlockedColor = new Color32(73, 190, 71, 255);
     private readonly Color lockedColor = new Color32(203, 152, 7, 255);
-
     private readonly Color gradientUnlockedColor1 = new Color32(7, 235, 197, 255);
     private readonly Color gradientUnlockedColor2 = new Color32(0, 157, 228, 255);
-
     private readonly Color gradientLockedColor1 = new Color32(202, 202, 202, 255);
     private readonly Color gradientLockedColor2 = new Color32(99, 99, 99, 255);
-
     private readonly Color gradientSelectedColor1 = new Color32(225, 231, 41, 255);
     private readonly Color gradientSelectedColor2 = new Color32(178, 139, 4, 255);
 
+    private Vector3 originalScale;
+    private float popInScale = 1.1f;
+
     void Start()
     {
-        UpdatePerkDisplay();
+        originalScale = perkImage.transform.localScale;
     }
 
     public void InitializePerk(PerkEnum id, string name, string description, Sprite sprite, int points, PerkCategory category, bool isSelected, bool isUnlocked, bool isNewIndicatorEnabled)
@@ -74,7 +76,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
         newIndicator.SetActive(isNewIndicatorEnabled);
 
         SetPerkState();
-        SetPerkSelected(isSelected);
+        SetPerkSelected(isSelected, false);
     }
 
     private void SetPerkState()
@@ -94,23 +96,58 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void SetPerkSelected(bool selected)
+    private void SetPerkSelected(bool selected, bool animate)
     {
-        if (selected && isUnlocked)
+        if (animate && isUnlocked)
         {
-            perkOutline.BorderWidth = selectedBorderWidth;
-            perkOutline.color = selectedBorderColor;
-            SetGradientColors(gradientSelectedColor1, gradientSelectedColor2);
+            StartCoroutine(AnimateSelectionChange(selected));
         }
-        else
+        else if (isUnlocked)
         {
-            perkOutline.BorderWidth = defaultBorderWidth;
-            perkOutline.color = defaultBorderColor;
-            if (isUnlocked)
-            {
-                SetGradientColors(gradientUnlockedColor1, gradientUnlockedColor2);
-            }
+            ApplyPerkSelectionState(selected);
         }
+
+        outlineShadow.enabled = selected && isUnlocked;
+    }
+
+    private IEnumerator AnimateSelectionChange(bool selected)
+    {
+        float startTime = Time.time;
+
+        // Initial values for border and color transition
+        float startBorderWidth = perkOutline.BorderWidth;
+        float endBorderWidth = selected ? selectedBorderWidth : defaultBorderWidth;
+        Color startBorderColor = perkOutline.color;
+        Color endBorderColor = selected ? selectedBorderColor : defaultBorderColor;
+
+        // Initial scale for the pop effect
+        Vector3 targetScale = selected ? originalScale * popInScale : originalScale;
+
+        while (Time.time < startTime + transitionDuration)
+        {
+            float t = (Time.time - startTime) / transitionDuration;
+
+            // Border and color transition
+            perkOutline.BorderWidth = Mathf.Lerp(startBorderWidth, endBorderWidth, t);
+            perkOutline.color = Color.Lerp(startBorderColor, endBorderColor, t);
+
+            // Pop effect
+            perkImage.transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+
+            yield return null;
+        }
+
+        // Ensure final states are applied
+        ApplyPerkSelectionState(selected);
+        perkImage.transform.localScale = originalScale; // Reset scale to original
+    }
+
+    private void ApplyPerkSelectionState(bool selected)
+    {
+        perkOutline.BorderWidth = selected ? selectedBorderWidth : defaultBorderWidth;
+        perkOutline.color = selected ? selectedBorderColor : defaultBorderColor;
+        SetGradientColors(selected ? gradientSelectedColor1 : gradientUnlockedColor1,
+                          selected ? gradientSelectedColor2 : gradientUnlockedColor2);
     }
 
     private void SetGradientColors(Color color1, Color color2)
@@ -121,15 +158,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
 
     private string FormatPoints(int points)
     {
-        if (points < 100000)
-        {
-            return $"{points} PTS";
-        }
-        else
-        {
-            int roundedPoints = (int)Math.Round(points / 1000.0) * 1000;
-            return $"{roundedPoints / 1000}K PTS";
-        }
+        return points < 100000 ? $"{points} PTS" : $"{(int)Math.Round(points / 1000.0) * 1000 / 1000}K PTS";
     }
 
     void SetAlpha(float alpha)
@@ -153,11 +182,8 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
 
     public void SetSelected(bool isSelected)
     {
-        if (isUnlocked)
-        {
-            this.isSelected = isSelected;
-            UpdatePerkDisplay();
-        }
+        this.isSelected = isSelected;
+        SetPerkSelected(isSelected, true);
     }
 
     public void UnlockPerk()

@@ -117,9 +117,9 @@ public class MarbleSpawner : MonoBehaviour
 
         if (currentTier > 5)
         {
-            if (randomNumber < 2)
+            if (randomNumber < (currentTier >= 15 ? 3 : 2))
             {
-                if (currentTier >= 20 && randomNumber < 1)
+                if (currentTier >= 15 && randomNumber < 2)
                 {
                     return 4;
                 }
