@@ -7,6 +7,7 @@ public class BombButton : MonoBehaviour
     public StressReceiver stressReceiver;
     public SlowTimeButton slowTimeButton;
     public GameObject shine;
+    public AudioSource plopSound;
 
     private float destructionDelay = 0.1f;
     private SaveObject savedData;
@@ -32,6 +33,7 @@ public class BombButton : MonoBehaviour
             return;
         }
 
+        plopSound?.Play();
         isPressed = true;
         shine.SetActive(false);
         marbleSpawner?.DestroyAll(onlyBad: true);

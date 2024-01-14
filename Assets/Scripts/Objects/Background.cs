@@ -14,7 +14,7 @@ public class Background : MonoBehaviour
     {
         backgrounds = new Dictionary<PerkEnum, (string, Vector3)>
         {
-            { PerkEnum.DefaultBackground, ($"{fileLocation}/Sunset", new Vector3(-0.3f, 29.7f, 63.7f)) },
+            { PerkEnum.DefaultBackground, ($"{fileLocation}/Sunset", new Vector3(-0.3f, 30.6f, 67f)) },
             { PerkEnum.StreamBackground, ($"{fileLocation}/Stream", new Vector3(0f, 18f, 51.5f)) },
             { PerkEnum.CandyBackground, ($"{fileLocation}/Candy", new Vector3(-5.2f, 30.5f, 101.4f)) },
             { PerkEnum.ToysBackground, ($"{fileLocation}/Toys", new Vector3(0, 29.5f, 80)) },

@@ -7,6 +7,7 @@ public class SlowTimeButton : MonoBehaviour
     public GameObject bombButton;
     public GameObject shine;
     public ProceduralImage image;
+    public AudioSource plopSound;
 
     private float slowDuration = 5.0f;
     private float originalTimeScale = 1.0f;
@@ -40,6 +41,7 @@ public class SlowTimeButton : MonoBehaviour
             return;
         }
 
+        plopSound?.Play();
         isPressed = true;
         shine.SetActive(false);
         StartCoroutine(SlowDownTime());

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -34,7 +33,6 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     private float lockedAlpha = 0.4f;
     private int selectedBorderWidth = 6;
     private int defaultBorderWidth = 3;
-    private float transitionDuration = 0.05f;
 
     private readonly Color selectedBorderColor = new Color32(253, 255, 93, 255);
     private readonly Color defaultBorderColor = Color.gray;
@@ -68,7 +66,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
         newIndicator.SetActive(isNewIndicatorEnabled);
 
         SetPerkState();
-        SetPerkSelected(isSelected, false);
+        SetPerkSelected(isSelected);
     }
 
     private void SetPerkState()
@@ -88,42 +86,13 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void SetPerkSelected(bool selected, bool animate)
+    private void SetPerkSelected(bool selected)
     {
-        if (animate && isUnlocked)
-        {
-            StartCoroutine(AnimateSelectionChange(selected));
-        }
-        else if (isUnlocked)
+        if (isUnlocked)
         {
             ApplyPerkSelectionState(selected);
+            outlineShadow.enabled = selected;
         }
-
-        outlineShadow.enabled = selected && isUnlocked;
-    }
-
-    private IEnumerator AnimateSelectionChange(bool selected)
-    {
-        float startTime = Time.time;
-
-        // Initial values for border and color transition
-        float startBorderWidth = perkOutline.BorderWidth;
-        float endBorderWidth = selected ? selectedBorderWidth : defaultBorderWidth;
-        Color startBorderColor = perkOutline.color;
-        Color endBorderColor = selected ? selectedBorderColor : defaultBorderColor;
-
-        while (Time.time < startTime + transitionDuration)
-        {
-            float t = (Time.time - startTime) / transitionDuration;
-
-            // Border and color transition
-            perkOutline.BorderWidth = Mathf.Lerp(startBorderWidth, endBorderWidth, t);
-            perkOutline.color = Color.Lerp(startBorderColor, endBorderColor, t);
-            yield return null;
-        }
-
-        // Ensure final states are applied
-        ApplyPerkSelectionState(selected);
     }
 
     private void ApplyPerkSelectionState(bool selected)
@@ -167,7 +136,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     public void SetSelected(bool isSelected)
     {
         this.isSelected = isSelected;
-        SetPerkSelected(isSelected, true);
+        SetPerkSelected(isSelected);
     }
 
     public void UnlockPerk()
