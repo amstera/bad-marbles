@@ -14,8 +14,8 @@ public class VignetteAnimator : MonoBehaviour
     private const float InitialIntensity = 0.15f;
     private const float TransitionDuration = 110;
     private const float TargetIntensity = 0.45f;
-    private readonly Color StartColor = new Color32(210, 230, 225, 255);
-    private readonly Color TargetColor = Color.white;
+    private Color startColor;
+    private Color targetColor = Color.white;
 
     void Start()
     {
@@ -25,8 +25,8 @@ public class VignetteAnimator : MonoBehaviour
             return;
         }
 
+        startColor = background.color;
         vignette.intensity.value = InitialIntensity;
-        background.color = StartColor;
         animationCoroutine = StartCoroutine(AnimateVignetteAndBackground());
     }
 
@@ -48,7 +48,7 @@ public class VignetteAnimator : MonoBehaviour
         }
         if (background != null)
         {
-            background.color = TargetColor;
+            background.color = targetColor;
         }
     }
 
@@ -61,7 +61,7 @@ public class VignetteAnimator : MonoBehaviour
         }
         if (background != null)
         {
-            background.color = Color.Lerp(StartColor, TargetColor, progress);
+            background.color = Color.Lerp(startColor, targetColor, progress);
         }
     }
 
