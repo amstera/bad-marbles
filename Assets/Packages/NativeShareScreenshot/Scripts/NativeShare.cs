@@ -5,7 +5,6 @@ using System.IO;
 
 public class NativeShare : MonoBehaviour
 {
-	private bool _applicationFocus = false;
 	private bool _appProcessing = false;
 
 	[Tooltip("Optional assignment, displays additional text useful for troubleshooting.")]
@@ -27,11 +26,6 @@ public class NativeShare : MonoBehaviour
 				infoText.text = "You are running in the editor. Native sharing will only show up when running on the actual device";
 			#endif
 		}
-	}
-
-	private void OnApplicationFocus(bool isFocused)
-	{
-		_applicationFocus = isFocused;
 	}
 
 	private void Share()
@@ -87,10 +81,10 @@ public class NativeShare : MonoBehaviour
 					currentActivity.Call ("startActivity", chooser);
 				}
 		#elif UNITY_IOS && !UNITY_EDITOR
-				_Native_Share_iOS(filepath, message);
+						_Native_Share_iOS(filepath, message);
 		#endif
 
-		yield return new WaitUntil(() => _applicationFocus);
+		yield return new WaitForEndOfFrame();
 
 		if (infoText != null)
 			infoText.text = "Screenshot shared!";

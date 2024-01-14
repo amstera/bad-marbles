@@ -20,6 +20,7 @@ public class GameOverUI : MonoBehaviour
     public Button playAgainButton;
     public Button noAdsButton;
     public Button secondChanceButton;
+    public Image shareIcon;
     public GameObject arrow;
 
     public AudioSource highScoreSound;
@@ -95,6 +96,20 @@ public class GameOverUI : MonoBehaviour
     {
         GameMusicPlayer.Instance.Pause();
         AdsManager.Instance.rewardedAd.ShowAd();
+    }
+
+    public void Share()
+    {
+        StartCoroutine(ShareButtonPressed());
+    }
+
+    private IEnumerator ShareButtonPressed()
+    {
+        shareIcon.color = new Color(0.8f, 0.8f, 0.8f, 1);
+
+        yield return new WaitForSeconds(0.1f);
+
+        shareIcon.color = Color.white;
     }
 
     private void RewardedAdSkipped()

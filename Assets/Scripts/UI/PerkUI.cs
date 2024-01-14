@@ -34,7 +34,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     private float lockedAlpha = 0.4f;
     private int selectedBorderWidth = 6;
     private int defaultBorderWidth = 3;
-    private float transitionDuration = 0.075f;
+    private float transitionDuration = 0.05f;
 
     private readonly Color selectedBorderColor = new Color32(253, 255, 93, 255);
     private readonly Color defaultBorderColor = Color.gray;
@@ -46,14 +46,6 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     private readonly Color gradientLockedColor2 = new Color32(99, 99, 99, 255);
     private readonly Color gradientSelectedColor1 = new Color32(225, 231, 41, 255);
     private readonly Color gradientSelectedColor2 = new Color32(178, 139, 4, 255);
-
-    private Vector3 originalScale;
-    private float popInScale = 1.1f;
-
-    void Start()
-    {
-        originalScale = perkImage.transform.localScale;
-    }
 
     public void InitializePerk(PerkEnum id, string name, string description, Sprite sprite, int points, PerkCategory category, bool isSelected, bool isUnlocked, bool isNewIndicatorEnabled)
     {
@@ -120,9 +112,6 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
         Color startBorderColor = perkOutline.color;
         Color endBorderColor = selected ? selectedBorderColor : defaultBorderColor;
 
-        // Initial scale for the pop effect
-        Vector3 targetScale = selected ? originalScale * popInScale : originalScale;
-
         while (Time.time < startTime + transitionDuration)
         {
             float t = (Time.time - startTime) / transitionDuration;
@@ -130,16 +119,11 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
             // Border and color transition
             perkOutline.BorderWidth = Mathf.Lerp(startBorderWidth, endBorderWidth, t);
             perkOutline.color = Color.Lerp(startBorderColor, endBorderColor, t);
-
-            // Pop effect
-            perkImage.transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
-
             yield return null;
         }
 
         // Ensure final states are applied
         ApplyPerkSelectionState(selected);
-        perkImage.transform.localScale = originalScale; // Reset scale to original
     }
 
     private void ApplyPerkSelectionState(bool selected)
