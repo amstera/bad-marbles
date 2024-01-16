@@ -352,6 +352,15 @@ public class MarbleSpawner : MonoBehaviour
                 allMarbles.RemoveAt(i);
             }
         }
+
+        if (!onlyBad)
+        {
+            var extraLife = FindObjectOfType<ExtraLife>();
+            if (extraLife != null)
+            {
+                Destroy(extraLife.gameObject);
+            }
+        }
     }
 
     IEnumerator PauseSpawning(int tier)

@@ -86,8 +86,11 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
             SetAlpha(lockedAlpha);
             SetGradientColors(gradientLockedColor1, gradientLockedColor2);
             lockIcon.SetActive(true);
-            lockProgress.gameObject.SetActive(true);
-            lockProgress.fillAmount = (float)totalPoints / pointsRequired;
+            if (pointsRequired > 0)
+            {
+                lockProgress.gameObject.SetActive(true);
+                lockProgress.fillAmount = (float)totalPoints / pointsRequired;
+            }
         }
     }
 
