@@ -8,13 +8,14 @@ public class VignetteAnimator : MonoBehaviour
     public SpriteRenderer background;
     private Vignette vignette;
 
-    private float elapsedTime = 0f;
+    public float elapsedTime = 0f;
+    private bool isPaused = false;
     private Coroutine animationCoroutine;
 
     private const float InitialIntensity = 0.15f;
-    private const float TransitionDuration = 120;
+    private const float TransitionDuration = 140;
     private const float TargetIntensity = 0.45f;
-    private Color startColor;
+    private Color startColor = new Color32(191, 255, 250, 255);
     private Color targetColor = Color.white;
 
     void Start()
@@ -25,7 +26,6 @@ public class VignetteAnimator : MonoBehaviour
             return;
         }
 
-        startColor = background.color;
         vignette.intensity.value = InitialIntensity;
         animationCoroutine = StartCoroutine(AnimateVignetteAndBackground());
     }
@@ -34,11 +34,13 @@ public class VignetteAnimator : MonoBehaviour
     {
         while (elapsedTime < TransitionDuration)
         {
-            UpdateVignetteAndBackground();
+            if (!isPaused)
+            {
+                UpdateVignetteAndBackground();
+                elapsedTime += Time.deltaTime;
+            }
 
             yield return null;
-
-            elapsedTime += Time.deltaTime;
         }
 
         // Ensure final values are set
@@ -73,5 +75,10 @@ public class VignetteAnimator : MonoBehaviour
             StopCoroutine(animationCoroutine);
         }
         animationCoroutine = StartCoroutine(AnimateVignetteAndBackground());
+    }
+
+    public void Pause(bool pause)
+    {
+        isPaused = pause;
     }
 }

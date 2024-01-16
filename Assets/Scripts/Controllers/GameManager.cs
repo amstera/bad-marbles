@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public StreakSaveText streakSaveText;
     public StressReceiver stressReceiver;
     public MarbleSpawner marbleSpawner;
-    public StartText startText;
+    public StartText startText, extraChanceText;
     public VignetteAnimator vignetteAnimator;
     public TutorialPanel tutorialPanel;
     public TutorialUI tutorialUI;
@@ -72,7 +72,6 @@ public class GameManager : MonoBehaviour
     public int StartingLives = 3;
 
     private float marbleHitRadius = 2.6f;
-    private float elapsedTime = 0;
 
     private int streakSavers = 0;
     private SaveObject savedData;
@@ -124,8 +123,6 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-
-        elapsedTime += Time.deltaTime;
 
         ProcessTouches();
 
@@ -234,6 +231,10 @@ public class GameManager : MonoBehaviour
 
         GameMusicPlayer.Instance.Play();
         startText.gameObject.SetActive(true);
+        if (extraChance.ActiveCount > 0)
+        {
+            StartCoroutine(ShowExtraChanceText());
+        }
         if (savedData.HasSeenTutorial)
         {
             StartCoroutine(UpdateTierRoutine());
@@ -279,8 +280,13 @@ public class GameManager : MonoBehaviour
         tier = extraChance.Tier;
         var newSpeed = extraChance.ActiveCount == 1 ? extraChance.MarbleSpawnSpeed * 0.7f : extraChance.MarbleSpawnSpeed * 0.9f;
         marbleSpawner.speed = Mathf.Max(marbleSpawner.speed, newSpeed);
-        elapsedTime = extraChance.ElapsedTime;
-        vignetteAnimator.SetElapsedTime(elapsedTime);
+        vignetteAnimator.SetElapsedTime(extraChance.ElapsedTime);
+    }
+
+    private IEnumerator ShowExtraChanceText()
+    {
+        yield return new WaitForSeconds(3);
+        extraChanceText.gameObject.SetActive(true);
     }
 
     private void InitializeAdEvents()
@@ -369,8 +375,9 @@ public class GameManager : MonoBehaviour
         {
             marbleSpawner.DestroyAll();
             Destroy(FindAnyObjectByType<Tier>()?.gameObject);
+            vignetteAnimator.Pause(true);
 
-            gameOverUI.ShowGameOver(score, tier, savedData, extraChance.ActiveCount, marbleSpawner.speed, elapsedTime);
+            gameOverUI.ShowGameOver(score, tier, savedData, extraChance.ActiveCount, marbleSpawner.speed, vignetteAnimator.elapsedTime);
         }
     }
 

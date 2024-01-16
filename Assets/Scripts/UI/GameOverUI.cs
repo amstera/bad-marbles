@@ -22,6 +22,7 @@ public class GameOverUI : MonoBehaviour
     public Button secondChanceButton;
     public Image shareIcon;
     public GameObject arrow;
+    public Toast toast;
 
     public AudioSource highScoreSound;
     public AudioSource plopSound;
@@ -237,11 +238,13 @@ public class GameOverUI : MonoBehaviour
 
     private void ShowNewIndicator()
     {
-        var categories = PerkService.Instance.GetUnlockedPerks().categories;
-        if (categories.Count > 0)
+        var perks = PerkService.Instance.GetUnlockedPerks().perks;
+        if (perks.Count > 0)
         {
             newIndicator.SetActive(true);
             StartCoroutine(SwayNewIndicator());
+            toast.gameObject.SetActive(true);
+            toast.Show($"You unlocked {perks.Count} new reward{(perks.Count == 1 ? "" : "s")}!");
 
             if (!savedData.HasSeenPerksTutorial)
             {

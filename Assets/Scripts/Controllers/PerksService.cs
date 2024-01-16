@@ -318,7 +318,7 @@ public class PerkService
             Id = PerkEnum.WoodRamp,
             Name = "Wood Ramp",
             Sprite = Resources.Load<Sprite>("Images/UI/Ramps/WoodRamp"),
-            Points = 50,
+            Points = 25,
             Category = PerkCategory.Ramp
         });
         perks.Add(new Perk

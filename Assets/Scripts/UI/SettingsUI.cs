@@ -231,7 +231,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     {
         int currentYear = DateTime.Now.Year;
         string gameVersion = Application.version;
-        footerText.text = $"Bad Marbles © {currentYear} Green Tea Games - Version {gameVersion}";
+        footerText.text = $"Bad Marbles © {currentYear} Green Tea Mobile - Version {gameVersion}";
     }
 
     private IEnumerator RotateGear(float targetAngle)

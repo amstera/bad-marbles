@@ -13,6 +13,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     public string description;
     public Sprite perkSprite;
     public int pointsRequired;
+    public int totalPoints;
     public bool isSelected;
     public bool isUnlocked;
     public bool isNewIndicatorEnabled;
@@ -22,9 +23,9 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     public ProceduralImage perkImage;
     public Image pillCapsuleImage;
     public TextMeshProUGUI pillText;
-    public ProceduralImage perkOutline;
+    public ProceduralImage perkOutline, lockProgress;
     public UIGradient ForegroundGradient;
-    public GameObject newIndicator;
+    public GameObject newIndicator, lockIcon;
     public Shadow outlineShadow;
 
     public event Action<PerkUI> OnPerkClicked;
@@ -37,7 +38,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     private readonly Color selectedBorderColor = new Color32(253, 255, 93, 255);
     private readonly Color defaultBorderColor = Color.gray;
     private readonly Color unlockedColor = new Color32(73, 190, 71, 255);
-    private readonly Color lockedColor = new Color32(203, 152, 7, 255);
+    private readonly Color lockedColor = new Color32(210, 70, 50, 255);
     private readonly Color gradientUnlockedColor1 = new Color32(7, 235, 197, 255);
     private readonly Color gradientUnlockedColor2 = new Color32(0, 157, 228, 255);
     private readonly Color gradientLockedColor1 = new Color32(202, 202, 202, 255);
@@ -45,12 +46,13 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
     private readonly Color gradientSelectedColor1 = new Color32(225, 231, 41, 255);
     private readonly Color gradientSelectedColor2 = new Color32(178, 139, 4, 255);
 
-    public void InitializePerk(PerkEnum id, string name, string description, Sprite sprite, int points, PerkCategory category, bool isSelected, bool isUnlocked, bool isNewIndicatorEnabled)
+    public void InitializePerk(PerkEnum id, string name, string description, Sprite sprite, int points, int totalPoints, PerkCategory category, bool isSelected, bool isUnlocked, bool isNewIndicatorEnabled)
     {
         this.id = id;
         perkName = name;
         perkSprite = sprite;
         pointsRequired = points;
+        this.totalPoints = totalPoints;
         this.description = description;
         this.category = category;
         this.isSelected = isSelected;
@@ -83,6 +85,9 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
             pillText.text = FormatPoints(pointsRequired);
             SetAlpha(lockedAlpha);
             SetGradientColors(gradientLockedColor1, gradientLockedColor2);
+            lockIcon.SetActive(true);
+            lockProgress.gameObject.SetActive(true);
+            lockProgress.fillAmount = (float)totalPoints / pointsRequired;
         }
     }
 

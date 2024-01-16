@@ -10,19 +10,29 @@ public class BombButton : MonoBehaviour
     public AudioSource plopSound;
 
     private float destructionDelay = 0.1f;
+    private float moveDuration = 0.25f;
     private SaveObject savedData;
     private bool isPressed = true;
+    private bool bombActive, slowTimeActive;
 
     void Awake()
     {
         savedData = SaveManager.Load();
-        if (savedData.SelectedPerks.SelectedSpecial.Contains(PerkEnum.Bomb))
+        CheckPerks();
+
+        if (bombActive)
         {
             StartCoroutine(EnableButton());
         }
         else
         {
             gameObject.SetActive(false);
+            return;
+        }
+
+        if (!slowTimeActive)
+        {
+            MovePosition(slowTimeButton.transform.position, false);
         }
     }
 
@@ -39,11 +49,6 @@ public class BombButton : MonoBehaviour
         marbleSpawner?.DestroyAll(onlyBad: true);
         stressReceiver?.InduceStress(0.8f, true);
 
-        if (slowTimeButton != null && slowTimeButton.gameObject.activeSelf)
-        {
-            slowTimeButton.MovePosition(transform.position, true);
-        }
-
         Destroy(gameObject, destructionDelay);
     }
 
@@ -52,5 +57,47 @@ public class BombButton : MonoBehaviour
         yield return new WaitForSeconds(3);
 
         isPressed = false;
+    }
+
+    private void CheckPerks()
+    {
+        foreach (var perk in savedData.SelectedPerks.SelectedSpecial)
+        {
+            if (perk == PerkEnum.Bomb)
+            {
+                bombActive = true;
+            }
+            else if (perk == PerkEnum.SlowTime)
+            {
+                slowTimeActive = true;
+            }
+        }
+    }
+
+    public void MovePosition(Vector3 newPosition, bool isAnimated)
+    {
+        if (isAnimated)
+        {
+            StartCoroutine(MoveToPosition(newPosition, moveDuration));
+        }
+        else
+        {
+            transform.position = newPosition;
+        }
+    }
+
+    private IEnumerator MoveToPosition(Vector3 targetPosition, float duration)
+    {
+        float time = 0;
+        Vector3 startPosition = transform.position;
+
+        while (time < duration)
+        {
+            transform.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPosition; // Ensure the final position is set accurately
     }
 }

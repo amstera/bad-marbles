@@ -1,10 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class StartText : MonoBehaviour
 {
     public TextMeshProUGUI countdownText;
+    public List<string> texts;
     private float animationDuration = 0.25f;
 
     void Start()
@@ -14,15 +16,15 @@ public class StartText : MonoBehaviour
 
     IEnumerator CountdownCoroutine()
     {
-        yield return StartCoroutine(ShowNumber("3"));
-        yield return StartCoroutine(ShowNumber("2"));
-        yield return StartCoroutine(ShowNumber("1"));
-        yield return StartCoroutine(ShowNumber("START"));
+        foreach (var text in texts)
+        {
+            yield return StartCoroutine(ShowText(text));
+        }
 
         Destroy(gameObject);
     }
 
-    IEnumerator ShowNumber(string number)
+    IEnumerator ShowText(string number)
     {
         countdownText.text = number;
         float time = 0;

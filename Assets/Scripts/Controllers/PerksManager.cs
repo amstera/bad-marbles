@@ -16,6 +16,7 @@ public class PerksManager : MonoBehaviour
     public Button backButton;
     public Button perksButton, musicButton, backgroundButton, rampButton;
     public GameObject perksViewedIndicator, musicViewedIndicator, backgroundViewedIndicator, rampViewedIndicator;
+    public GameObject perksShineIndicator, musicShineIndicator, backgroundShineIndicator, rampShineIndicator;
     public GameObject arrow;
     public RectTransform selectedIndicator;
     public CanvasGroup scrollViewCanvasGroup;
@@ -39,7 +40,7 @@ public class PerksManager : MonoBehaviour
     private float fadeDuration = 0.075f;
 
     // Grid layout settings
-    private Vector2 initialPosition = new Vector2(-105, -130);
+    private Vector2 initialPosition = new Vector2(-105, -140);
     private float xOffset = 209f;
     private float yOffset = -244f;
     private float nextPerkHeight = 80f;
@@ -55,10 +56,10 @@ public class PerksManager : MonoBehaviour
         unlockedPerks = unlockedData.perks;
         nextPerks = PerkService.Instance.GetNextPerksForAllCategories();
 
-        SetUpButton(perksButton, PerkCategory.Special, perksViewedIndicator, unlockedCategories);
-        SetUpButton(musicButton, PerkCategory.Music, musicViewedIndicator, unlockedCategories);
-        SetUpButton(backgroundButton, PerkCategory.Background, backgroundViewedIndicator, unlockedCategories);
-        SetUpButton(rampButton, PerkCategory.Ramp, rampViewedIndicator, unlockedCategories);
+        SetUpButton(perksButton, PerkCategory.Special, perksViewedIndicator, perksShineIndicator, unlockedCategories);
+        SetUpButton(musicButton, PerkCategory.Music, musicViewedIndicator, musicShineIndicator, unlockedCategories);
+        SetUpButton(backgroundButton, PerkCategory.Background, backgroundViewedIndicator, backgroundShineIndicator, unlockedCategories);
+        SetUpButton(rampButton, PerkCategory.Ramp, rampViewedIndicator, rampShineIndicator, unlockedCategories);
 
         lastPressedButton = perksButton;
 
@@ -72,24 +73,29 @@ public class PerksManager : MonoBehaviour
 
         if (!savedData.HasSeenPerksTutorial && unlockedCategories.Contains(PerkCategory.Ramp))
         {
-            OnButtonClicked(rampButton, rampViewedIndicator);
+            OnButtonClicked(rampButton, rampViewedIndicator, rampShineIndicator);
             arrow.SetActive(true);
             StartCoroutine(SwayArrowCoroutine());
         }
         else
         {
             PopulateScrollViewContent(PerkCategory.Special);
-            UpdateLastViewedIndicator(PerkCategory.Special, null);
+            UpdateLastViewedIndicator(PerkCategory.Special, null, null);
         }
     }
 
-    private void SetUpButton(Button button, PerkCategory category, GameObject indicator, List<PerkCategory> unlockedCategories)
+    private void SetUpButton(Button button, PerkCategory category, GameObject indicator, GameObject shine, List<PerkCategory> unlockedCategories)
     {
-        button.onClick.AddListener(() => OnButtonClicked(button, indicator));
+        button.onClick.AddListener(() => OnButtonClicked(button, indicator, shine));
 
         if (indicator != null)
         {
-            indicator.SetActive(unlockedCategories.Contains(category));
+            var hasNewPerks = unlockedCategories.Contains(category);
+            indicator.SetActive(hasNewPerks);
+            if (shine != null)
+            {
+                shine.SetActive(hasNewPerks);
+            }
         }
     }
 
@@ -112,7 +118,7 @@ public class PerksManager : MonoBehaviour
             nextPerkInstance = Instantiate(nextPerkPrefab, scrollViewContent);
             nextPerkInstance.UpdatePerkInfo(perkToShow, savedData.Points, isJustUnlocked);
             RectTransform nextPerkRectTransform = nextPerkInstance.GetComponent<RectTransform>();
-            nextPerkRectTransform.anchoredPosition = new Vector3(0, -nextPerkHeight / 2, 0);
+            nextPerkRectTransform.anchoredPosition = new Vector3(0, -nextPerkHeight / 2 - 10, 0);
 
             currentPosition.y -= nextPerkHeight;
         }
@@ -127,7 +133,7 @@ public class PerksManager : MonoBehaviour
             perkObject.transform.SetSiblingIndex(0); // Position perks below the next perk
 
             // Initialize perk data
-            perkObject.InitializePerk(perk.Id, perk.Name, perk.Description, perk.Sprite, perk.Points, perk.Category, perk.IsSelected, perk.IsUnlocked, unlockedPerks.Contains(perk));
+            perkObject.InitializePerk(perk.Id, perk.Name, perk.Description, perk.Sprite, perk.Points, savedData.Points, perk.Category, perk.IsSelected, perk.IsUnlocked, unlockedPerks.Contains(perk));
 
             perkObject.OnPerkClicked += HandlePerkClick;
             currentPerks.Add(perkObject);
@@ -187,7 +193,7 @@ public class PerksManager : MonoBehaviour
         currentPerks.Clear();
     }
 
-    private void OnButtonClicked(Button clickedButton, GameObject indicator)
+    private void OnButtonClicked(Button clickedButton, GameObject indicator, GameObject shine)
     {
         if (lastPressedButton == clickedButton)
         {
@@ -203,7 +209,7 @@ public class PerksManager : MonoBehaviour
         MoveIndicatorToButton(clickedButton);
 
         PerkCategory category = DetermineCategoryFromButton(clickedButton);
-        UpdateLastViewedIndicator(DetermineCategoryFromButton(clickedButton), indicator);
+        UpdateLastViewedIndicator(DetermineCategoryFromButton(clickedButton), indicator, shine);
 
         if (updateScrollViewCoroutine != null)
         {
@@ -221,11 +227,15 @@ public class PerksManager : MonoBehaviour
         StartCoroutine(SmoothMove(selectedIndicator, newPosition, indicatorMoveSpeed));
     }
 
-    private void UpdateLastViewedIndicator(PerkCategory category, GameObject indicator)
+    private void UpdateLastViewedIndicator(PerkCategory category, GameObject indicator, GameObject shine)
     {
         if (indicator != null)
         {
             indicator.SetActive(false);
+        }
+        if (shine != null)
+        {
+            shine.SetActive(false);
         }
 
         bool shouldSave = false;
@@ -303,7 +313,7 @@ public class PerksManager : MonoBehaviour
             if (clickedPerk.isSelected)
             {
                 savedData.SelectedPerks.SelectedSpecial.Add(clickedPerk.id);
-                UpdateLastViewedIndicator(PerkCategory.Special, perksViewedIndicator);
+                UpdateLastViewedIndicator(PerkCategory.Special, perksViewedIndicator, perksShineIndicator);
                 if (!string.IsNullOrEmpty(clickedPerk.description) && !savedData.SeenDescription.Contains(clickedPerk.id))
                 {
                     perkPopUp.Show(clickedPerk.perkName, clickedPerk.description, clickedPerk.perkImage.sprite);
