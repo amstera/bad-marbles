@@ -19,9 +19,6 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 120;
-
         savedData = SaveManager.Load();
 
         ConfigureSavedData();
