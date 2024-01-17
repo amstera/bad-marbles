@@ -26,7 +26,7 @@ public class TutorialUI : MonoBehaviour
     private float rotationSpeed = -20f;
     private Vector3 greenMarbleStartPos;
     private float originalScoreTextY;
-    private float greenMarbleMoveSpeed = 100f;
+    private float greenMarbleMoveSpeed = 150f;
     private IEnumerator scoreTextRoutine;
 
     void Start()
