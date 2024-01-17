@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7311496215990988276}
   - component: {fileID: 4467279737260436089}
   - component: {fileID: 4837430230766152311}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4854,7 +4854,7 @@ GameObject:
   - component: {fileID: 3016138610444616099}
   - component: {fileID: 2216781876295771544}
   - component: {fileID: 7772059984901458657}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Heart (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9755,7 +9755,7 @@ GameObject:
   - component: {fileID: 7559588390933198878}
   - component: {fileID: 7699318584617811599}
   - component: {fileID: 1352556851449539069}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Heart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10005,7 +10005,7 @@ GameObject:
   - component: {fileID: 7597875985218442160}
   - component: {fileID: 6284691689510751306}
   - component: {fileID: 620045002511267585}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Life
   m_TagString: Untagged
   m_Icon: {fileID: 0}

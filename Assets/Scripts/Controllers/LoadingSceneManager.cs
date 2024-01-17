@@ -20,7 +20,7 @@ public class LoadingScreenManager : MonoBehaviour
 
     IEnumerator LoadAndPrepareAssets()
     {
-        string folderPath = "Prefabs/Marbles";
+        string folderPath = "Prefabs";
         Object[] loadedPrefabs = Resources.LoadAll(folderPath, typeof(GameObject));
         int totalPrefabs = loadedPrefabs.Length;
 
@@ -35,6 +35,7 @@ public class LoadingScreenManager : MonoBehaviour
             }
             else
             {
+                Debug.Log($"Prefab {prefab.name} loaded!");
                 Destroy(Instantiate(prefab));
             }
 

@@ -9184,7 +9184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   highScoreText: {fileID: 410070525}
   transition: {fileID: 11400000, guid: 9710edcf009d00943af961dd2a7ca7d3, type: 2}
-  noAdsButton: {fileID: 991890759}
+  noAdsButton: {fileID: 991890762}
   newIndicator: {fileID: 1506363236}
   goldTrophy: {fileID: 2095910423}
   plopSound: {fileID: 807958119}

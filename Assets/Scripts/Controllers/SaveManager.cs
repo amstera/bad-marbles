@@ -55,11 +55,13 @@ public class SaveObject
     public int HighTier = 1;
     public int GamesPlayed;
     public int HighStreak = 1;
+
     public bool CanShowAds = true;
     public bool HasShownRateApp;
     public bool HasSeenTutorial;
     public bool HasSeenPerksTutorial;
     public bool HasSeenPerksPopup;
+    public bool HasSeenNoAdsPopup;
 
     public List<PerkEnum> SeenDescription = new List<PerkEnum>();
 

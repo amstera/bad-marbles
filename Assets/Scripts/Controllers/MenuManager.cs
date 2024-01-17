@@ -2,12 +2,13 @@ using System.Collections;
 using EasyTransition;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
     public TextMeshProUGUI highScoreText;
     public TransitionSettings transition;
-    public GameObject noAdsButton;
+    public Button noAdsButton;
     public GameObject newIndicator;
     public GameObject goldTrophy;
 
@@ -24,6 +25,7 @@ public class MenuManager : MonoBehaviour
         ConfigureSavedData();
         UpdateHighScoreText();
         ShowNewIndicator();
+        ShowNoAdsPopup();
     }
 
     public void LoadGame()
@@ -59,7 +61,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!savedData.CanShowAds)
         {
-            noAdsButton.SetActive(false);
+            noAdsButton.gameObject.SetActive(false);
         }
 
         if (savedData.ExtraChance.ActiveCount > 0)
@@ -73,6 +75,19 @@ public class MenuManager : MonoBehaviour
             goldTrophy.SetActive(true);
             StartCoroutine(SwayTrophy());
         }
+    }
+
+    private void ShowNoAdsPopup()
+    {
+        if (!savedData.CanShowAds || savedData.HasSeenNoAdsPopup || savedData.GamesPlayed < 40)
+        {
+            return;
+        }
+
+        savedData.HasSeenNoAdsPopup = true;
+        SaveManager.Save(savedData);
+
+        noAdsButton.onClick.Invoke();
     }
 
     private IEnumerator SwayTrophy()
