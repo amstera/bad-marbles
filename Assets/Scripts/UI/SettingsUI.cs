@@ -16,6 +16,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     public Toggle sfxToggle, vibrationsToggle;
     public TextMeshProUGUI gamesPlayedAmountText, highestStreakAmountText, highestTierAmountText, avgScoreAmountText, footerText;
     public TutorialUI tutorialUIPrefab;
+    public SupportUI supportUI;
     #endregion
 
     #region Page Components
@@ -159,7 +160,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
 
     public void ShowSupport()
     {
-        Application.OpenURL("https://www.google.com");
+        supportUI.ShowPanel();
     }
 
     private void SetSFXVolume(bool enabled)
@@ -231,7 +232,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     {
         int currentYear = DateTime.Now.Year;
         string gameVersion = Application.version;
-        footerText.text = $"Bad Marbles © {currentYear} Green Tea Mobile - Version {gameVersion}";
+        footerText.text = $"Bad Marbles © {currentYear} Green Tea Gaming - Version {gameVersion}";
     }
 
     private IEnumerator RotateGear(float targetAngle)

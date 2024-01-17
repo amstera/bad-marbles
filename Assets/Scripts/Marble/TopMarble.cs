@@ -63,6 +63,9 @@ public class TopMarble : Marble
 
     public void OnDestroy()
     {
-        bottomMarble.OnDestroyed -= DetachFromBottomMarble;
+        if (bottomMarble != null)
+        {
+            bottomMarble.OnDestroyed -= DetachFromBottomMarble;
+        }
     }
 }

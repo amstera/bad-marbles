@@ -197,7 +197,7 @@ public class GameOverUI : MonoBehaviour
         }
         else
         {
-            float highScoreThreshold = savedData.HighScore * 0.85f;
+            float highScoreThreshold = savedData.HighScore * 0.8f;
             if (secondChanceButton.gameObject.activeSelf && score >= highScoreThreshold && score < savedData.HighScore)
             {
                 int pointsAway = savedData.HighScore - score;

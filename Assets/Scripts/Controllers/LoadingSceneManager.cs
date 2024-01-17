@@ -1,10 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI.ProceduralImage;
 using TMPro;
-using System;
 
 public class LoadingScreenManager : MonoBehaviour
 {
@@ -17,29 +15,42 @@ public class LoadingScreenManager : MonoBehaviour
         Application.targetFrameRate = 120;
 
         SetFooterText();
-        StartCoroutine(LoadAssets());
+        StartCoroutine(LoadAndPrepareAssets());
     }
 
-    IEnumerator LoadAssets()
+    IEnumerator LoadAndPrepareAssets()
     {
         string folderPath = "Prefabs/Marbles";
-        string[] prefabPaths = GetPrefabPaths(folderPath);
+        Object[] loadedPrefabs = Resources.LoadAll(folderPath, typeof(GameObject));
+        int totalPrefabs = loadedPrefabs.Length;
 
-        for (int i = 0; i < prefabPaths.Length; i++)
+        for (int i = 0; i < totalPrefabs; i++)
         {
-            ResourceRequest request = Resources.LoadAsync<GameObject>(prefabPaths[i]);
+            GameObject prefab = (GameObject)loadedPrefabs[i];
 
-            while (!request.isDone)
+            // Instantiate and then destroy the prefab
+            if (prefab == null)
             {
-                var totalProgress = (i + request.progress) / prefabPaths.Length;
-                progressBar.fillAmount = totalProgress;
-                yield return null;
+                Debug.Log($"Couldn't load prefab!");
             }
+            else
+            {
+                Destroy(Instantiate(prefab));
+            }
+
+            // Update progress bar
+            UpdateProgressBar(i + 1, 0, totalPrefabs);
+            yield return null;
         }
 
-        Debug.Log("Resource preloading complete!");
-
+        Debug.Log("Resource preloading and preparation complete!");
         LoadMenuScene();
+    }
+
+    void UpdateProgressBar(int currentIndex, float currentProgress, int totalPrefabs)
+    {
+        float totalProgress = (currentIndex + currentProgress) / totalPrefabs;
+        progressBar.fillAmount = totalProgress;
     }
 
     void LoadMenuScene()
@@ -47,25 +58,8 @@ public class LoadingScreenManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    string[] GetPrefabPaths(string folderPath)
-    {
-        List<string> prefabPaths = new List<string>();
-
-        // Load all prefabs in the specified folder
-        UnityEngine.Object[] prefabs = Resources.LoadAll(folderPath, typeof(GameObject));
-
-        foreach (var prefab in prefabs)
-        {
-            prefabPaths.Add(prefab.name);
-        }
-
-        return prefabPaths.ToArray();
-    }
-
     void SetFooterText()
     {
-        int currentYear = DateTime.Now.Year;
-        string gameVersion = Application.version;
-        footerText.text = $"Bad Marbles © {currentYear} Green Tea Mobile - Version {gameVersion}";
+        footerText.text = $"Bad Marbles © {System.DateTime.Now.Year} Green Tea Gaming - Version {Application.version}";
     }
 }
