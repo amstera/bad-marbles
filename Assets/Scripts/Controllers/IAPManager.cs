@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using OneManEscapePlan.ModalDialogs.Scripts;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 

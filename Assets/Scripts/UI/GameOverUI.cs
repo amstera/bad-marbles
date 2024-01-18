@@ -221,8 +221,11 @@ public class GameOverUI : MonoBehaviour
             AnalyticsResult analyticsResult = Analytics.CustomEvent("gamesPlayed",
                 new Dictionary<string, object>
                 {
-                    { "gamesPlayedCount", savedData.GamesPlayed },
+                    { "games played", savedData.GamesPlayed },
                     { "score", score },
+                    { "high score", savedData.HighScore },
+                    { "points", savedData.Points },
+                    { "version", Application.version }
                 }
             );
             Debug.Log("Analytics Event Sent: " + analyticsResult.ToString());
