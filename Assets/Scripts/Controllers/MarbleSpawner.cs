@@ -444,6 +444,11 @@ public class MarbleSpawner : MonoBehaviour
         InstantiateMarble(marbleToSpawn, firstPosition);
         spawnedPositions.Add(firstPosition);
 
+        if (marbleCount == 2 && tier < 5 && marbleToSpawn.livesLost > 0 && Random.Range(0, 2) == 0)
+        {
+            return;
+        }
+
         bool multipleBombCheck = marbleCount == 2 || tier >= 10 || marbleToSpawn.color != MarbleColor.Bomb;
         if (marbleCount > 1 && multipleBombCheck && allowedDupMarbleColors.Contains(marbleToSpawn.color))
         {

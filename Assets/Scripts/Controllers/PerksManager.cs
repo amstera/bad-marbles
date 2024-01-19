@@ -84,6 +84,49 @@ public class PerksManager : MonoBehaviour
         }
     }
 
+    public void ScrollTo(PerkEnum perkId)
+    {
+        PerkUI targetPerk = currentPerks.Find(perk => perk.id == perkId);
+
+        if (targetPerk == null)
+        {
+            Debug.LogWarning($"Perk with ID {perkId} could not be found.");
+            return;
+        }
+
+        // Get the Y position of the targetPerk in the scroll view content
+        float perkPositionY = targetPerk.GetComponent<RectTransform>().anchoredPosition.y;
+
+        // Calculate the normalized position to scroll to
+        float contentHeight = scrollViewContent.rect.height;
+        float viewportHeight = scrollView.GetComponent<RectTransform>().rect.height;
+        float scrollHeight = contentHeight - viewportHeight;
+        float padding = 125f;
+        float normalizedPosition = (scrollHeight + perkPositionY + padding) / scrollHeight;
+
+        // Clamp the value between 0 and 1
+        normalizedPosition = Mathf.Clamp01(normalizedPosition);
+
+        // Start the coroutine to scroll
+        StartCoroutine(ScrollToPosition(normalizedPosition, 0.2f));
+    }
+
+    private IEnumerator ScrollToPosition(float targetPosition, float duration)
+    {
+        float time = 0;
+        float startPosition = scrollView.verticalNormalizedPosition;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            scrollView.verticalNormalizedPosition = Mathf.Lerp(startPosition, targetPosition, time / duration);
+            yield return null;
+        }
+
+        // Ensure the final position is set
+        scrollView.verticalNormalizedPosition = targetPosition;
+    }
+
     private void SetUpButton(Button button, PerkCategory category, GameObject indicator, GameObject shine, List<PerkCategory> unlockedCategories)
     {
         button.onClick.AddListener(() => OnButtonClicked(button, indicator, shine));
@@ -116,7 +159,7 @@ public class PerksManager : MonoBehaviour
             bool isJustUnlocked = justUnlockedPerk != null;
 
             nextPerkInstance = Instantiate(nextPerkPrefab, scrollViewContent);
-            nextPerkInstance.UpdatePerkInfo(perkToShow, savedData.Points, isJustUnlocked);
+            nextPerkInstance.UpdatePerkInfo(perkToShow, this, savedData.Points, isJustUnlocked);
             RectTransform nextPerkRectTransform = nextPerkInstance.GetComponent<RectTransform>();
             nextPerkRectTransform.anchoredPosition = new Vector3(0, -nextPerkHeight / 2 - 10, 0);
 

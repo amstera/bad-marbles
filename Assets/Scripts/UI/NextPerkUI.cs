@@ -2,8 +2,9 @@ using JoshH.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class NextPerkUI : MonoBehaviour
+public class NextPerkUI : MonoBehaviour, IPointerClickHandler
 {
     public TextMeshProUGUI text;
     public Image image;
@@ -15,7 +16,10 @@ public class NextPerkUI : MonoBehaviour
     public Color linearColor1Next;
     public Color linearColor2Next;
 
-    public void UpdatePerkInfo(Perk perk, int currentPoints, bool isUnlocked)
+    private Perk currentPerk;
+    private PerksManager perksManager;
+
+    public void UpdatePerkInfo(Perk perk, PerksManager manager, int currentPoints, bool isUnlocked)
     {
         if (perk == null)
         {
@@ -23,6 +27,9 @@ public class NextPerkUI : MonoBehaviour
             image.gameObject.SetActive(false);
             return;
         }
+
+        currentPerk = perk;
+        perksManager = manager;
 
         gradient.LinearColor1 = isUnlocked ? linearColor1Unlocked : linearColor1Next;
         gradient.LinearColor2 = isUnlocked ? linearColor2Unlocked : linearColor2Next;
@@ -43,6 +50,14 @@ public class NextPerkUI : MonoBehaviour
 
         text.text = perkText;
         image.sprite = perk.Sprite;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (currentPerk != null && perksManager != null)
+        {
+            perksManager.ScrollTo(currentPerk.Id);
+        }
     }
 
     private string FormatPoints(int points)
