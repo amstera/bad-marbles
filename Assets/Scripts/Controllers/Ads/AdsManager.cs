@@ -9,7 +9,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener
     public RewardedAd rewardedAd;
 
     private string gameId;
-    private bool testMode = true;
+    private bool testMode = false;
 
     void Awake()
     {

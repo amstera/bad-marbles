@@ -65,7 +65,7 @@ public class PerksManager : MonoBehaviour
 
         if (!savedData.HasSeenPerksPopup)
         {
-            perkPopUp.Show("Rewards", "Every game played earns points to unlock new rewards!", perksButton.image.sprite);
+            perkPopUp.Show("Rewards", "Every game earns points to unlock new rewards!", perksButton.image.sprite);
             savedData.HasSeenPerksPopup = true;
 
             SaveManager.Save(savedData);
@@ -460,7 +460,7 @@ public class PerksManager : MonoBehaviour
 
         while (arrow.activeSelf)
         {
-            float swayPosition = Mathf.Lerp(-32f, -23f, (Mathf.Sin(Time.time * swaySpeed * 2) + 1) / 2);
+            float swayPosition = Mathf.Lerp(-15f, 0f, (Mathf.Sin(Time.time * swaySpeed * 2) + 1) / 2);
             arrow.transform.localPosition = new Vector3(swayPosition, arrow.transform.localPosition.y, arrow.transform.localPosition.z);
             yield return null;
         }
