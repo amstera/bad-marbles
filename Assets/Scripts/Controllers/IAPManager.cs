@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using OneManEscapePlan.ModalDialogs.Scripts;
 using UnityEngine;
-using UnityEngine.Analytics;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 
@@ -22,7 +21,7 @@ public class IAPManager : MonoBehaviour, IStoreListener, IDetailedStoreListener
 
     private static readonly Dictionary<Product, string> ProductIdMap = new Dictionary<Product, string>
     {
-        {Product.RemoveAds, "com.badmarbles.removeads"},
+        {Product.RemoveAds, "com.badmarbles.removead"},
         // Add other product mappings here
     };
 
