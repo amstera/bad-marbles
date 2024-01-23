@@ -5,6 +5,12 @@ public class TrackBarrier : MonoBehaviour
     public PointsText pointsTextPrefab;
     public GameObject BigExplosion;
     public StressReceiver stressReceiver;
+    public GameManager gameManager;
+
+    void Start()
+    {
+        gameManager = GameManager.Instance;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -47,7 +53,7 @@ public class TrackBarrier : MonoBehaviour
     {
         if (points > 0)
         {
-            points *= GameManager.Instance.CalculateMultiplier();
+            points *= gameManager.CalculateStreakMultiplier();
             PointsText pointsTextInstance = Instantiate(pointsTextPrefab, position, Quaternion.identity);
             pointsTextInstance.SetPoints(points);
         }

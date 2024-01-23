@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         private set
         {
             streak = value;
-            streakText?.UpdateStreak(streak);
+            streakText?.UpdateStreak(CalculateStreakMultiplier());
         }
     }
 
@@ -315,7 +315,7 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int points)
     {
-        points *= CalculateMultiplier();
+        points *= CalculateStreakMultiplier();
         Score += points;
         Streak++;
 
@@ -330,7 +330,7 @@ public class GameManager : MonoBehaviour
         }
 
         Lives -= livesLost;
-        var curStreak = CalculateMultiplier();
+        var curStreak = CalculateStreakMultiplier();
         if (curStreak > 1)
         {
             ResetStreak();
@@ -345,9 +345,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int CalculateMultiplier()
+    public int CalculateStreakMultiplier()
     {
-        return Streak / 10 + 1;
+        int streakInterval = Tier < 5 ? 8 : 10;
+        return streak / streakInterval + 1;
     }
 
     private void ResetStreak()
@@ -359,9 +360,11 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (Streak > savedData.HighStreak)
+        int streakMultiplier = CalculateStreakMultiplier();
+        if (streak > savedData.HighStreak || streakMultiplier > savedData.HighStreakMultiplier)
         {
-            savedData.HighStreak = Streak;
+            savedData.HighStreak = Mathf.Max(streak, savedData.HighStreak);
+            savedData.HighStreakMultiplier = Mathf.Max(streakMultiplier, savedData.HighStreakMultiplier);
             SaveManager.Save(savedData);
         }
 

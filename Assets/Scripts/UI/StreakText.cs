@@ -15,25 +15,23 @@ public class StreakText : MonoBehaviour
         streakText.gameObject.SetActive(false);
     }
 
-    public void UpdateStreak(int streak)
+    public void UpdateStreak(int streakMultiplier)
     {
-        if (streak >= 10)
+        if (streakMultiplier != currentMultiplier)
         {
-            int newMultiplier = streak / 10 + 1;
-            if (newMultiplier != currentMultiplier)
+            currentMultiplier = streakMultiplier;
+
+            if (currentMultiplier > 1)
             {
-                currentMultiplier = newMultiplier;
                 streakText.text = $"{currentMultiplier}X STREAK";
                 streakText.gameObject.SetActive(true);
                 StartCoroutine(PopAnimation());
-
                 streakSound?.Play();
             }
-        }
-        else
-        {
-            currentMultiplier = 1; // Reset multiplier
-            streakText.gameObject.SetActive(false);
+            else
+            {
+                streakText.gameObject.SetActive(false);
+            }
         }
     }
 

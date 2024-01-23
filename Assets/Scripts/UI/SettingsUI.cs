@@ -118,7 +118,8 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     private void UpdateStatTexts()
     {
         gamesPlayedAmountText.text = savedData.GamesPlayed.ToString();
-        highestStreakAmountText.text = $"{savedData.HighStreak / 10 + 1}X";
+        int oldStreakCalculation = savedData.HighStreak / 10 + 1;
+        highestStreakAmountText.text = savedData.HighStreakMultiplier > oldStreakCalculation ? $"{savedData.HighStreakMultiplier}X" : $"{oldStreakCalculation}X";
         highestTierAmountText.text = savedData.HighTier.ToString();
         avgScoreAmountText.text = savedData.GamesPlayed == 0 ? "N/A" : $"{Math.Round((double)savedData.Points / savedData.GamesPlayed)}";
     }

@@ -154,7 +154,7 @@ public class PerkService
             Id = PerkEnum.RockinMarbles,
             Name = "Rockin' Marbles",
             Sprite = Resources.Load<Sprite>("Images/UI/Music/RockinMarbles"),
-            Points = 750,
+            Points = 500,
             Category = PerkCategory.Music
         });
         perks.Add(new Perk
