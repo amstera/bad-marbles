@@ -182,7 +182,7 @@ public class MarbleSpawner : MonoBehaviour
 
     bool ShouldSpawnExtraLife(int currentTier)
     {
-        return currentTier > 1 && (currentTier > 12 ? currentTier % 6 == 0 : currentTier % 3 == 0) && currentTier != lastExtraLifeTier && gameManager.Lives < gameManager.StartingLives;
+        return currentTier > 1 && (currentTier > 12 ? currentTier % 6 == 0 : currentTier < 5 || currentTier % 3 == 0) && currentTier != lastExtraLifeTier && gameManager.Lives < gameManager.StartingLives;
     }
 
     Marble GetGoodMarble()
