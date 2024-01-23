@@ -53,6 +53,11 @@ public class SupportUI : MonoBehaviour, IPointerDownHandler
         OpenUrl("https://www.greenteagaming.com/privacy-policy");
     }
 
+    public void ShowInstagram()
+    {
+        OpenUrl("https://www.instagram.com/badmarbles");
+    }
+
     private void Hide()
     {
         StartCoroutine(Fade(false));

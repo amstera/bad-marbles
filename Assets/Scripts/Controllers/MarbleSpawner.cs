@@ -304,7 +304,7 @@ public class MarbleSpawner : MonoBehaviour
         }
         else if (tier == 4)
         {
-            intervalConstant = 1.05f;
+            intervalConstant = 1.075f;
         }
         else if (tier == 3)
         {

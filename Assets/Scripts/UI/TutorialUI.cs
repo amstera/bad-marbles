@@ -9,7 +9,7 @@ public class TutorialUI : MonoBehaviour
 {
     public CanvasGroup panelCanvasGroup;
     public GameObject popUp;
-    public Button marbleButton1, marbleButton2;
+    public Button marbleButton1, marbleButton2, tapMeButton, tapMeButton2;
     public CanvasGroup page1, page2;
     public GameObject greenMarble;
     public Image greenMarbleImage;
@@ -35,6 +35,8 @@ public class TutorialUI : MonoBehaviour
 
         marbleButton1.onClick.AddListener(() => MarbleButtonPressed());
         marbleButton2.onClick.AddListener(() => MarbleButtonPressed());
+        tapMeButton.onClick.AddListener(() => MarbleButtonPressed());
+        tapMeButton2.onClick.AddListener(() => MarbleButtonPressed());
 
         greenMarbleStartPos = greenMarble.transform.localPosition;
         originalScoreTextY = scoreText.transform.localPosition.y;

@@ -79,7 +79,7 @@ public class PointsText : MonoBehaviour
     private void UpdateTextAlpha()
     {
         float fadeProgress = timer / lifetime;
-        textColor.a = Mathf.Clamp01(1.0f - fadeProgress);
+        textColor.a = Mathf.Clamp01(0.95f - fadeProgress);
         textMesh.color = textColor;
     }
 }
