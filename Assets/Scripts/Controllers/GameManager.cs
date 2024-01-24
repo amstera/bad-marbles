@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using UnityEngine.iOS;
 
 public class GameManager : MonoBehaviour
 {
@@ -80,12 +81,17 @@ public class GameManager : MonoBehaviour
     private bool canHitMarbles = true;
     private bool isInvincible;
 
+    private int initialStreakInterval = 5;
+    private int subsequentStreakInterval = 10;
+    private int initialStreakMaxMultiplier = 5;
+
     private HashSet<Marble> touchedMarbles = new HashSet<Marble>();
     const int MarbleLayerMask = 1 << 3;
     private Vector3 downBackVector = new Vector3(0, -1, -1);
 
     void Awake()
     {
+        SetQualitySettings();
         savedData = SaveManager.Load();
         InitializeSingleton();
         SetPerks();
@@ -315,7 +321,6 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int points)
     {
-        points *= CalculateStreakMultiplier();
         Score += points;
         Streak++;
 
@@ -347,8 +352,20 @@ public class GameManager : MonoBehaviour
 
     public int CalculateStreakMultiplier()
     {
-        int streakInterval = Tier < 5 ? 8 : 10;
-        return streak / streakInterval + 1;
+        // Calculate the streak count at which the initial interval ends
+        int initialIntervalMaxStreak = (initialStreakMaxMultiplier - 1) * initialStreakInterval;
+
+        // If the streak is within the initial interval range
+        if (streak <= initialIntervalMaxStreak)
+        {
+            return streak / initialStreakInterval + 1;
+        }
+        // Beyond the initial interval range
+        else
+        {
+            int additionalStreaks = (streak - initialIntervalMaxStreak) / subsequentStreakInterval;
+            return initialStreakMaxMultiplier + additionalStreaks;
+        }
     }
 
     private void ResetStreak()
@@ -448,5 +465,19 @@ public class GameManager : MonoBehaviour
         SaveManager.Save(savedData);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void SetQualitySettings()
+    {
+        #if UNITY_IOS
+                if (Device.lowPowerModeEnabled || SystemInfo.batteryLevel <= 0.2f)
+                {
+                    QualitySettings.SetQualityLevel(1, true);
+                }
+                else
+                {
+                    QualitySettings.SetQualityLevel(2, true);
+                }
+        #endif
     }
 }

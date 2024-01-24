@@ -51,7 +51,9 @@ public enum PerkEnum
     GlassRamp = 41,
     BrickRamp = 42,
     ChillJazz = 43,
-    AcousticRambles = 44
+    AcousticRambles = 44,
+    TheaterBackground = 45,
+    StadiumBackground = 46
 }
 
 [System.Serializable]

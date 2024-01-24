@@ -27,8 +27,9 @@ public class TrackBarrier : MonoBehaviour
                 var hitPoint = collision.contacts[0].point;
                 if (marble.points > 0)
                 {
-                    GameManager.Instance.AddScore(marble.points);
-                    ShowPoints(marble.points, hitPoint);
+                    int points = marble.points * gameManager.CalculateStreakMultiplier();
+                    GameManager.Instance.AddScore(points);
+                    ShowPoints(points, hitPoint);
                 }
                 else if (marble.livesLost > 0)
                 {
@@ -53,7 +54,6 @@ public class TrackBarrier : MonoBehaviour
     {
         if (points > 0)
         {
-            points *= gameManager.CalculateStreakMultiplier();
             PointsText pointsTextInstance = Instantiate(pointsTextPrefab, position, Quaternion.identity);
             pointsTextInstance.SetPoints(points);
         }

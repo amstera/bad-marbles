@@ -67,8 +67,8 @@ public class MarbleSpawner : MonoBehaviour
 
         UpdateSpeed();
 
-        // Update marble spawning every fourth frame
-        if (frameCounter % 4 == 0)
+        // Update marble spawning every n frame
+        if (frameCounter % 10 == 0)
         {
             TrySpawnMarble();
         }
@@ -85,13 +85,13 @@ public class MarbleSpawner : MonoBehaviour
         }
 
         float growthRate = (maxSpeed - speed) / maxSpeed;
-        growthRate *= (tier < 3) ? 2.25f : 1.8f;
+        growthRate *= (tier < 3) ? 2.2f : 1.8f;
         speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
     }
 
     void TrySpawnMarble()
     {
-        timer -= Time.deltaTime * 4;
+        timer -= Time.deltaTime * 8.5f;
         if (timer > 0f)
         {
             return;
@@ -110,7 +110,7 @@ public class MarbleSpawner : MonoBehaviour
         }
 
         int randomNumber = Random.Range(0, 100);
-        if (randomNumber >= 5)
+        if (randomNumber >= 5 || (tier < 5 && randomNumber >= 3))
         {
             return 1;
         }
@@ -177,7 +177,7 @@ public class MarbleSpawner : MonoBehaviour
 
     bool ShouldSpawnBombMarble(int currentTier)
     {
-        return !hasNoBombs && currentTier >= 4 && currentTier - lastBombMarbleTier >= 1 && Random.Range(0, 10) == 0;
+        return !hasNoBombs && currentTier >= 6 && currentTier - lastBombMarbleTier >= 1 && Random.Range(0, 10) == 0;
     }
 
     bool ShouldSpawnExtraLife(int currentTier)
@@ -294,9 +294,13 @@ public class MarbleSpawner : MonoBehaviour
     void UpdateTimer()
     {
         float intervalConstant = 2.25f;
+        if (tier >= 15)
+        {
+            intervalConstant = 1.13f;
+        }
         if (tier >= 10)
         {
-            intervalConstant = 1.125f;
+            intervalConstant = 1.1325f;
         }
         else if (tier >= 5)
         {
@@ -479,7 +483,7 @@ public class MarbleSpawner : MonoBehaviour
     {
         foreach (Vector3 existingPosition in spawnedPositions)
         {
-            if (Mathf.Abs(existingPosition.x - position.x) < 1.5f)
+            if (Mathf.Abs(existingPosition.x - position.x) < 1.7f)
             {
                 return false;
             }

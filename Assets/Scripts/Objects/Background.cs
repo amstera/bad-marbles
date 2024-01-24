@@ -14,7 +14,7 @@ public class Background : MonoBehaviour
     {
         backgrounds = new Dictionary<PerkEnum, (string, Vector3)>
         {
-            { PerkEnum.DefaultBackground, ($"{fileLocation}/Sunset", new Vector3(-0.3f, 30.6f, 67f)) },
+            { PerkEnum.DefaultBackground, ($"{fileLocation}/Sunset", new Vector3(-0.3f, 31f, 67f)) },
             { PerkEnum.StreamBackground, ($"{fileLocation}/Stream", new Vector3(0f, 18f, 51.5f)) },
             { PerkEnum.CandyBackground, ($"{fileLocation}/Candy", new Vector3(-5.2f, 30.5f, 101.4f)) },
             { PerkEnum.ToysBackground, ($"{fileLocation}/Toys", new Vector3(0, 29.5f, 80)) },
@@ -22,10 +22,12 @@ public class Background : MonoBehaviour
             { PerkEnum.SnowBackground, ($"{fileLocation}/Snow", new Vector3(-35.1f, 18.1f, 87f)) },
             { PerkEnum.CloudsBackground, ($"{fileLocation}/Clouds", new Vector3(5.9f, 25.5f, 88.8f)) },
             { PerkEnum.TechLabBackground, ($"{fileLocation}/TechLab", new Vector3(-0.3f, 34.3f, 111.6f)) },
-            { PerkEnum.SpaceBackground, ($"{fileLocation}/Space", new Vector3(0f, 26f, 91f)) },
             { PerkEnum.CaveBackground, ($"{fileLocation}/Cave", new Vector3(9f, 35f, 169f)) },
             { PerkEnum.UnderwaterBackground, ($"{fileLocation}/Underwater", new Vector3(-0.3f, 33.3f, 116.3f)) },
+            { PerkEnum.SpaceBackground, ($"{fileLocation}/Space", new Vector3(0f, 26f, 91f)) },
+            { PerkEnum.TheaterBackground, ($"{fileLocation}/Theater", new Vector3(-1.2f, 34.2f, 99.1f)) },
             { PerkEnum.MarbleBackground, ($"{fileLocation}/Marbleville", new Vector3(10.2f, 25.5f, 85f)) },
+            { PerkEnum.StadiumBackground, ($"{fileLocation}/Stadium", new Vector3(0f, 28f, 111f)) }
         };
     }
 

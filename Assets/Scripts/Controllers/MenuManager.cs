@@ -79,7 +79,7 @@ public class MenuManager : MonoBehaviour
 
     private void ShowNoAdsPopup()
     {
-        if (!savedData.CanShowAds || savedData.HasSeenNoAdsPopup || savedData.GamesPlayed < 40)
+        if (!savedData.CanShowAds || savedData.HasSeenNoAdsPopup || savedData.GamesPlayed < 30)
         {
             return;
         }

@@ -7,7 +7,7 @@ public class BombMarble : Marble
     private Material initialMaterial;
     private Renderer marbleRenderer;
     private bool isFlashing;
-    private float flashDuration = 0.2f;
+    private float flashDuration = 0.15f;
     private Vector3 originalScale;
     private float scaleMultiplier = 1.2f;
 

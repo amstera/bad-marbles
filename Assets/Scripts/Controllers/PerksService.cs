@@ -45,7 +45,7 @@ public class PerkService
             Id = PerkEnum.AngelMarble,
             Name = "2X Marble",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/AngelMarble"),
-            Points = 4000,
+            Points = 3000,
             Category = PerkCategory.Special,
             Description = "Halo marbles sometimes show up worth double points!"
         });
@@ -184,7 +184,7 @@ public class PerkService
         perks.Add(new Perk
         {
             Id = PerkEnum.AcousticRambles,
-            Name = "Playful Marbles",
+            Name = "Folk Marbles",
             Sprite = Resources.Load<Sprite>("Images/UI/Music/AcousticRambles"),
             Points = 60000,
             Category = PerkCategory.Music
@@ -236,7 +236,7 @@ public class PerkService
             Id = PerkEnum.SnowBackground,
             Name = "Snowy Inn",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Snow"),
-            Points = 3000,
+            Points = 4000,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk
@@ -292,7 +292,15 @@ public class PerkService
             Id = PerkEnum.SpaceBackground,
             Name = "Outer Space",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Space"),
-            Points = 90000,
+            Points = 95000,
+            Category = PerkCategory.Background
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.TheaterBackground,
+            Name = "Theater",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Theater"),
+            Points = 130000,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk
@@ -301,6 +309,14 @@ public class PerkService
             Name = "Marbleville",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Marbleville"),
             Points = 150000,
+            Category = PerkCategory.Background
+        });
+        perks.Add(new Perk
+        {
+            Id = PerkEnum.StadiumBackground,
+            Name = "Stadium",
+            Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Stadium"),
+            Points = 225000,
             Category = PerkCategory.Background
         });
 
