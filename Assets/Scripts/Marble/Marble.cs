@@ -5,7 +5,7 @@ using UnityEngine;
 public class Marble : MonoBehaviour
 {
     public float speed = 10f;
-    protected Rigidbody rb;
+    public Rigidbody rb;
     public ShatteredMarble shatteredMarblePrefab;
     public MarbleColor color;
     public int points;
@@ -17,10 +17,14 @@ public class Marble : MonoBehaviour
     protected void Start()
     {
         rb = GetComponent<Rigidbody>();
-        StartCoroutine(FadeIn());
     }
 
-    IEnumerator FadeIn()
+    public void FadeIn()
+    {
+        StartCoroutine(FadeInAnimation());
+    }
+
+    IEnumerator FadeInAnimation()
     {
         Renderer marbleRenderer = GetComponent<Renderer>();
         Color originalColor = marbleRenderer.material.color;
@@ -47,6 +51,11 @@ public class Marble : MonoBehaviour
 
     public void Destroy()
     {
+        if (!gameObject.activeSelf)
+        {
+            return;
+        }
+
         if (shatteredMarblePrefab != null)
         {
             ShatteredMarble shatteredMarble = Instantiate(shatteredMarblePrefab, transform.position, transform.rotation);
@@ -59,7 +68,8 @@ public class Marble : MonoBehaviour
         }
 
         OnDestroyed?.Invoke();
-        Destroy(gameObject);
+
+        PoolManager.Instance.ReturnObjectToPool(this);
     }
 
 }

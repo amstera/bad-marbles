@@ -5,11 +5,14 @@ public class TrackBarrier : MonoBehaviour
     public PointsText pointsTextPrefab;
     public GameObject BigExplosion;
     public StressReceiver stressReceiver;
-    public GameManager gameManager;
+
+    private GameManager gameManager;
+    private PoolManager poolManager;
 
     void Start()
     {
         gameManager = GameManager.Instance;
+        poolManager = PoolManager.Instance;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -22,18 +25,18 @@ public class TrackBarrier : MonoBehaviour
                 return;
             }
 
-            if (GameManager.Instance.Lives > 0)
+            if (gameManager.Lives > 0)
             {
                 var hitPoint = collision.contacts[0].point;
                 if (marble.points > 0)
                 {
                     int points = marble.points * gameManager.CalculateStreakMultiplier();
-                    GameManager.Instance.AddScore(points);
+                    gameManager.AddScore(points);
                     ShowPoints(points, hitPoint);
                 }
                 else if (marble.livesLost > 0)
                 {
-                    GameManager.Instance.LoseLives(marble.livesLost);
+                    gameManager.LoseLives(marble.livesLost);
                     if (marble.color == MarbleColor.Bomb)
                     {
                         stressReceiver?.InduceStress(1f, true);
@@ -46,7 +49,7 @@ public class TrackBarrier : MonoBehaviour
                 }
             }
 
-            Destroy(collision.gameObject);
+            poolManager.ReturnObjectToPool(marble);
         }
     }
 

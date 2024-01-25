@@ -35,6 +35,7 @@ public class MarbleSpawner : MonoBehaviour
 
     private SaveObject savedData;
     private GameManager gameManager;
+    private PoolManager poolManager;
     private bool hasAngelMarble;
     private bool hasGoldMarble;
     private bool hasNoBombs;
@@ -55,6 +56,8 @@ public class MarbleSpawner : MonoBehaviour
     {
         savedData = SaveManager.Load();
         gameManager = GameManager.Instance;
+        poolManager = PoolManager.Instance;
+
         CheckForPerks();
     }
 
@@ -294,9 +297,13 @@ public class MarbleSpawner : MonoBehaviour
     void UpdateTimer()
     {
         float intervalConstant = 2.25f;
+        if (tier >= 20)
+        {
+            intervalConstant = 1.132f;
+        }
         if (tier >= 15)
         {
-            intervalConstant = 1.13f;
+            intervalConstant = 1.134f;
         }
         if (tier >= 10)
         {
@@ -345,7 +352,7 @@ public class MarbleSpawner : MonoBehaviour
         for (int i = allMarbles.Count - 1; i >= 0; i--)
         {
             Marble marble = allMarbles[i];
-            if (marble == null)
+            if (marble == null || !marble.gameObject.activeSelf)
             {
                 continue;
             }
@@ -491,10 +498,15 @@ public class MarbleSpawner : MonoBehaviour
         return true;
     }
 
-    void InstantiateMarble(Marble marble, Vector3 position)
+    void InstantiateMarble(Marble marblePrefab, Vector3 position)
     {
-        Marble spawnedMarble = Instantiate(marble, position, marble.transform.rotation);
+        Marble spawnedMarble = poolManager.GetOrCreateObject(marblePrefab);
+        spawnedMarble.transform.position = position;
+        spawnedMarble.transform.rotation = marblePrefab.transform.rotation;
         spawnedMarble.speed = speed;
+        spawnedMarble.gameObject.SetActive(true);
+        spawnedMarble.FadeIn();
+
         allMarbles.Add(spawnedMarble);
     }
 }

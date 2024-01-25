@@ -470,7 +470,7 @@ public class GameManager : MonoBehaviour
     private void SetQualitySettings()
     {
         #if UNITY_IOS
-                if (Device.lowPowerModeEnabled || SystemInfo.batteryLevel <= 0.2f)
+                if (Device.lowPowerModeEnabled || SystemInfo.batteryLevel <= 0.1f)
                 {
                     QualitySettings.SetQualityLevel(1, true);
                 }

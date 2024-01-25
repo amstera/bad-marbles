@@ -11,13 +11,34 @@ public class BombMarble : Marble
     private Vector3 originalScale;
     private float scaleMultiplier = 1.2f;
 
-    new void Start()
+    private Coroutine flashCoroutine;
+
+    void Awake()
     {
-        base.Start();
         marbleRenderer = GetComponent<Renderer>();
         initialMaterial = marbleRenderer.material;
         originalScale = transform.localScale;
-        StartCoroutine(FlashRoutine());
+    }
+
+    void OnEnable()
+    {
+        ResetBombState();
+        flashCoroutine = StartCoroutine(FlashRoutine());
+    }
+
+    void OnDisable()
+    {
+        if (flashCoroutine != null)
+        {
+            StopCoroutine(flashCoroutine);
+        }
+    }
+
+    void ResetBombState()
+    {
+        marbleRenderer.material = initialMaterial;
+        transform.localScale = originalScale;
+        isFlashing = false;
     }
 
     IEnumerator FlashRoutine()
