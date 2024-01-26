@@ -69,7 +69,7 @@ public class Marble : MonoBehaviour
 
         OnDestroyed?.Invoke();
 
-        PoolManager.Instance.ReturnObjectToPool(this);
+        Destroy(gameObject);
     }
 
 }

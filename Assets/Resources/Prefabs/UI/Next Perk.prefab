@@ -1044,7 +1044,7 @@ MonoBehaviour:
   newIndicator: {fileID: 5724666546179248485}
   shine: {fileID: 5201554168286350957}
   linearColor1Unlocked: {r: 0.36078432, g: 0.94509804, b: 0.09411765, a: 0.78431374}
-  linearColor2Unlocked: {r: 0.5686275, g: 0.85882354, b: 0.32941177, a: 0.6862745}
+  linearColor2Unlocked: {r: 0.11372549, g: 0.68235296, b: 0.24313726, a: 0.6862745}
   linearColor1Next: {r: 0.4039216, g: 0.11764707, b: 0.8117648, a: 0.78431374}
   linearColor2Next: {r: 0.9803922, g: 0.039215688, b: 0.7490196, a: 0.6862745}
 --- !u!114 &5365134431535865715

@@ -21,21 +21,19 @@ public class MarbleSpawner : MonoBehaviour
     public MarbleColor OnlyMarbleColor;
 
     private float maxSpeed = 45f;
-    private float spawnInterval = 1f;
+    private float spawnInterval = 1.05f;
     private float timer = 0;
     private float acceleration = 0.55f;
     private bool isSpawningPaused = true;
     private bool hasUpdatedTier;
-    private int frameCounter = 0;
     private int lastBombMarbleTier;
     private int lastExtraLifeTier;
     private int tier;
-    private List<Marble> allMarbles = new List<Marble>();
+    private HashSet<Marble> allMarbles = new HashSet<Marble>();
     private HashSet<MarbleColor> allowedDupMarbleColors = new HashSet<MarbleColor> { MarbleColor.Red, MarbleColor.Green, MarbleColor.Fire, MarbleColor.Bomb, MarbleColor.Gold, MarbleColor.Angel, MarbleColor.BlueFire };
 
     private SaveObject savedData;
     private GameManager gameManager;
-    private PoolManager poolManager;
     private bool hasAngelMarble;
     private bool hasGoldMarble;
     private bool hasNoBombs;
@@ -56,7 +54,6 @@ public class MarbleSpawner : MonoBehaviour
     {
         savedData = SaveManager.Load();
         gameManager = GameManager.Instance;
-        poolManager = PoolManager.Instance;
 
         CheckForPerks();
     }
@@ -70,15 +67,15 @@ public class MarbleSpawner : MonoBehaviour
 
         UpdateSpeed();
 
-        // Update marble spawning every n frame
-        if (frameCounter % 10 == 0)
+        if (timer <= 0f)
         {
-            TrySpawnMarble();
+            SpawnMarble();
         }
-
-        frameCounter++;
+        else
+        {
+            timer -= Time.deltaTime;
+        }
     }
-
 
     void UpdateSpeed()
     {
@@ -88,18 +85,12 @@ public class MarbleSpawner : MonoBehaviour
         }
 
         float growthRate = (maxSpeed - speed) / maxSpeed;
-        growthRate *= (tier < 3) ? 2.2f : 1.8f;
+        growthRate *= (tier < 3) ? 2.2f : (tier < 8) ? 1.8f : 1.85f;
         speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
     }
 
-    void TrySpawnMarble()
+    void SpawnMarble()
     {
-        timer -= Time.deltaTime * 8.5f;
-        if (timer > 0f)
-        {
-            return;
-        }
-
         int marbleCount = CalculateMarbleCount(tier);
         SpawnMarbles(marbleCount);
         UpdateTimer();
@@ -311,11 +302,11 @@ public class MarbleSpawner : MonoBehaviour
         }
         else if (tier >= 20)
         {
-            intervalConstant = 1.133f;
+            intervalConstant = 1.1325f;
         }
         else if (tier >= 15)
         {
-            intervalConstant = 1.135f;
+            intervalConstant = 1.134f;
         }
         else if (tier >= 10)
         {
@@ -361,19 +352,26 @@ public class MarbleSpawner : MonoBehaviour
 
     public void DestroyAll(bool onlyBad = false)
     {
-        for (int i = allMarbles.Count - 1; i >= 0; i--)
+        HashSet<Marble> marblesToRemove = new HashSet<Marble>();
+
+        foreach (Marble marble in allMarbles)
         {
-            Marble marble = allMarbles[i];
             if (marble == null || !marble.gameObject.activeSelf)
             {
+                marblesToRemove.Add(marble);
                 continue;
             }
 
             if (!onlyBad || marble.livesLost > 0)
             {
                 marble.Destroy();
-                allMarbles.RemoveAt(i);
+                marblesToRemove.Add(marble);
             }
+        }
+
+        foreach (Marble marble in marblesToRemove)
+        {
+            allMarbles.Remove(marble);
         }
 
         if (!onlyBad)
@@ -503,7 +501,7 @@ public class MarbleSpawner : MonoBehaviour
     {
         foreach (Vector3 existingPosition in spawnedPositions)
         {
-            if (Mathf.Abs(existingPosition.x - position.x) < 1.7f)
+            if (Mathf.Abs(existingPosition.x - position.x) < 1.75f)
             {
                 return false;
             }
@@ -513,17 +511,11 @@ public class MarbleSpawner : MonoBehaviour
 
     Marble InstantiateMarble(Marble marblePrefab, Vector3 position)
     {
-        Marble spawnedMarble = poolManager.GetOrCreateObject(marblePrefab);
-        spawnedMarble.transform.position = position;
-        spawnedMarble.transform.rotation = marblePrefab.transform.rotation;
+        Marble spawnedMarble = Instantiate(marblePrefab, position, Quaternion.identity);
         spawnedMarble.speed = speed;
-        spawnedMarble.gameObject.SetActive(true);
         spawnedMarble.FadeIn();
 
-        if (!allMarbles.Contains(spawnedMarble))
-        {
-            allMarbles.Add(spawnedMarble);
-        }
+        allMarbles.Add(spawnedMarble);
 
         return spawnedMarble;
     }

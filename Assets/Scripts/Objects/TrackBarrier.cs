@@ -7,12 +7,10 @@ public class TrackBarrier : MonoBehaviour
     public StressReceiver stressReceiver;
 
     private GameManager gameManager;
-    private PoolManager poolManager;
 
     void Start()
     {
         gameManager = GameManager.Instance;
-        poolManager = PoolManager.Instance;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -49,7 +47,7 @@ public class TrackBarrier : MonoBehaviour
                 }
             }
 
-            poolManager.ReturnObjectToPool(marble);
+            Destroy(marble.gameObject);
         }
     }
 
