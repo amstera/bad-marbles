@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class NextPerkUI : MonoBehaviour, IPointerClickHandler
 {
     public TextMeshProUGUI text;
-    public Image image;
+    public Image image, lockIcon;
     public UIGradient gradient;
     public GameObject newIndicator, shine;
 
@@ -37,7 +37,9 @@ public class NextPerkUI : MonoBehaviour, IPointerClickHandler
         string perkText;
         if (isUnlocked)
         {
-            perkText = $"You unlocked the \"{perk.Name}\" reward!";
+            perkText = $"You unlocked <color=yellow>{perk.Name}</color>!";
+            image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
+            lockIcon.gameObject.SetActive(false);
             newIndicator.SetActive(true);
             shine.SetActive(true);
         }
@@ -45,7 +47,7 @@ public class NextPerkUI : MonoBehaviour, IPointerClickHandler
         {
             int pointsAway = perk.Points - currentPoints;
             string pointsText = FormatPoints(pointsAway) + (pointsAway == 1 ? " point" : " points");
-            perkText = $"<color=yellow>{pointsText}</color> until \"{perk.Name}\" reward!";
+            perkText = $"<color=#41EF3E>{pointsText}</color>\nuntil <color=yellow>{perk.Name}</color>!";
         }
 
         text.text = perkText;

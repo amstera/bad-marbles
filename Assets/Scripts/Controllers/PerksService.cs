@@ -63,7 +63,7 @@ public class PerkService
             Id = PerkEnum.StreakSaver,
             Name = "Streak Saver #1",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/StreakSaver"),
-            Points = 15000,
+            Points = 12500,
             Category = PerkCategory.Special,
             Description = "Get a streak saved per game! (Can be stacked)"
         });
@@ -252,7 +252,7 @@ public class PerkService
             Id = PerkEnum.StreamBackground,
             Name = "Magic Realm",
             Sprite = Resources.Load<Sprite>("Images/UI/Backgrounds/Stream"),
-            Points = 12500,
+            Points = 15000,
             Category = PerkCategory.Background
         });
         perks.Add(new Perk

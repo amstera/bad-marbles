@@ -297,15 +297,19 @@ public class MarbleSpawner : MonoBehaviour
     void UpdateTimer()
     {
         float intervalConstant = 2.25f;
-        if (tier >= 20)
+        if (tier >= 25)
         {
-            intervalConstant = 1.132f;
+            intervalConstant = 1.1315f;
         }
-        if (tier >= 15)
+        else if (tier >= 20)
+        {
+            intervalConstant = 1.1325f;
+        }
+        else if (tier >= 15)
         {
             intervalConstant = 1.134f;
         }
-        if (tier >= 10)
+        else if (tier >= 10)
         {
             intervalConstant = 1.1325f;
         }

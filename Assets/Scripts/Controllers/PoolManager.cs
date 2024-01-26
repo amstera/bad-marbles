@@ -49,7 +49,7 @@ public class PoolManager : MonoBehaviour
 
         marble.gameObject.SetActive(false);
 
-        string poolKey = marble.name.Replace("(Clone)", "");
+        string poolKey = marble.name;
 
         if (!poolDictionary.ContainsKey(poolKey))
         {
