@@ -237,15 +237,23 @@ public class MarbleSpawner : MonoBehaviour
     {
         List<MarbleProbability> tierData = new List<MarbleProbability>();
 
-        if (tier >= 15)
+        if (tier >= 20)
+        {
+            tierData.Add(new MarbleProbability(8, TopRedMarble));
+            tierData.Add(new MarbleProbability(15, BigRedMarble));
+            tierData.Add(new MarbleProbability(30, BlueFireMarble));
+            tierData.Add(new MarbleProbability(45, FireMarble));
+            tierData.Add(new MarbleProbability(60, RedMarble));
+        }
+        else if (tier >= 15)
         {
             tierData.Add(new MarbleProbability(8, TopRedMarble));
             tierData.Add(new MarbleProbability(20, BigRedMarble));
             tierData.Add(new MarbleProbability(30, BlueFireMarble));
             tierData.Add(new MarbleProbability(45, FireMarble));
-            tierData.Add(new MarbleProbability(60, RedMarble));
+            tierData.Add(new MarbleProbability(55, RedMarble));
         }
-        if (tier >= 12)
+        else if (tier >= 12)
         {
             tierData.Add(new MarbleProbability(8, TopRedMarble));
             tierData.Add(new MarbleProbability(20, BigRedMarble));
@@ -299,15 +307,15 @@ public class MarbleSpawner : MonoBehaviour
         float intervalConstant = 2.25f;
         if (tier >= 25)
         {
-            intervalConstant = 1.1315f;
+            intervalConstant = 1.132f;
         }
         else if (tier >= 20)
         {
-            intervalConstant = 1.1325f;
+            intervalConstant = 1.133f;
         }
         else if (tier >= 15)
         {
-            intervalConstant = 1.134f;
+            intervalConstant = 1.135f;
         }
         else if (tier >= 10)
         {
@@ -431,15 +439,16 @@ public class MarbleSpawner : MonoBehaviour
     void SpawnPairedMarble(Marble bottomMarblePrefab, TopMarble topMarblePrefab)
     {
         Vector3 spawnPosition = GetSpawnPosition(bottomMarblePrefab.color);
-        Marble bottomMarble = Instantiate(bottomMarblePrefab, spawnPosition, bottomMarblePrefab.transform.rotation);
-        TopMarble topMarble = Instantiate(topMarblePrefab, new Vector3(spawnPosition.x, spawnPosition.y + 1.5f, spawnPosition.z), topMarblePrefab.transform.rotation);
 
-        topMarble.bottomMarble = bottomMarble;
-        bottomMarble.speed = speed;
-        topMarble.speed = speed;
+        Marble bottomMarble = InstantiateMarble(bottomMarblePrefab, spawnPosition);
 
-        allMarbles.Add(bottomMarble);
-        allMarbles.Add(topMarble);
+        spawnPosition.y += 1.5f;
+
+        TopMarble topMarble = InstantiateMarble(topMarblePrefab, spawnPosition) as TopMarble;
+        if (topMarble != null)
+        {
+            topMarble.bottomMarble = bottomMarble;
+        }
     }
 
     void SpawnMarbles(int marbleCount)
@@ -502,7 +511,7 @@ public class MarbleSpawner : MonoBehaviour
         return true;
     }
 
-    void InstantiateMarble(Marble marblePrefab, Vector3 position)
+    Marble InstantiateMarble(Marble marblePrefab, Vector3 position)
     {
         Marble spawnedMarble = poolManager.GetOrCreateObject(marblePrefab);
         spawnedMarble.transform.position = position;
@@ -511,6 +520,11 @@ public class MarbleSpawner : MonoBehaviour
         spawnedMarble.gameObject.SetActive(true);
         spawnedMarble.FadeIn();
 
-        allMarbles.Add(spawnedMarble);
+        if (!allMarbles.Contains(spawnedMarble))
+        {
+            allMarbles.Add(spawnedMarble);
+        }
+
+        return spawnedMarble;
     }
 }

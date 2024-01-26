@@ -589,8 +589,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.8784314}
+  m_EffectDistance: {x: 0, y: -0.6}
   m_UseGraphicAlpha: 1
 --- !u!114 &71335870
 MonoBehaviour:
@@ -964,7 +964,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '    AD FOR EXTRA CHANCE'
+  m_text: '    AD FOR <color=yellow>EXTRA CHANCE</color>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61f6d7ff6ce5c4ebd88de88efa4cdff5, type: 2}
   m_sharedMaterial: {fileID: 1768230906505952818, guid: 61f6d7ff6ce5c4ebd88de88efa4cdff5,

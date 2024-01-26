@@ -37,7 +37,7 @@ public class NextPerkUI : MonoBehaviour, IPointerClickHandler
         string perkText;
         if (isUnlocked)
         {
-            perkText = $"You unlocked <color=yellow>{perk.Name}</color>!";
+            perkText = $"You unlocked\n<color=yellow>{perk.Name}</color>!";
             image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
             lockIcon.gameObject.SetActive(false);
             newIndicator.SetActive(true);

@@ -30,6 +30,7 @@ public class PoolManager : MonoBehaviour
         }
         else
         {
+            Debug.Log($"Queue is empty for {poolKey}. Creating new object.");
             marble = Instantiate(marblePrefab);
             marble.name = marblePrefab.name;
         }
@@ -49,10 +50,11 @@ public class PoolManager : MonoBehaviour
 
         marble.gameObject.SetActive(false);
 
-        string poolKey = marble.name;
+        string poolKey = marble.name.Replace("(Clone)", "");
 
         if (!poolDictionary.ContainsKey(poolKey))
         {
+            Debug.Log($"Creating new queue for {poolKey}");
             poolDictionary[poolKey] = new Queue<Marble>();
         }
 
