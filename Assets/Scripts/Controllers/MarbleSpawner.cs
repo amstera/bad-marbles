@@ -511,7 +511,7 @@ public class MarbleSpawner : MonoBehaviour
 
     Marble InstantiateMarble(Marble marblePrefab, Vector3 position)
     {
-        Marble spawnedMarble = Instantiate(marblePrefab, position, Quaternion.identity);
+        Marble spawnedMarble = Instantiate(marblePrefab, position, marblePrefab.transform.rotation);
         spawnedMarble.speed = speed;
         spawnedMarble.FadeIn();
 

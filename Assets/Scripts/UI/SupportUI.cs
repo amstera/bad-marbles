@@ -58,6 +58,11 @@ public class SupportUI : MonoBehaviour, IPointerDownHandler
         OpenUrl("https://www.instagram.com/badmarbles");
     }
 
+    public void ShowTwitter()
+    {
+        OpenUrl("https://www.twitter.com/badmarbles");
+    }
+
     private void Hide()
     {
         StartCoroutine(Fade(false));
