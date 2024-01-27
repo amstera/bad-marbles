@@ -11,7 +11,7 @@ public static class MusicService
         {
             { PerkEnum.DefaultMusic, (Resources.Load<AudioClip>("Sounds/Music/MainTheme"), 0.4f) },
             { PerkEnum.RockinMarbles, (Resources.Load<AudioClip>("Sounds/Music/RockinMarbles"), 0.275f) },
-            { PerkEnum.SimpleTune, (Resources.Load<AudioClip>("Sounds/Music/SimpleMelody"), 0.3f) },
+            { PerkEnum.SimpleTune, (Resources.Load<AudioClip>("Sounds/Music/ClassicMarble"), 0.3f) },
             { PerkEnum.MarblesAnthem, (Resources.Load<AudioClip>("Sounds/Music/MarblesAnthem"), 0.135f) },
             { PerkEnum.ChillJazz, (Resources.Load<AudioClip>("Sounds/Music/ChillJazz"), 0.4f) },
             { PerkEnum.AcousticRambles, (Resources.Load<AudioClip>("Sounds/Music/AcousticRambles"), 0.3f) },

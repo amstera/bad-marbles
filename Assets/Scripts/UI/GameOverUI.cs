@@ -190,7 +190,7 @@ public class GameOverUI : MonoBehaviour
             highScoreSound?.Play();
             confettiPS?.Play();
 
-            if (savedData.GamesPlayed > 5 && !savedData.HasShownRateApp)
+            if (savedData.GamesPlayed >= 5 && !savedData.HasShownRateApp)
             {
                 savedData.HasShownRateApp = Device.RequestStoreReview();
             }

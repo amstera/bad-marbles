@@ -192,7 +192,7 @@ public class PerkService
         perks.Add(new Perk
         {
             Id = PerkEnum.SimpleTune,
-            Name = "Simple Tune",
+            Name = "Classic Marble",
             Sprite = Resources.Load<Sprite>("Images/UI/Music/SimpleTune"),
             Points = 90000,
             Category = PerkCategory.Music
