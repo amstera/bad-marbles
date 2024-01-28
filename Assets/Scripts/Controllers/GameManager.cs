@@ -249,7 +249,28 @@ public class GameManager : MonoBehaviour
 
     private bool ShouldShowAd()
     {
-        return savedData.CanShowAds && savedData.GamesPlayed > 0 && savedData.GamesPlayed % 3 == 0;
+        // Early return if ads can't be shown, no games have been played, or an ad was shown last game
+        if (!savedData.CanShowAds || savedData.GamesPlayed <= 0 || savedData.LastGameShowedAd)
+        {
+            if (savedData.LastGameShowedAd)
+            {
+                savedData.LastGameShowedAd = false;
+                SaveManager.Save(savedData);
+            }
+            return false;
+        }
+
+        int adFrequency = (savedData.Points >= 50000 && savedData.GamesPlayed >= 55) ? 2 : 3;
+        bool isAdDue = savedData.GamesPlayed % adFrequency == 0;
+
+        if (isAdDue)
+        {
+            savedData.LastGameShowedAd = true;
+            SaveManager.Save(savedData);
+            return true;
+        }
+
+        return false;
     }
 
     private void InitializeSingleton()

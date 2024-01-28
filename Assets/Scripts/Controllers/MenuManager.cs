@@ -79,15 +79,21 @@ public class MenuManager : MonoBehaviour
 
     private void ShowNoAdsPopup()
     {
-        if (!savedData.CanShowAds || savedData.HasSeenNoAdsPopup || savedData.GamesPlayed < 30)
+        const int popupFrequency = 30;
+
+        // Check if ads can be shown
+        if (!savedData.CanShowAds)
         {
             return;
         }
 
-        savedData.HasSeenNoAdsPopup = true;
-        SaveManager.Save(savedData);
+        if (savedData.GamesPlayed - savedData.LastNoAdsPopupGameCount >= popupFrequency)
+        {
+            savedData.LastNoAdsPopupGameCount = savedData.GamesPlayed;
+            SaveManager.Save(savedData);
 
-        noAdsButton.onClick.Invoke();
+            noAdsButton.onClick.Invoke();
+        }
     }
 
     private IEnumerator SwayTrophy()

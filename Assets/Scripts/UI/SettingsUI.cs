@@ -36,7 +36,7 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
     private const string SFX_VOLUME_PARAM = "SFXVolume";
     private float pageTransitionDuration = 0.1f;
 
-    private void Start()
+    private void Awake()
     {
         savedData = SaveManager.Load();
         InitializeUI();

@@ -56,13 +56,14 @@ public class SaveObject
     public int GamesPlayed;
     public int HighStreak = 1;
     public int HighStreakMultiplier = 1;
+    public int LastNoAdsPopupGameCount;
 
     public bool CanShowAds = true;
     public bool HasShownRateApp;
     public bool HasSeenTutorial;
     public bool HasSeenPerksTutorial;
     public bool HasSeenPerksPopup;
-    public bool HasSeenNoAdsPopup;
+    public bool LastGameShowedAd;
 
     public List<PerkEnum> SeenDescription = new List<PerkEnum>();
 
