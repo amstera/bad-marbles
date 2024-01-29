@@ -234,6 +234,11 @@ public class SettingsUI : MonoBehaviour, IPointerDownHandler
         int currentYear = DateTime.Now.Year;
         string gameVersion = Application.version;
         footerText.text = $"Bad Marbles © {currentYear} Green Tea Gaming - Version {gameVersion}";
+
+        if (DeviceTypeChecker.IsTablet())
+        {
+            footerText.transform.localPosition += Vector3.down * 50;
+        }
     }
 
     private IEnumerator RotateGear(float targetAngle)

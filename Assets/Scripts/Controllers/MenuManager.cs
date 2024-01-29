@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    public TextMeshProUGUI highScoreText;
+    public TextMeshProUGUI highScoreTitleText, highScoreText;
     public TransitionSettings transition;
-    public Button noAdsButton;
+    public Button playButton, perksButton, noAdsButton;
     public GameObject newIndicator;
-    public GameObject goldTrophy;
+    public GameObject logo, goldTrophy;
 
     public AudioSource plopSound;
 
@@ -26,6 +26,10 @@ public class MenuManager : MonoBehaviour
         UpdateHighScoreText();
         ShowNewIndicator();
         ShowNoAdsPopup();
+        if (DeviceTypeChecker.IsTablet())
+        {
+            AdjustTabletSpacing();
+        }
     }
 
     public void LoadGame()
@@ -114,5 +118,19 @@ public class MenuManager : MonoBehaviour
             newIndicator.transform.rotation = Quaternion.Euler(0, 0, angle);
             yield return null;
         }
+    }
+
+    private void AdjustTabletSpacing()
+    {
+        Vector3 amountToRaise = Vector3.up * 30;
+
+        logo.transform.localPosition += amountToRaise;
+        highScoreTitleText.transform.localPosition += amountToRaise;
+        highScoreText.transform.localPosition += amountToRaise;
+
+        playButton.transform.localScale *= 0.75f;
+        perksButton.transform.localScale *= 0.75f;
+        perksButton.transform.localPosition += amountToRaise;
+
     }
 }

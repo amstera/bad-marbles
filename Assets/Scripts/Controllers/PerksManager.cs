@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class PerksManager : MonoBehaviour
 {
-    public TextMeshProUGUI totalPointsText;
+    public TextMeshProUGUI titleText, totalPointsText;
     public TransitionSettings transition;
 
     public AudioSource plopSound;
@@ -17,6 +17,7 @@ public class PerksManager : MonoBehaviour
     public Button perksButton, musicButton, backgroundButton, rampButton;
     public GameObject perksViewedIndicator, musicViewedIndicator, backgroundViewedIndicator, rampViewedIndicator;
     public GameObject perksShineIndicator, musicShineIndicator, backgroundShineIndicator, rampShineIndicator;
+    public GameObject menuBar;
     public GameObject arrow;
     public RectTransform selectedIndicator;
     public CanvasGroup scrollViewCanvasGroup;
@@ -69,6 +70,11 @@ public class PerksManager : MonoBehaviour
             savedData.HasSeenPerksPopup = true;
 
             SaveManager.Save(savedData);
+        }
+
+        if (DeviceTypeChecker.IsTablet())
+        {
+            AdjustTabletUI();
         }
 
         if (!savedData.HasSeenPerksTutorial && unlockedCategories.Contains(PerkCategory.Ramp))
@@ -464,5 +470,20 @@ public class PerksManager : MonoBehaviour
             arrow.transform.localPosition = new Vector3(swayPosition, arrow.transform.localPosition.y, arrow.transform.localPosition.z);
             yield return null;
         }
+    }
+
+    private void AdjustTabletUI()
+    {
+        float heightAdjustment = 30f;
+        Vector3 amountToAdjust = Vector3.up * heightAdjustment;
+
+        titleText.transform.localPosition += amountToAdjust;
+        totalPointsText.transform.localPosition += amountToAdjust;
+        backButton.transform.localPosition += amountToAdjust;
+        menuBar.transform.localPosition += amountToAdjust;
+
+        Vector2 positionAdjustment = new Vector2(0, heightAdjustment);
+        scrollViewRect.anchoredPosition += positionAdjustment;
+        scrollViewRect.offsetMin = new Vector2(scrollViewRect.offsetMin.x, scrollViewRect.offsetMin.y - heightAdjustment);
     }
 }

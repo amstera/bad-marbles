@@ -2192,7 +2192,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 4, y: 0}
+  m_SizeDelta: {x: 4, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &807958114
 MonoBehaviour:
@@ -2296,6 +2296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d2b4e71fd2346a2b42d1ffada3b582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleText: {fileID: 802294788}
   totalPointsText: {fileID: 1274796057}
   transition: {fileID: 11400000, guid: 9710edcf009d00943af961dd2a7ca7d3, type: 2}
   plopSound: {fileID: 807958118}
@@ -2313,6 +2314,7 @@ MonoBehaviour:
   musicShineIndicator: {fileID: 2058042226}
   backgroundShineIndicator: {fileID: 98407334}
   rampShineIndicator: {fileID: 1649468492}
+  menuBar: {fileID: 577814957}
   arrow: {fileID: 29127288}
   selectedIndicator: {fileID: 2084971644}
   scrollViewCanvasGroup: {fileID: 1673810651}
@@ -2432,9 +2434,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -9199093257634394340, guid: ab44856fbbd5e4a56b3fd4fd714acd39,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: b2cedd5e478454235b2380985627c30a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5db4862d35d6945579ca0a6eb140ef55, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 0
   Mute: 0

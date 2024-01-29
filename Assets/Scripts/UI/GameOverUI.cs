@@ -65,7 +65,7 @@ public class GameOverUI : MonoBehaviour
             if (!secondChanceButton.gameObject.activeSelf)
             {
                 Vector3 noAdsButtonPosition = noAdsButton.transform.localPosition;
-                noAdsButton.transform.localPosition = new Vector3(noAdsButtonPosition.x, noAdsButtonPosition.y + 50, noAdsButtonPosition.z);
+                noAdsButton.transform.localPosition = new Vector3(noAdsButtonPosition.x, noAdsButtonPosition.y + (DeviceTypeChecker.IsTablet() ? 40 : 50), noAdsButtonPosition.z);
             }
         }
         else
@@ -208,7 +208,7 @@ public class GameOverUI : MonoBehaviour
                 popUp.transform.localPosition = new Vector3(popUpPosition.x, 50, popUpPosition.z);
 
                 Vector3 noAdsButtonPosition = noAdsButton.transform.localPosition;
-                noAdsButton.transform.localPosition = new Vector3(noAdsButtonPosition.x, noAdsButtonPosition.y - 50, noAdsButtonPosition.z);
+                noAdsButton.transform.localPosition = new Vector3(noAdsButtonPosition.x, noAdsButtonPosition.y - (DeviceTypeChecker.IsTablet() ? 40 : 50), noAdsButtonPosition.z);
             }
         }
 
@@ -294,7 +294,7 @@ public class GameOverUI : MonoBehaviour
     private IEnumerator PopIn(GameObject obj, float time)
     {
         Vector3 originalScale = obj.transform.localScale;
-        Vector3 targetScale = Vector3.one;
+        Vector3 targetScale = DeviceTypeChecker.IsTablet() ? Vector3.one * 0.8f : Vector3.one;
         for (float t = 0; t < 1; t += Time.deltaTime / time)
         {
             obj.transform.localScale = Vector3.Lerp(originalScale, targetScale, t);

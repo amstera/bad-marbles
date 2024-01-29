@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     public TutorialUI tutorialUI;
     public ComplimentText complimentText;
 
+    public GameObject capsule, bombButton, slowMoButton;
+
     public AudioSource pointGainedSound;
     public AudioSource lifeLossSound;
     public AudioSource lifeGainedSound;
@@ -101,6 +103,11 @@ public class GameManager : MonoBehaviour
         if (extraChance.ActiveCount > 0)
         {
             UpdateExtraChanceValues();
+        }
+
+        if (DeviceTypeChecker.IsTablet())
+        {
+            AdjustTabletUI();
         }
     }
 
@@ -361,6 +368,10 @@ public class GameManager : MonoBehaviour
         {
             ResetStreak();
         }
+        else
+        {
+            Streak = 0;
+        }
         stressReceiver?.InduceStress(0.4f);
         complimentText.Hide();
 
@@ -500,5 +511,15 @@ public class GameManager : MonoBehaviour
                     QualitySettings.SetQualityLevel(2, true);
                 }
         #endif
+    }
+
+    private void AdjustTabletUI()
+    {
+        Vector3 moveAmount = Vector3.up * 35f;
+        capsule.transform.localPosition += moveAmount;
+        bombButton.transform.localPosition -= moveAmount * 4f;
+        slowMoButton.transform.localPosition -= moveAmount * 4f;
+        streakText.transform.localPosition += moveAmount;
+        streakSaveText.transform.localPosition += moveAmount;
     }
 }
