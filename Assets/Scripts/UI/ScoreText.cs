@@ -26,7 +26,7 @@ public class ScoreText : MonoBehaviour
     public void SetScoreImmediately(int newScore)
     {
         currentDisplayedScore = newScore;
-        scoreText.text = newScore.ToString();
+        scoreText.text = $"{newScore} <sprite=0>";
         scoreText.color = GetColorForScore(newScore);
     }
 
@@ -49,7 +49,7 @@ public class ScoreText : MonoBehaviour
             {
                 elapsed += Time.deltaTime;
                 currentDisplayedScore = (int)Mathf.Lerp(currentDisplayedScore, newScore, elapsed / duration);
-                scoreText.text = currentDisplayedScore.ToString();
+                scoreText.text = $"{currentDisplayedScore} <sprite=0>";
                 scoreText.color = GetColorForScore(currentDisplayedScore);
 
                 TriggerPopEffect();
@@ -58,7 +58,7 @@ public class ScoreText : MonoBehaviour
             }
 
             currentDisplayedScore = newScore;
-            scoreText.text = newScore.ToString();
+            scoreText.text = $"{newScore} <sprite=0>";
         }
 
         updateRoutine = null;

@@ -267,7 +267,7 @@ public class GameManager : MonoBehaviour
             return false;
         }
 
-        int adFrequency = (savedData.Points >= 50000 && savedData.GamesPlayed >= 55) ? 2 : 3;
+        int adFrequency = (savedData.Points >= 50000 && savedData.GamesPlayed >= 50) ? 2 : 3;
         bool isAdDue = savedData.GamesPlayed % adFrequency == 0;
 
         if (isAdDue)
@@ -447,6 +447,7 @@ public class GameManager : MonoBehaviour
         marbleSpawner.OnlyMarbleColor = MarbleColor.Red;
         marbleSpawner.canUpdateSpeed = false;
         vignetteAnimator.enabled = false;
+        marbleSpawner.spawnArrows = true;
 
         tutorialUI.ClosePopup += FinishTutorial;
 
@@ -460,6 +461,11 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => marblesHit > 0); // wait for marble to be hit
 
         tutorialPanel.Hide();
+        marbleSpawner.spawnArrows = false;
+        foreach (var arrow in FindObjectsOfType<ArrowUI>())
+        {
+            Destroy(arrow.gameObject);
+        }
 
         Time.timeScale = 1;
         yield return new WaitForSeconds(0.5f);
@@ -478,11 +484,11 @@ public class GameManager : MonoBehaviour
         marbleSpawner.DestroyAll();
         marbleSpawner.OnlyMarbleColor = MarbleColor.Green;
 
-        tutorialPanel.Show("3.", "Let <color=green>Green Marbles</color> pass to score <color=green>points</color>!");
+        tutorialPanel.Show("3.", "Let <color=green>Green Marbles</color> pass to score <sprite=0>!");
 
         yield return new WaitUntil(() => Score > 0); // wait until you get a point
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.25f);
         tutorialPanel.Hide();
         marbleSpawner.DestroyAll();
         marbleSpawner.enabled = false;

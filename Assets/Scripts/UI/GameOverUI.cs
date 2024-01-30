@@ -11,7 +11,8 @@ using System.Collections.Generic;
 
 public class GameOverUI : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText, highScoreText, extraChanceReminderText;
+    public Counter scoreText;
+    public TextMeshProUGUI highScoreText, extraChanceReminderText;
     public Image newIcon;
     public GameObject newIndicator, popUp;
     public CanvasGroup canvasGroup;
@@ -67,6 +68,8 @@ public class GameOverUI : MonoBehaviour
                 Vector3 noAdsButtonPosition = noAdsButton.transform.localPosition;
                 noAdsButton.transform.localPosition = new Vector3(noAdsButtonPosition.x, noAdsButtonPosition.y + (DeviceTypeChecker.IsTablet() ? 40 : 50), noAdsButtonPosition.z);
             }
+
+            ShowNoAdsPopup();
         }
         else
         {
@@ -177,7 +180,7 @@ public class GameOverUI : MonoBehaviour
 
     private void UpdateScoreText(int score)
     {
-        scoreText.text = $"{score}";
+        scoreText.Count(0, score,  score < 100 ? 0.5f : 0.75f);
     }
 
     private void UpdateHighScoreText(int score, int tier, SaveObject savedData)
@@ -197,12 +200,12 @@ public class GameOverUI : MonoBehaviour
         }
         else
         {
-            float highScoreThreshold = savedData.HighScore * 0.8f;
+            float highScoreThreshold = savedData.HighScore * 0.75f;
             if (secondChanceButton.gameObject.activeSelf && score >= highScoreThreshold && score < savedData.HighScore)
             {
                 int pointsAway = savedData.HighScore - score;
                 extraChanceReminderText.gameObject.SetActive(true);
-                extraChanceReminderText.text = $"{pointsAway} point{(pointsAway != 1 ? "s" : "")} away from high score!";
+                extraChanceReminderText.text = $"{pointsAway} <sprite=0> away from high score!";
 
                 Vector3 popUpPosition = popUp.transform.localPosition;
                 popUp.transform.localPosition = new Vector3(popUpPosition.x, 50, popUpPosition.z);
@@ -301,6 +304,25 @@ public class GameOverUI : MonoBehaviour
             yield return null;
         }
         obj.transform.localScale = targetScale;
+    }
+
+    private void ShowNoAdsPopup()
+    {
+        const int popupFrequency = 25;
+
+        // Check if ads can be shown
+        if (!savedData.CanShowAds)
+        {
+            return;
+        }
+
+        if (savedData.GamesPlayed - savedData.LastNoAdsPopupGameCount >= popupFrequency)
+        {
+            savedData.LastNoAdsPopupGameCount = savedData.GamesPlayed;
+            SaveManager.Save(savedData);
+
+            noAdsButton.onClick.Invoke();
+        }
     }
 
     private void OnDestroy()

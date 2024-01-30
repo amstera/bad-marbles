@@ -15,9 +15,11 @@ public class MarbleSpawner : MonoBehaviour
     public TopMarble TopRedMarble;
     public Tier TierPrefab;
     public ExtraLife ExtraLife;
+    public ArrowUI Arrow;
 
     public float speed = 8f;
     public bool canUpdateSpeed = true;
+    public bool spawnArrows;
     public MarbleColor OnlyMarbleColor;
 
     private float maxSpeed = 45f;
@@ -514,6 +516,12 @@ public class MarbleSpawner : MonoBehaviour
         Marble spawnedMarble = Instantiate(marblePrefab, position, marblePrefab.transform.rotation);
         spawnedMarble.speed = speed;
         spawnedMarble.FadeIn();
+
+        if (spawnArrows)
+        {
+           var spawnedArrow = Instantiate(Arrow, position, Arrow.transform.rotation);
+           spawnedArrow.target = spawnedMarble.transform;
+        }
 
         allMarbles.Add(spawnedMarble);
 

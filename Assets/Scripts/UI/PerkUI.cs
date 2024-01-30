@@ -119,7 +119,7 @@ public class PerkUI : MonoBehaviour, IPointerClickHandler
 
     private string FormatPoints(int points)
     {
-        return points < 100000 ? $"{points} PTS" : $"{(int)Math.Round(points / 1000.0) * 1000 / 1000}K PTS";
+        return points < 100000 ? $"{points} <sprite=0>" : $"{(int)Math.Round(points / 1000.0) * 1000 / 1000}K <sprite=0>";
     }
 
     void SetAlpha(float alpha)

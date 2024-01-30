@@ -83,7 +83,7 @@ public class MenuManager : MonoBehaviour
 
     private void ShowNoAdsPopup()
     {
-        const int popupFrequency = 30;
+        const int popupFrequency = 25;
 
         // Check if ads can be shown
         if (!savedData.CanShowAds)

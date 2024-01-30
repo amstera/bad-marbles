@@ -46,8 +46,8 @@ public class NextPerkUI : MonoBehaviour, IPointerClickHandler
         else
         {
             int pointsAway = perk.Points - currentPoints;
-            string pointsText = FormatPoints(pointsAway) + (pointsAway == 1 ? " point" : " points");
-            perkText = $"<color=#41EF3E>{pointsText}</color>\nuntil <color=yellow>{perk.Name}</color>!";
+            string pointsText = $"{FormatPoints(pointsAway)} <sprite=0>";
+            perkText = $"{pointsText} until\n<color=yellow>{perk.Name}</color>!";
         }
 
         text.text = perkText;

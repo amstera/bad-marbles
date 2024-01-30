@@ -36,7 +36,7 @@ public class PerkService
             Id = PerkEnum.ExtraLife1,
             Name = "Extra Life #1",
             Sprite = Resources.Load<Sprite>("Images/UI/Special/ExtraLife"),
-            Points = 1000,
+            Points = 500,
             Category = PerkCategory.Special,
             Description = "Start the game with 1 extra life!"
         });
@@ -47,7 +47,7 @@ public class PerkService
             Sprite = Resources.Load<Sprite>("Images/UI/Special/AngelMarble"),
             Points = 3000,
             Category = PerkCategory.Special,
-            Description = "Halo marbles sometimes show up worth double points!"
+            Description = "Halo marbles sometimes show up worth double <sprite=0>!"
         });
         perks.Add(new Perk
         {
@@ -83,7 +83,7 @@ public class PerkService
             Sprite = Resources.Load<Sprite>("Images/UI/Special/GoldMarble"),
             Points = 45000,
             Category = PerkCategory.Special,
-            Description = "Gold marbles sometimes show up worth 5x points!"
+            Description = "Gold marbles sometimes show up worth 5x <sprite=0>!"
         });
         perks.Add(new Perk
         {
@@ -154,7 +154,7 @@ public class PerkService
             Id = PerkEnum.RockinMarbles,
             Name = "Rockin' Marbles",
             Sprite = Resources.Load<Sprite>("Images/UI/Music/RockinMarbles"),
-            Points = 500,
+            Points = 1000,
             Category = PerkCategory.Music
         });
         perks.Add(new Perk

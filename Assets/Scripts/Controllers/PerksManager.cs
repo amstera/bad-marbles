@@ -50,7 +50,7 @@ public class PerksManager : MonoBehaviour
     void Start()
     {
         savedData = SaveManager.Load();
-        totalPointsText.text = savedData.Points == 1 ? "1 POINT" : $"{savedData.Points} POINTS";
+        totalPointsText.text = $"{savedData.Points} <sprite=0>";
 
         var unlockedData = PerkService.Instance.GetUnlockedPerks();
         var unlockedCategories = unlockedData.categories;
@@ -66,7 +66,7 @@ public class PerksManager : MonoBehaviour
 
         if (!savedData.HasSeenPerksPopup)
         {
-            perkPopUp.Show("Rewards", "Every game earns points to unlock new rewards!", perksButton.image.sprite);
+            perkPopUp.Show("Rewards", "Every game earns <sprite=0> (diamonds) to unlock <color=green>new rewards</color>!", perksButton.image.sprite);
             savedData.HasSeenPerksPopup = true;
 
             SaveManager.Save(savedData);
@@ -481,6 +481,7 @@ public class PerksManager : MonoBehaviour
         totalPointsText.transform.localPosition += amountToAdjust;
         backButton.transform.localPosition += amountToAdjust;
         menuBar.transform.localPosition += amountToAdjust;
+        arrow.transform.localPosition -= amountToAdjust * 2;
 
         Vector2 positionAdjustment = new Vector2(0, heightAdjustment);
         scrollViewRect.anchoredPosition += positionAdjustment;
