@@ -484,7 +484,7 @@ public class GameManager : MonoBehaviour
         marbleSpawner.DestroyAll();
         marbleSpawner.OnlyMarbleColor = MarbleColor.Green;
 
-        tutorialPanel.Show("3.", "Let <color=green>Green Marbles</color> pass to score <sprite=0>!");
+        tutorialPanel.Show("3.", "Let <color=green>Green Marbles</color> pass to score <color=green>points</color> (<sprite=0>)!");
 
         yield return new WaitUntil(() => Score > 0); // wait until you get a point
 
@@ -508,13 +508,15 @@ public class GameManager : MonoBehaviour
     private void SetQualitySettings()
     {
         #if UNITY_IOS
-                if (Device.lowPowerModeEnabled || SystemInfo.batteryLevel <= 0.2f)
+                if (Device.lowPowerModeEnabled || SystemInfo.batteryLevel <= 0.1f)
                 {
                     QualitySettings.SetQualityLevel(1, true);
+                    Application.targetFrameRate = 60;
                 }
                 else
                 {
                     QualitySettings.SetQualityLevel(2, true);
+                    Application.targetFrameRate = 120;
                 }
         #endif
     }

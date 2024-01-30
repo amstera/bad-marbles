@@ -180,7 +180,7 @@ public class GameOverUI : MonoBehaviour
 
     private void UpdateScoreText(int score)
     {
-        scoreText.Count(0, score,  score < 100 ? 0.5f : 0.75f);
+        scoreText.Count(0, score,  score < 100 ? 0.5f : 0.7f);
     }
 
     private void UpdateHighScoreText(int score, int tier, SaveObject savedData)
