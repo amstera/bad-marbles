@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 0
-  companyName: Green Tea Gaming
+  companyName: Green Tea Games
   productName: Bad Marbles
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -161,7 +161,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Standalone: com.Green-Tea-Games.Bad-Marbles
-    iPhone: com.Green-Tea-Gaming.Bad-Marbles
+    iPhone: com.Green-Tea-Games.Bad-Marbles
   buildNumber:
     Bratwurst: 0
     Standalone: 0
