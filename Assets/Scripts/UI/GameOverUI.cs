@@ -201,9 +201,9 @@ public class GameOverUI : MonoBehaviour
         else
         {
             float highScoreThreshold = savedData.HighScore * 0.75f;
-            if (secondChanceButton.gameObject.activeSelf && score >= highScoreThreshold && score < savedData.HighScore)
+            if (secondChanceButton.gameObject.activeSelf && score >= highScoreThreshold && score <= savedData.HighScore)
             {
-                int pointsAway = savedData.HighScore - score;
+                int pointsAway = savedData.HighScore - score + 1;
                 extraChanceReminderText.gameObject.SetActive(true);
                 extraChanceReminderText.text = $"{pointsAway} <sprite=0> away from high score!";
 

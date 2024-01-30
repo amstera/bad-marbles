@@ -456,7 +456,7 @@ public class GameManager : MonoBehaviour
 
         isInvincible = true;
 
-        tutorialPanel.Show("1.", "Smash <color=red>Red Marbles</color> before they pass the screen!");
+        tutorialPanel.Show("1.", "Tap <color=red>Red Marbles</color> before they pass the screen!");
 
         yield return new WaitUntil(() => marblesHit > 0); // wait for marble to be hit
 
@@ -470,7 +470,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         yield return new WaitForSeconds(0.5f);
 
-        tutorialPanel.Show("2.", "Miss a <color=red>Red Marble</color> and you'll lose a <color=red>heart</color>!");
+        tutorialPanel.Show("2.", "Miss a <color=red>Red Marble</color> and you'll lose a <color=red>heart</color>(<color=red>♥</color>)!");
 
         isInvincible = false;
         canHitMarbles = false;
@@ -484,7 +484,7 @@ public class GameManager : MonoBehaviour
         marbleSpawner.DestroyAll();
         marbleSpawner.OnlyMarbleColor = MarbleColor.Green;
 
-        tutorialPanel.Show("3.", "Let <color=green>Green Marbles</color> pass to score <color=green>points</color> (<sprite=0>)!");
+        tutorialPanel.Show("3.", "Let <color=green>Green Marbles</color> pass to score <color=green>diamonds</color>(<sprite=0>)!");
 
         yield return new WaitUntil(() => Score > 0); // wait until you get a point
 

@@ -127,6 +127,7 @@ public class MenuManager : MonoBehaviour
         logo.transform.localPosition += amountToRaise;
         highScoreTitleText.transform.localPosition += amountToRaise;
         highScoreText.transform.localPosition += amountToRaise;
+        goldTrophy.transform.localPosition -= amountToRaise;
 
         playButton.transform.localScale *= 0.75f;
         perksButton.transform.localScale *= 0.75f;

@@ -66,7 +66,7 @@ public class PerksManager : MonoBehaviour
 
         if (!savedData.HasSeenPerksPopup)
         {
-            perkPopUp.Show("Rewards", "Every game earns <sprite=0> (diamonds) to unlock <color=green>new rewards</color>!", perksButton.image.sprite);
+            perkPopUp.Show("Rewards", "Every game played earns diamonds (<sprite=0>) to unlock <color=green>rewards</color>!", perksButton.image.sprite);
             savedData.HasSeenPerksPopup = true;
 
             SaveManager.Save(savedData);
@@ -479,7 +479,7 @@ public class PerksManager : MonoBehaviour
 
         titleText.transform.localPosition += amountToAdjust;
         totalPointsText.transform.localPosition += amountToAdjust;
-        backButton.transform.localPosition += amountToAdjust;
+        backButton.transform.localPosition += amountToAdjust + Vector3.right * 20;
         menuBar.transform.localPosition += amountToAdjust;
         arrow.transform.localPosition -= amountToAdjust * 2;
 
