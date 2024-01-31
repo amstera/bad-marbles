@@ -23,34 +23,40 @@ public class LoadingScreenManager : MonoBehaviour
         string folderPath = "Prefabs";
         Object[] loadedPrefabs = Resources.LoadAll(folderPath, typeof(GameObject));
         int totalPrefabs = loadedPrefabs.Length;
+        int batchSize = 10;
 
         for (int i = 0; i < totalPrefabs; i++)
         {
             GameObject prefab = (GameObject)loadedPrefabs[i];
-
-            // Instantiate and then destroy the prefab
-            if (prefab == null)
+            if (prefab != null)
             {
-                Debug.Log($"Couldn't load prefab!");
-            }
-            else
-            {
-                Debug.Log($"Prefab {prefab.name} loaded!");
-                Destroy(Instantiate(prefab));
+                GameObject temp = Instantiate(prefab);
+                AudioSource[] audioSources = temp.GetComponentsInChildren<AudioSource>();
+                foreach (var audioSource in audioSources)
+                {
+                    audioSource.enabled = false;
+                }
+
+                yield return null; // Spread out instantiation
+                Destroy(temp);
             }
 
-            // Update progress bar
-            UpdateProgressBar(i + 1, 0, totalPrefabs);
-            yield return null;
+            UpdateProgressBar(i + 1, totalPrefabs);
+
+            if ((i + 1) % batchSize == 0)
+            {
+                yield return null;
+                System.GC.Collect();
+            }
         }
 
         Debug.Log("Resource preloading and preparation complete!");
         LoadMenuScene();
     }
 
-    void UpdateProgressBar(int currentIndex, float currentProgress, int totalPrefabs)
+    void UpdateProgressBar(int currentIndex, int totalPrefabs)
     {
-        float totalProgress = (currentIndex + currentProgress) / totalPrefabs;
+        float totalProgress = (float)currentIndex / totalPrefabs;
         progressBar.fillAmount = totalProgress;
     }
 
