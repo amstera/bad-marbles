@@ -211,7 +211,7 @@ public class GameOverUI : MonoBehaviour
                 popUp.transform.localPosition = new Vector3(popUpPosition.x, 50, popUpPosition.z);
 
                 Vector3 noAdsButtonPosition = noAdsButton.transform.localPosition;
-                noAdsButton.transform.localPosition = new Vector3(noAdsButtonPosition.x, noAdsButtonPosition.y - (DeviceTypeChecker.IsTablet() ? 40 : 50), noAdsButtonPosition.z);
+                noAdsButton.transform.localPosition = new Vector3(noAdsButtonPosition.x, noAdsButtonPosition.y - 50, noAdsButtonPosition.z);
             }
         }
 
