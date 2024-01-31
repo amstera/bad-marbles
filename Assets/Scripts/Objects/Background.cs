@@ -37,7 +37,7 @@ public class Background : MonoBehaviour
             { PerkEnum.DefaultBackground, new Vector3(-0.3f, 31f, 67f) },
             { PerkEnum.StreamBackground, new Vector3(0f, 18f, 51.5f) },
             { PerkEnum.CandyBackground, new Vector3(-5.2f, 30.5f, 101.4f) },
-            { PerkEnum.ToysBackground, new Vector3(0, 29.5f, 80) },
+            { PerkEnum.ToysBackground, new Vector3(-2.3f, 36.2f, 98.3f) },
             { PerkEnum.RetroBackground, new Vector3(0f, 26f, 94.6f) },
             { PerkEnum.SnowBackground, new Vector3(-35.1f, 18.1f, 87f) },
             { PerkEnum.CloudsBackground, new Vector3(5.9f, 25.5f, 88.8f) },

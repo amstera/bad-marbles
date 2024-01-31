@@ -230,7 +230,15 @@ public class MarbleSpawner : MonoBehaviour
     {
         List<MarbleProbability> tierData = new List<MarbleProbability>();
 
-        if (tier >= 20)
+        if (tier >= 30)
+        {
+            tierData.Add(new MarbleProbability(10, TopRedMarble));
+            tierData.Add(new MarbleProbability(20, BigRedMarble));
+            tierData.Add(new MarbleProbability(30, BlueFireMarble));
+            tierData.Add(new MarbleProbability(50, FireMarble));
+            tierData.Add(new MarbleProbability(65, RedMarble));
+        }
+        else if (tier >= 20)
         {
             tierData.Add(new MarbleProbability(8, TopRedMarble));
             tierData.Add(new MarbleProbability(15, BigRedMarble));
