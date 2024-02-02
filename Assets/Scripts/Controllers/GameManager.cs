@@ -93,7 +93,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        SetQualitySettings();
         savedData = SaveManager.Load();
         InitializeSingleton();
         SetPerks();
@@ -478,7 +477,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => Lives < 2); // wait until you lose life
 
         tutorialPanel.Hide();
-        isInvincible = true;
+        canHitMarbles = true;
 
         yield return new WaitForSeconds(0.5f);
         marbleSpawner.DestroyAll();
@@ -503,22 +502,6 @@ public class GameManager : MonoBehaviour
         SaveManager.Save(savedData);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    private void SetQualitySettings()
-    {
-        #if UNITY_IOS
-                if (Device.lowPowerModeEnabled || SystemInfo.batteryLevel <= 0.1f)
-                {
-                    QualitySettings.SetQualityLevel(1, true);
-                    Application.targetFrameRate = 60;
-                }
-                else
-                {
-                    QualitySettings.SetQualityLevel(2, true);
-                    Application.targetFrameRate = 120;
-                }
-        #endif
     }
 
     private void AdjustTabletUI()
