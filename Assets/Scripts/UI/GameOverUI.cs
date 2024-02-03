@@ -4,7 +4,9 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using EasyTransition;
+#if UNITY_IOS
 using UnityEngine.iOS;
+#endif
 using OneManEscapePlan.ModalDialogs.Scripts;
 using UnityEngine.Analytics;
 using System.Collections.Generic;
@@ -193,10 +195,12 @@ public class GameOverUI : MonoBehaviour
             highScoreSound?.Play();
             confettiPS?.Play();
 
+            #if UNITY_IOS
             if (savedData.GamesPlayed >= 5 && !savedData.HasShownRateApp)
             {
                 savedData.HasShownRateApp = Device.RequestStoreReview();
             }
+            #endif
         }
         else
         {
