@@ -10590,7 +10590,7 @@ MonoBehaviour:
   ExtraLife: {fileID: 6284691689510751306, guid: 50a24981c5cea44b9ac6fdfba7129da6,
     type: 3}
   Arrow: {fileID: 4820847730207781263, guid: 8a86f4a95278f4183a409ec252ad52f7, type: 3}
-  speed: 8
+  speed: 8.1
   canUpdateSpeed: 1
   spawnArrows: 0
   OnlyMarbleColor: 0
@@ -13478,14 +13478,14 @@ ReflectionProbe:
   m_Type: 0
   m_Mode: 1
   m_RefreshMode: 0
-  m_TimeSlicingMode: 1
+  m_TimeSlicingMode: 0
   m_Resolution: 512
   m_UpdateFrequency: 0
   m_BoxSize: {x: 12, y: 30, z: 50}
   m_BoxOffset: {x: 0, y: 5, z: 0}
   m_NearClip: 0.3
   m_FarClip: 1000
-  m_ShadowDistance: 100
+  m_ShadowDistance: 60
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_CullingMask:

@@ -17,7 +17,7 @@ public class MarbleSpawner : MonoBehaviour
     public ExtraLife ExtraLife;
     public ArrowUI Arrow;
 
-    public float speed = 8f;
+    public float speed = 8.1f;
     public bool canUpdateSpeed = true;
     public bool spawnArrows;
     public MarbleColor OnlyMarbleColor;
@@ -87,7 +87,7 @@ public class MarbleSpawner : MonoBehaviour
         }
 
         float growthRate = (maxSpeed - speed) / maxSpeed;
-        growthRate *= (tier < 3) ? 2.2f : (tier < 8) ? 1.8f : 1.85f;
+        growthRate *= (tier < 3) ? 2.2f : (tier < 8) ? 1.78f : 1.85f;
         speed = Mathf.Min(speed + growthRate * acceleration * Time.deltaTime, maxSpeed);
     }
 
@@ -221,6 +221,8 @@ public class MarbleSpawner : MonoBehaviour
                 return AngelMarble;
             case MarbleColor.Gold:
                 return GoldMarble;
+            case MarbleColor.Bomb:
+                return BombMarble;
             default:
                 return null;
         }

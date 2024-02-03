@@ -11,7 +11,7 @@ public class BombMarble : Marble
     private Vector3 originalScale;
     private float scaleMultiplier = 1.2f;
 
-    private Coroutine flashCoroutine;
+    private float currentAlpha = 1f;
 
     void Awake()
     {
@@ -22,50 +22,47 @@ public class BombMarble : Marble
 
     void OnEnable()
     {
-        ResetBombState();
-        flashCoroutine = StartCoroutine(FlashRoutine());
-    }
-
-    void OnDisable()
-    {
-        if (flashCoroutine != null)
-        {
-            StopCoroutine(flashCoroutine);
-        }
-    }
-
-    void ResetBombState()
-    {
-        marbleRenderer.material = initialMaterial;
-        transform.localScale = originalScale;
-        isFlashing = false;
+        StartCoroutine(FlashRoutine());
     }
 
     IEnumerator FlashRoutine()
     {
         while (true)
         {
-            yield return Flash(flashDuration, isFlashing ? initialMaterial : flashingMaterial);
+            yield return StartCoroutine(Flash(flashDuration));
             isFlashing = !isFlashing;
         }
     }
 
-    IEnumerator Flash(float duration, Material targetMaterial)
+    IEnumerator Flash(float duration)
     {
-        float elapsedTime = 0;
-        Material startMaterial = marbleRenderer.material;
-        Vector3 startScale = transform.localScale;
+        Material targetMaterial = isFlashing ? initialMaterial : flashingMaterial;
         Vector3 targetScale = isFlashing ? originalScale : originalScale * scaleMultiplier;
+        float elapsedTime = 0;
 
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            marbleRenderer.material.Lerp(startMaterial, targetMaterial, elapsedTime / duration);
-            transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / duration);
+            float lerpFactor = elapsedTime / duration;
+            AdjustMaterialAlpha(targetMaterial, Mathf.Lerp(0f, currentAlpha, lerpFactor));
+            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, lerpFactor);
             yield return null;
         }
 
         marbleRenderer.material = targetMaterial;
+        AdjustMaterialAlpha(targetMaterial, currentAlpha);
         transform.localScale = targetScale;
+    }
+
+    private void AdjustMaterialAlpha(Material material, float alpha)
+    {
+        if (material != marbleRenderer.material)
+        {
+            material = marbleRenderer.material;
+        }
+
+        Color color = material.color;
+        color.a = alpha;
+        material.color = color;
     }
 }

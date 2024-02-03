@@ -27,18 +27,21 @@ public class Marble : MonoBehaviour
     IEnumerator FadeInAnimation()
     {
         Renderer marbleRenderer = GetComponent<Renderer>();
-        Color originalColor = marbleRenderer.material.color;
-        float elapsedTime = 0;
+        MaterialPropertyBlock propBlock = new MaterialPropertyBlock();
+        marbleRenderer.GetPropertyBlock(propBlock); // Retrieve the current block to avoid overwriting other properties
 
+        float elapsedTime = 0;
         while (elapsedTime < fadeInDuration)
         {
             float alpha = elapsedTime / fadeInDuration;
-            marbleRenderer.material.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            Color colorWithAlpha = new Color(1f, 1f, 1f, Mathf.Clamp01(alpha));
+
+            propBlock.SetColor("_Color", colorWithAlpha);
+            marbleRenderer.SetPropertyBlock(propBlock);
+
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
-        marbleRenderer.material.color = originalColor;
     }
 
     protected void FixedUpdate()
@@ -71,7 +74,6 @@ public class Marble : MonoBehaviour
 
         Destroy(gameObject);
     }
-
 }
 
 public enum MarbleColor

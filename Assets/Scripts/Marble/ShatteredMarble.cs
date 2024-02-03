@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class ShatteredMarble : MonoBehaviour
 {
-    public float scatterForce = 5f;
-    public float fadeOutTime = 3f;
+    public float scatterForce = 100f;
+    public float fadeOutTime = 0.35f;
     private Material marbleMaterial;
     private bool isFading = false;
     private float fadeStartTime;
