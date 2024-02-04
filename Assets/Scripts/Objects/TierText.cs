@@ -9,7 +9,8 @@ public class TierText : MonoBehaviour
     private float originalHeightDiff;
     private TextMeshPro textMesh;
     private float fadeDuration = 1f;
-    private float waitTime = 2f;
+    private float waitTime = 1.5f;
+    private float startAlpha = 0.9f;
 
     void Start()
     {
@@ -34,7 +35,8 @@ public class TierText : MonoBehaviour
             SetAlpha(normalizedTime);
             yield return null;
         }
-        SetAlpha(1);
+
+        SetAlpha(startAlpha);
 
         // Wait
         yield return new WaitForSeconds(waitTime);
@@ -43,7 +45,7 @@ public class TierText : MonoBehaviour
         for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
             float normalizedTime = t / fadeDuration;
-            SetAlpha(1 - normalizedTime);
+            SetAlpha(startAlpha - normalizedTime);
             yield return null;
         }
         SetAlpha(0);

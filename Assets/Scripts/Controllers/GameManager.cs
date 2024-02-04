@@ -130,8 +130,18 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Lives <= 0 || !canHitMarbles)
+        if (Lives <= 0)
         {
+            return;
+        }
+
+        if (!canHitMarbles)
+        {
+            if (tutorialPanel.gameObject.activeSelf && (Input.touchCount > 0 || Input.GetMouseButtonDown(0)))
+            {
+                tutorialPanel.DrawAttention();
+            }
+
             return;
         }
 
@@ -456,7 +466,7 @@ public class GameManager : MonoBehaviour
 
         tutorialPanel.Show("1.", "Tap <color=red>Red Marbles</color> before they pass the screen!");
 
-        yield return new WaitUntil(() => marblesHit > 0); // wait for marble to be hit
+        yield return new WaitUntil(() => marblesHit > 1); // wait for marble to be hit
 
         tutorialPanel.Hide();
         marbleSpawner.spawnArrows = false;
@@ -476,7 +486,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => Lives < 2); // wait until you lose life
 
         tutorialPanel.Hide();
-        canHitMarbles = true;
 
         yield return new WaitForSeconds(0.5f);
         marbleSpawner.DestroyAll();
