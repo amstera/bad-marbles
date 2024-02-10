@@ -3,11 +3,20 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI.ProceduralImage;
 using TMPro;
+using Unity.Services.Core;
+using Unity.Services.Analytics;
 
 public class LoadingScreenManager : MonoBehaviour
 {
     public ProceduralImage progressBar;
     public TextMeshProUGUI footerText;
+
+    async void Awake()
+    {
+        await UnityServices.InitializeAsync();
+
+        AnalyticsService.Instance.StartDataCollection();
+    }
 
     void Start()
     {

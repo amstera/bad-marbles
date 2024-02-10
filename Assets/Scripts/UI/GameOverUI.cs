@@ -8,8 +8,8 @@ using EasyTransition;
 using UnityEngine.iOS;
 #endif
 using OneManEscapePlan.ModalDialogs.Scripts;
-using UnityEngine.Analytics;
 using System.Collections.Generic;
+using Unity.Services.Analytics;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -225,17 +225,15 @@ public class GameOverUI : MonoBehaviour
         {
             savedData.GamesPlayed++;
 
-            AnalyticsResult analyticsResult = Analytics.CustomEvent("gamesPlayed",
-                new Dictionary<string, object>
-                {
-                    { "gamesPlayedCount", savedData.GamesPlayed },
-                    { "score", score },
-                    { "highScore", savedData.HighScore },
-                    { "points", savedData.Points },
-                    { "version", Application.version }
-                }
-            );
-            Debug.Log("Analytics Event Sent: " + analyticsResult.ToString());
+            var gamesPlayedEvent = new CustomEvent("gamesPlayed")
+            {
+                { "gamesPlayedCount", savedData.GamesPlayed },
+                { "score", score },
+                { "highScore", savedData.HighScore },
+                { "points", savedData.Points },
+                { "version", Application.version }
+            };
+            AnalyticsService.Instance.RecordEvent(gamesPlayedEvent);
         }
         if (tier > savedData.HighTier)
         {
